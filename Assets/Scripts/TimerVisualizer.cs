@@ -6,14 +6,14 @@ using UnityEngine;
 public class TimerVisualizer : MonoBehaviour
 {
     private TextMeshProUGUI _timerText;
-    [SerializeField] private Microwave microwave;
+    [SerializeField] private MicrowaveTimer microwave;
     
     private void Awake()
     {
         _timerText = GetComponent<TextMeshProUGUI>();
         
         microwave
-            .OnTimerChanged
+            .onTimerChanged
             .Subscribe(OnTimerChanged)
             .AddTo(this);
     }

@@ -2,42 +2,20 @@ using System;
 using R3;
 using UnityEngine;
 
-/*public enum DishResult
-{
-    InProgress,
-    Success,
-    Underheated,
-    Exploded
-}
-
 public enum MicrowaveState
 {
     Idle,
     Heating,
     Paused,
-    CoolingDown,
-    StopOnCooldown
-}*/
+    Finished
+}
 
-public class Microwave : MonoBehaviour
+public class MicrowaveTimer : MonoBehaviour
 {
     public float timer = 0f;
-    
-    public Vector2 targetTempRange = new Vector2(65f, 75f);
-    public float startTemp = 5f;
-    public float explosionThreshold = 100f;
-    
-    [Header("Cooling")]
-    public AnimationCurve coolingCurve;
-    public float roomTemp = 20f;
-    public float coolingToAverageSpeed = 1f;
-    
-    private bool _isHeating = false;
-    
-    public bool IsStopAvailable { get; set; }
-    
-    public readonly Subject<float> OnTimerChanged = new();
-    
+    public MicrowaveState state = MicrowaveState.Idle;
+
+    public readonly Subject<float> onTimerChanged = new();
     private CompositeDisposable _tickSubscription = new();
 
     private void StartHeating()
@@ -49,7 +27,7 @@ public class Microwave : MonoBehaviour
             .Subscribe(_ => Tick())
             .AddTo(_tickSubscription);
 
-        _isHeating = true;
+        state = MicrowaveState.Heating;
     }
 
     private void Tick()
@@ -57,7 +35,7 @@ public class Microwave : MonoBehaviour
         if (timer > 0f)
         {
             timer -= 1f;
-            OnTimerChanged.OnNext(timer);
+            onTimerChanged.OnNext(timer);
         }
         else
         {
@@ -70,7 +48,7 @@ public class Microwave : MonoBehaviour
     public void AddTime(float time)
     {
         timer += time;
-        OnTimerChanged.OnNext(timer);
+        onTimerChanged.OnNext(timer);
         
         StopTicks();
         StartHeating();
@@ -79,15 +57,16 @@ public class Microwave : MonoBehaviour
     public void PauseHeating()
     {
         StopTicks();
+        state = MicrowaveState.Paused;
     }
 
     private void FinishHeating()
     {
         StopTicks();
-        _isHeating = false;
+        state = MicrowaveState.Finished;
     }
     
-    public void SetPower(float powerLevel)
+    public void SetPower(float power)
     {
         
     }
