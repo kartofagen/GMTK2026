@@ -1,0 +1,17 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3d89315889f186f49b9f63e399efe500, type: 3}
+  m_Name: SausageDish
+  m_EditorClassIdentifier: Assembly-CSharp::Dish
+  dishName: Sausage
+  components:
+  - {fileID: 11400000, guid: cae7f4ec38e838046ae0454e13bf46a6, type: 2}
