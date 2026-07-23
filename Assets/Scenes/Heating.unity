@@ -859,7 +859,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  readyTime: 3
+  readyTime: 7
 --- !u!114 &464052831
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2293,7 +2293,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ded923788ce0d6e4ba7d1f0375f4f976, type: 3}
   m_Name: 
   m_EditorClassIdentifier: NewAssembly::Microwave
-  timer: 0
 --- !u!114 &1751750820
 MonoBehaviour:
   m_ObjectHideFlags: 0
