@@ -12,9 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8ceee837755a0614789d02277a864574, type: 3}
   m_Name: Game Config
   m_EditorClassIdentifier: NewAssembly::GameConfig
+  power: 100
   targetTempRange: {x: 65, y: 75}
   startTemp: 5
   explosionThreshold: 100
+  readyCoeff: 0.75
   coolingCurve:
     serializedVersion: 2
     m_Curve:

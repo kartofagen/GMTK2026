@@ -1,20 +1,10 @@
 using UnityEngine;
 
-public enum DishStatus
-{
-    InProgress,
-    Success,
-    Underheated,
-    Exploded
-}
-
 public class HeatingSystem : MonoBehaviour
 {
     [SerializeField] private Dish dish;
     
     private MicrowaveTimer microwaveTimer;
-    
-    public DishStatus DishStatus { get; set; } = DishStatus.InProgress;
 
     void Awake()
     {
@@ -23,6 +13,8 @@ public class HeatingSystem : MonoBehaviour
 
     void Update()
     {
+        if (microwaveTimer.State == MicrowaveState.Finished || dish.DishStatus == DishStatus.Exploded) return;
+        
         switch (microwaveTimer.State)
         {
             case MicrowaveState.Heating:

@@ -856,10 +856,10 @@ MonoBehaviour:
       weightedMode: 0
       inWeight: 0
       outWeight: 0
-    m_PreInfinity: 2
+    m_PreInfinity: 1
     m_PostInfinity: 0
     m_RotationOrder: 4
-  readyTime: 0
+  readyTime: 10
 --- !u!114 &464052831
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1169,7 +1169,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 794228324}
-  - component: {fileID: 794228323}
   m_Layer: 0
   m_Name: Zenject
   m_TagString: Untagged
@@ -1177,24 +1176,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &794228323
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 794228322}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 08eca9f7688a0a24685b89133b020c8e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Zenject::Zenject.GameObjectContext
-  _scriptableObjectInstallers:
-  - {fileID: 11400000, guid: 51ce743eb60928f42908fca83b75fda5, type: 2}
-  _monoInstallers: []
-  _installerPrefabs: []
-  _autoRun: 1
-  _kernel: {fileID: 0}
 --- !u!4 &794228324
 Transform:
   m_ObjectHideFlags: 0
@@ -2278,7 +2259,6 @@ GameObject:
   - component: {fileID: 1751750817}
   - component: {fileID: 1751750820}
   - component: {fileID: 1751750819}
-  - component: {fileID: 1751750818}
   m_Layer: 0
   m_Name: Microwave
   m_TagString: Untagged
@@ -2301,20 +2281,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1751750818
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1751750816}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f12b1e3c60c6c2f45ba022ca672bfe67, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::DishInstance
-  dishName: 
-  components: []
 --- !u!114 &1751750819
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2340,7 +2306,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 87a8f0c0f5c74b442b0628af1c62775f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: NewAssembly::HeatingSystem
-  dish: {fileID: 0}
+  dish: {fileID: 464052831}
 --- !u!1 &1893742509
 GameObject:
   m_ObjectHideFlags: 0
@@ -2758,6 +2724,7 @@ MonoBehaviour:
 SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
+  - {fileID: 794228324}
   - {fileID: 330585546}
   - {fileID: 410087041}
   - {fileID: 832575519}
@@ -2765,4 +2732,3 @@ SceneRoots:
   - {fileID: 1715035421}
   - {fileID: 1751750817}
   - {fileID: 464052832}
-  - {fileID: 794228324}
