@@ -12,12 +12,15 @@ public enum MicrowaveState
 
 public class MicrowaveTimer : MonoBehaviour
 {
-    public float timer = 0f;
+    private float _timer;
+    
     public MicrowaveState State { get; private set; } = MicrowaveState.Idle;
 
     public readonly Subject<float> onTimerChanged = new();
     private CompositeDisposable _tickSubscription = new();
 
+    public float Timer => _timer;
+    
     private void StartHeating()
     {
         _tickSubscription = new CompositeDisposable();
@@ -32,10 +35,10 @@ public class MicrowaveTimer : MonoBehaviour
 
     private void Tick()
     {
-        if (timer > 0f)
+        if (_timer > 0f)
         {
-            timer -= 1f;
-            onTimerChanged.OnNext(timer);
+            _timer -= 1f;
+            onTimerChanged.OnNext(_timer);
         }
         else
         {
@@ -47,8 +50,8 @@ public class MicrowaveTimer : MonoBehaviour
 
     public void AddTime(float time)
     {
-        timer += time;
-        onTimerChanged.OnNext(timer);
+        _timer += time;
+        onTimerChanged.OnNext(_timer);
         
         StopTicks();
         StartHeating();

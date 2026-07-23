@@ -28,6 +28,8 @@ public class HeatingSystem : MonoBehaviour
 
     private void CalculateHeating()
     {
+        if (dish.DishStatus != DishStatus.InProgress) return;
+        
         dish.HeatComponents(Time.deltaTime);
         
         if (dish.DishStatus == DishStatus.Exploded)
