@@ -1443,8 +1443,8 @@ MonoBehaviour:
   onClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: Microwave, NewAssembly
+      - m_Target: {fileID: 1751750819}
+        m_TargetAssemblyTypeName: MicrowaveTimer, NewAssembly
         m_MethodName: PauseHeating
         m_Mode: 1
         m_Arguments:
@@ -2177,7 +2177,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::DishInstance
   dish: {fileID: 11400000, guid: 36843ad702ec84b448a8cd42aea08cde, type: 2}
   currentTemp: 0
-  status: 0
 --- !u!114 &1751750819
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2191,7 +2190,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: NewAssembly::Microwave
   timer: 0
-  state: 0
 --- !u!1 &1893742509
 GameObject:
   m_ObjectHideFlags: 0

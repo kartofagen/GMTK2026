@@ -1,9 +1,21 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu]
-public class Dish : ScriptableObject 
+public class Dish : MonoBehaviour
 {
     public string dishName;
-    public List<DishComponent> components;
+    [SerializeField] private DishComponent[] components;
+
+    public void HeatComponents(float deltaTime)
+    {
+        foreach (var component in components)
+        {
+            component.Heat(deltaTime);
+        }
+    }
+    
+    public void CoolComponents(float deltaTime)
+    {
+        
+    }
 }
