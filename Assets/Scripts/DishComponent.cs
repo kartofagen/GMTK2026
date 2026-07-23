@@ -18,15 +18,23 @@ public class DishComponent : MonoBehaviour
     [Inject] private GameConfig _gameConfig;
 
     private float _time;
-    private float currentTempChange;
+    private float _currentTempDelta;
+    private float _readyTempDelta;
+    private float _readyTempCoeff;
     
-    public float CurrentTemp => _gameConfig.startTemp + currentTempChange;
+    public float CurrentTemp => _gameConfig.startTemp + _currentTempDelta;
+
+    void Awake()
+    {
+        _readyTempDelta = _gameConfig.targetTempRange.x - _gameConfig.startTemp;
+        _readyTempCoeff = _readyTempDelta / heatingCurve.Evaluate(_gameConfig.readyCoeff);
+    }
     
     public void Heat(float deltaTime)
     {
         _time += deltaTime;
-        var x = _time / (readyTime * _gameConfig.readyCoeff);
-        currentTempChange = _gameConfig.power * heatingCurve.Evaluate(x);
+        var x = _time / (readyTime / _gameConfig.readyCoeff);
+        _currentTempDelta = heatingCurve.Evaluate(x) * _readyTempCoeff * _gameConfig.power;
         Debug.Log($"Температура: {CurrentTemp}, Взрыв: {_gameConfig.explosionThreshold}");
     }
 

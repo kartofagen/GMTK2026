@@ -856,10 +856,10 @@ MonoBehaviour:
       weightedMode: 0
       inWeight: 0
       outWeight: 0
-    m_PreInfinity: 1
-    m_PostInfinity: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
     m_RotationOrder: 4
-  readyTime: 10
+  readyTime: 3
 --- !u!114 &464052831
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1561,9 +1561,9 @@ MonoBehaviour:
   onClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1751750816}
-        m_TargetAssemblyTypeName: Microwave, NewAssembly
-        m_MethodName: 
+      - m_Target: {fileID: 1751750819}
+        m_TargetAssemblyTypeName: MicrowaveTimer, NewAssembly
+        m_MethodName: PauseHeating
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

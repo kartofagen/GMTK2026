@@ -4,18 +4,18 @@ public class HeatingSystem : MonoBehaviour
 {
     [SerializeField] private Dish dish;
     
-    private MicrowaveTimer microwaveTimer;
+    private MicrowaveTimer _microwaveTimer;
 
     void Awake()
     {
-        microwaveTimer = GetComponent<MicrowaveTimer>();
+        _microwaveTimer = GetComponent<MicrowaveTimer>();
     }
 
     void Update()
     {
-        if (microwaveTimer.State == MicrowaveState.Finished || dish.DishStatus == DishStatus.Exploded) return;
+        if (_microwaveTimer.State == MicrowaveState.Finished) return;
         
-        switch (microwaveTimer.State)
+        switch (_microwaveTimer.State)
         {
             case MicrowaveState.Heating:
                 CalculateHeating();
@@ -29,6 +29,11 @@ public class HeatingSystem : MonoBehaviour
     private void CalculateHeating()
     {
         dish.HeatComponents(Time.deltaTime);
+        
+        if (dish.DishStatus == DishStatus.Exploded)
+        {
+            // _microwaveTimer.FinishHeating();
+        }
     }
 
     private void CalculateCooling()

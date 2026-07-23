@@ -13,7 +13,7 @@ public enum MicrowaveState
 public class MicrowaveTimer : MonoBehaviour
 {
     public float timer = 0f;
-    public MicrowaveState State { get; set; } = MicrowaveState.Idle;
+    public MicrowaveState State { get; private set; } = MicrowaveState.Idle;
 
     public readonly Subject<float> onTimerChanged = new();
     private CompositeDisposable _tickSubscription = new();
@@ -60,7 +60,7 @@ public class MicrowaveTimer : MonoBehaviour
         State = MicrowaveState.Paused;
     }
 
-    private void FinishHeating()
+    public void FinishHeating()
     {
         StopTicks();
         State = MicrowaveState.Finished;

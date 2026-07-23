@@ -9,7 +9,8 @@ public class GameConfig : ScriptableObject
     public float startTemp = 5f;
     public float explosionThreshold = 100f;
     
-    public float readyCoeff = 0.75f; // Время готовности от 0 до 1 по Ox
+    [Tooltip("Время нижней границы готовности от 0 до 1 по оси x")]
+    public float readyCoeff = 0.75f;
     
     [Header("Cooling")]
     public AnimationCurve coolingCurve;
