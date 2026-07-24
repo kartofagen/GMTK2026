@@ -6747,7 +6747,16 @@ MonoBehaviour:
   m_SerieEffectScatters: []
   m_SerieHeatmaps: []
   m_SerieLines:
-  - m_Index: 0
+  - m_Labels: []
+    m_LabelLines: []
+    m_EndLabels: []
+    m_LineArrows: []
+    m_AreaStyles: []
+    m_TitleStyles: []
+    m_EmphasisStyles: []
+    m_BlurStyles: []
+    m_SelectStyles: []
+    m_Index: 0
     m_Show: 1
     m_CoordSystem: GridCoord
     m_SerieType: Line
@@ -7077,15 +7086,6 @@ MonoBehaviour:
       - 4
       - 28
     m_Links: []
-    m_Labels: []
-    m_LabelLines: []
-    m_EndLabels: []
-    m_LineArrows: []
-    m_AreaStyles: []
-    m_TitleStyles: []
-    m_EmphasisStyles: []
-    m_BlurStyles: []
-    m_SelectStyles: []
   m_SeriePies: []
   m_SerieRadars: []
   m_SerieRings: []
@@ -9067,6 +9067,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2037796586}
+  - component: {fileID: 2037796587}
   m_Layer: 0
   m_Name: ChartController
   m_TagString: Untagged
@@ -9089,6 +9090,21 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2037796587
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2037796585}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a03121aeee5737faf97592a7b4097a5c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: NewAssembly::TemperatureChart
+  chart: {fileID: 1352430246}
+  sampleInterval: 0.5
+  maxPoints: 20
 --- !u!1 &2069228352
 GameObject:
   m_ObjectHideFlags: 0
