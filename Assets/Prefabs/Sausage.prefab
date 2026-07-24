@@ -86,7 +86,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  readyTime: 3
+  readyTime: 10
 --- !u!1001 &5195973098828385335
 PrefabInstance:
   m_ObjectHideFlags: 0

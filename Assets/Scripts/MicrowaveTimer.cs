@@ -14,6 +14,9 @@ public class MicrowaveTimer : MonoBehaviour
 {
     private float _timer;
     
+    [SerializeField] private Light lightInside; 
+    [SerializeField] private DoorRotation door;
+    
     public MicrowaveState State { get; private set; } = MicrowaveState.Idle;
 
     public readonly Subject<float> onTimerChanged = new();
@@ -29,7 +32,10 @@ public class MicrowaveTimer : MonoBehaviour
             .Interval(TimeSpan.FromSeconds(1f), UnityTimeProvider.Update)
             .Subscribe(_ => Tick())
             .AddTo(_tickSubscription);
-
+        
+        lightInside.enabled = true;
+        door.IsBlocked = true;
+        
         State = MicrowaveState.Heating;
     }
 
@@ -69,6 +75,9 @@ public class MicrowaveTimer : MonoBehaviour
     public void FinishHeating()
     {
         StopTicks();
+        lightInside.enabled = false;
+        door.IsBlocked = false;
+            
         State = MicrowaveState.Finished;
     }
     
