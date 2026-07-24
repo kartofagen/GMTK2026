@@ -78,8 +78,24 @@ public class TemperatureChart : MonoBehaviour
         StyleText(yAxis.axisName.labelStyle.textStyle);
         StyleText(yAxis.axisLabel.textStyle);
 
-        // Нижнее поле сетки, чтобы опущенная подпись оси X не обрезалась.
-        chart.EnsureChartComponent<GridCoord>().bottom = 45f;
+        // Нижнее поле сетки — место под подпись оси X и легенду.
+        chart.EnsureChartComponent<GridCoord>().bottom = 70f;
+
+        // Легенда снизу: квадратная плашка цвета линии + имя компонента.
+        // Цвет плашки XCharts берёт из серии автоматически (мы задаём его в RebuildSeries).
+        var legend = chart.EnsureChartComponent<Legend>();
+        legend.show = true;
+        legend.orient = Orient.Horizonal;
+        legend.iconType = Legend.Type.Rect;
+        legend.location = Location.defaultBottom;
+        StyleText(legend.labelStyle.textStyle);
+
+        // Опускаем легенду на 50px ниже дефолта. location.bottom при значении <=1 —
+        // это доля высоты, поэтому переводим 50px в долю (может уйти в минус — ниже рамки).
+        float chartH = chart.chartHeight > 1f
+            ? chart.chartHeight
+            : ((RectTransform)chart.transform).rect.height;
+        legend.location.bottom -= 40f / Mathf.Max(chartH, 1f);
 
         // Прозрачный фон: Background с show=true, но своим цветом с alpha=0.
         // Тогда theme.GetBackgroundColor вернёт этот прозрачный цвет вместо цвета темы.
