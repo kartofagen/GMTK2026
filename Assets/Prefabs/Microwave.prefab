@@ -890,8 +890,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: NewAssembly::MovingInsideSystem
   entryPoint: {fileID: 2882797044119542775}
   targetPoint: {fileID: 2512306405653074632}
-  duration: 0.5
-  easeMove: 28
+  duration: 1
+  easeMove: 2
   door: {fileID: 6036560099169422352}
 --- !u!4 &8674225504033141582 stripped
 Transform:

@@ -12,6 +12,8 @@ public class DishesServingManager : MonoBehaviour
 
     private MovingInsideSystem _movingInsideSystem;
     
+    private bool _dishChosen = false;
+    
     private void Awake()
     {
         _movingInsideSystem = microwave.GetComponent<MovingInsideSystem>();
@@ -19,6 +21,10 @@ public class DishesServingManager : MonoBehaviour
 
     public void Serve(Transform dish)
     {
+        if (_dishChosen) return;
+        
+        _dishChosen = true;
+        
         dish.DORotate(_movingInsideSystem.EntryPoint.eulerAngles, duration).SetEase(easeRotate);
         dish.DOMove(_movingInsideSystem.EntryPoint.position, duration).SetEase(easeMove)
             .OnComplete(() => _movingInsideSystem.Register(dish));
