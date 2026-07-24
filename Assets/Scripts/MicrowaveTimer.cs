@@ -50,8 +50,11 @@ public class MicrowaveTimer : MonoBehaviour
 
     public void AddTime(float time)
     {
-        _timer += time;
-        onTimerChanged.OnNext(_timer);
+        if (State != MicrowaveState.Paused)
+        {
+            _timer += time;
+            onTimerChanged.OnNext(_timer);
+        }
         
         StopTicks();
         StartHeating();
