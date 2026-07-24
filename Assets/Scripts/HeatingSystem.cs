@@ -47,14 +47,14 @@ public class HeatingSystem : MonoBehaviour
 
     private void CalculateHeating()
     {
-        if (dish.DishStatus != DishStatus.InProgress) return;
+        // if (dish.DishStatus != DishStatus.InProgress) return;
         
         dish.HeatComponents(Time.deltaTime);
         
-        if (dish.DishStatus == DishStatus.Exploded)
+        /*if (dish.DishStatus == DishStatus.Exploded)
         {
-            // _microwaveTimer.FinishHeating();
-        }
+            _microwaveTimer.FinishHeating();
+        }*/
     }
 
     private void CalculateCooling()
