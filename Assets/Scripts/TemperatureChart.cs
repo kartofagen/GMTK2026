@@ -18,8 +18,21 @@ public class TemperatureChart : MonoBehaviour
     private IReadOnlyList<ITemperatureChannel> _channels;
     private float _start;
 
+    // Яркая палитра линий (Material A200/A400), циклится по каналам.
+    private static readonly Color32[] Palette =
+    {
+        new Color32(0xFF, 0x52, 0x52, 0xFF), // красный
+        new Color32(0x40, 0xC4, 0xFF, 0xFF), // голубой
+        new Color32(0x69, 0xF0, 0xAE, 0xFF), // зелёный
+        new Color32(0xFF, 0xD7, 0x40, 0xFF), // жёлтый
+        new Color32(0xE0, 0x40, 0xFB, 0xFF), // фиолетовый
+        new Color32(0xFF, 0x6E, 0x40, 0xFF), // оранжевый
+    };
+
     void Start()
     {
+        SetupCosmetics();
+
         // X — категория (метка времени), Y — значение температуры.
         // Скольжение ("бегущая ЭКГ") работает именно на Category-оси: при переполнении
         // maxCache старая категория и старая точка удаляются, окно едет влево.
@@ -41,6 +54,48 @@ public class TemperatureChart : MonoBehaviour
             .Interval(TimeSpan.FromSeconds(sampleInterval), UnityTimeProvider.Update)
             .Subscribe(_ => Sample())
             .AddTo(this); // авто-отписка при Destroy
+    }
+
+    private void SetupCosmetics()
+    {
+        var title = chart.EnsureChartComponent<Title>();
+        title.show = true;
+        title.text = "Dish Components Temperature";
+        StyleText(title.labelStyle.textStyle);
+
+        var xAxis = chart.EnsureChartComponent<XAxis>();
+        xAxis.axisName.name = "Time, sec";
+        xAxis.axisName.show = true;
+        StyleText(xAxis.axisName.labelStyle.textStyle);
+        StyleText(xAxis.axisLabel.textStyle);
+        // По центру под осью, опущено на 20px (положительный y здесь двигает вниз).
+        xAxis.axisName.labelStyle.position = LabelStyle.Position.Middle;
+        xAxis.axisName.labelStyle.offset = new Vector3(0f, -50f, 0f);
+
+        var yAxis = chart.EnsureChartComponent<YAxis>();
+        yAxis.axisName.name = "T, °C";
+        yAxis.axisName.show = true;
+        StyleText(yAxis.axisName.labelStyle.textStyle);
+        StyleText(yAxis.axisLabel.textStyle);
+
+        // Нижнее поле сетки, чтобы опущенная подпись оси X не обрезалась.
+        chart.EnsureChartComponent<GridCoord>().bottom = 45f;
+
+        // Прозрачный фон: Background с show=true, но своим цветом с alpha=0.
+        // Тогда theme.GetBackgroundColor вернёт этот прозрачный цвет вместо цвета темы.
+        var background = chart.EnsureChartComponent<Background>();
+        background.show = true;
+        background.autoColor = false;
+        background.imageColor = new Color(0f, 0f, 0f, 0f);
+    }
+
+    // Белый жирный текст. autoColor=false, иначе XCharts подставит свой контрастный цвет.
+    private static void StyleText(TextStyle textStyle)
+    {
+        textStyle.show = true;
+        textStyle.autoColor = false;
+        textStyle.color = Color.white;
+        textStyle.fontStyle = FontStyle.Bold;
     }
 
     private void OnChannelsChanged(IReadOnlyList<ITemperatureChannel> channels)
@@ -65,10 +120,14 @@ public class TemperatureChart : MonoBehaviour
         _channels = channels;
 
         chart.RemoveData();
-        foreach (var channel in channels)
+        for (int i = 0; i < channels.Count; i++)
         {
-            var serie = chart.AddSerie<Line>(channel.Name);
+            var serie = chart.AddSerie<Line>(channels[i].Name);
             serie.maxCache = maxPoints;
+
+            var color = Palette[i % Palette.Length];
+            serie.lineStyle.color = color;   // цвет самой линии
+            serie.itemStyle.color = color;   // точки/маркеры/легенда
         }
 
         _start = Time.time;
@@ -79,7 +138,9 @@ public class TemperatureChart : MonoBehaviour
         if (_channels == null) return;
 
         float t = Time.time - _start;
-        chart.AddXAxisData(t.ToString("F1"));
+        // Округляем метку к шагу сэмплирования: при 0.5с -> 0.5, 1, 1.5, 2 ...
+        float snapped = Mathf.Round(t / sampleInterval) * sampleInterval;
+        chart.AddXAxisData(snapped.ToString("0.#"));
 
         for (int i = 0; i < _channels.Count; i++)
         {
