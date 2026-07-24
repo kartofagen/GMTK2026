@@ -9243,7 +9243,7 @@ MonoBehaviour:
   chart: {fileID: 1352430246}
   placeholder: {fileID: 832731629}
   sampleInterval: 0.5
-  maxPoints: 20
+  maxPoints: 16
 --- !u!1 &2069228352
 GameObject:
   m_ObjectHideFlags: 0

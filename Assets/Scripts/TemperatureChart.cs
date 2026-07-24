@@ -16,7 +16,7 @@ public class TemperatureChart : MonoBehaviour
     [Inject] private MicrowaveContext _context;
 
     private IReadOnlyList<ITemperatureChannel> _channels;
-    private float _start;
+    private int _sampleIndex;
 
     // Яркая палитра линий (Material A200/A400), циклится по каналам.
     private static readonly Color32[] Palette =
@@ -146,17 +146,20 @@ public class TemperatureChart : MonoBehaviour
             serie.itemStyle.color = color;   // точки/маркеры/легенда
         }
 
-        _start = Time.time;
+        _sampleIndex = 0;
     }
 
     private void Sample()
     {
         if (_channels == null) return;
 
-        float t = Time.time - _start;
-        // Округляем метку к шагу сэмплирования: при 0.5с -> 0.5, 1, 1.5, 2 ...
-        float snapped = Mathf.Round(t / sampleInterval) * sampleInterval;
-        chart.AddXAxisData(snapped.ToString("0.#"));
+        // Метка = номер сэмпла * шаг. Детерминированно, без дрейфа Time.time:
+        // при 0.5с -> 0.5, 1, 1.5, 2 ... (без дублей и пропусков).
+        _sampleIndex++;
+        // Всегда один знак после запятой (0.5, 1.0, 1.5, 2.0 ...), чтобы метки
+        // выглядели единообразно — иначе "0.#" ронял нули у целых.
+        float seconds = _sampleIndex * sampleInterval;
+        chart.AddXAxisData(seconds.ToString("0.0"));
 
         for (int i = 0; i < _channels.Count; i++)
         {
