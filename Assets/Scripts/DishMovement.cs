@@ -2,13 +2,13 @@ using UnityEngine;
 
 public class DishMovement : MonoBehaviour
 {
-    private bool IsChosen = false;
+    private bool _isChosen = false;
     
     private void OnMouseDown()
     {
-        if (!IsChosen) return;
+        if (_isChosen) return;
         
         transform.parent.GetComponent<DishesServingManager>().Serve(transform);
-        IsChosen = true;
+        _isChosen = true;
     }
 }
