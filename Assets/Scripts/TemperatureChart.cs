@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using R3;
 using UnityEngine;
 using XCharts.Runtime;
@@ -14,6 +15,7 @@ public class TemperatureChart : MonoBehaviour
     [SerializeField] private int maxPoints = 20; // ширина окна прокрутки (кол-во точек)
 
     [Inject] private MicrowaveContext _context;
+    [Inject] private GameConfig _gameConfig;
 
     private IReadOnlyList<ITemperatureChannel> _channels;
     private int _sampleIndex;
@@ -78,6 +80,11 @@ public class TemperatureChart : MonoBehaviour
         StyleText(yAxis.axisName.labelStyle.textStyle);
         StyleText(yAxis.axisLabel.textStyle);
 
+        // Фиксация оси Y
+        yAxis.minMaxType = Axis.AxisMinMaxType.Custom;
+        yAxis.min = 0f;
+        yAxis.max = _gameConfig.explosionThreshold + 10f;
+
         // Нижнее поле сетки — место под подпись оси X и легенду.
         chart.EnsureChartComponent<GridCoord>().bottom = 70f;
 
@@ -141,12 +148,39 @@ public class TemperatureChart : MonoBehaviour
             var serie = chart.AddSerie<Line>(channels[i].Name);
             serie.maxCache = maxPoints;
 
+            
+            //serie.symbol.show = false; // Нет точек
+            serie.symbol.size = 3f; // Размер точек
+
             var color = Palette[i % Palette.Length];
             serie.lineStyle.color = color;   // цвет самой линии
             serie.itemStyle.color = color;   // точки/маркеры/легенда
         }
+        
+        DrawHorizontalArea(0, chart.series.ToList()[0],
+            _gameConfig.targetTempRange.x, _gameConfig.targetTempRange.y,
+            Color.green);
+        DrawHorizontalArea(1, chart.series.ToList()[0],
+            _gameConfig.explosionThreshold, _gameConfig.explosionThreshold + 20f,
+            Color.red);
 
         _sampleIndex = 0;
+    }
+    
+    private void DrawHorizontalArea(int areaIndex, Serie targetSerie, float low, float high, Color color)
+    {
+        var markArea = chart.GetChartComponentNum<MarkArea>() > areaIndex
+            ? chart.GetChartComponent<MarkArea>(areaIndex)
+            : chart.AddChartComponent<MarkArea>();
+
+        markArea.show = true;
+        markArea.serieIndex = targetSerie.index;
+        markArea.start.type = MarkAreaType.None;
+        markArea.start.yValue = low;
+        markArea.end.type = MarkAreaType.None;
+        markArea.end.yValue = high;
+        markArea.itemStyle.color = color;
+        markArea.itemStyle.opacity = 0.12f;
     }
 
     private void Sample()

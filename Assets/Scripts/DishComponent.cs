@@ -32,6 +32,8 @@ public class DishComponent : MonoBehaviour, ITemperatureChannel
     // ITemperatureChannel
     public string Name => componentName;
     public ReadOnlyReactiveProperty<float> Temperature => _temperature;
+    
+    public DishComponentStatus DishComponentStatus { get; private set; } = DishComponentStatus.NotReady;
 
     public float CurrentTemp => _temperature.Value;
 
@@ -44,6 +46,12 @@ public class DishComponent : MonoBehaviour, ITemperatureChannel
     
     public void Heat(float deltaTime)
     {
+        if (DishComponentStatus == DishComponentStatus.Explodes)
+        {
+            _temperature.Value = 1000f;
+            return;
+        }
+        
         if (_isCooling)
         {
             _isCooling = false;
@@ -63,6 +71,11 @@ public class DishComponent : MonoBehaviour, ITemperatureChannel
     
     public void Cool(float deltaTime, float averageTemp)
     {
+        if (DishComponentStatus == DishComponentStatus.Explodes)
+        {
+            return;
+        }
+        
         var temp = Mathf.MoveTowards(CurrentTemp, averageTemp, 
             _gameConfig.coolingToAverageSpeed * deltaTime);
 
@@ -88,15 +101,18 @@ public class DishComponent : MonoBehaviour, ITemperatureChannel
     {
         if (_gameConfig.targetTempRange.x <= CurrentTemp && CurrentTemp <= _gameConfig.targetTempRange.y)
         {
-            return DishComponentStatus.Ready;
-        }
-
-        if (CurrentTemp > _gameConfig.explosionThreshold)
+            DishComponentStatus = DishComponentStatus.Ready;
+        } 
+        else if (CurrentTemp > _gameConfig.explosionThreshold)
         {
-            return DishComponentStatus.Explodes;
+            DishComponentStatus = DishComponentStatus.Explodes;
+        }
+        else
+        {
+            DishComponentStatus = DishComponentStatus.NotReady;
         }
         
-        return DishComponentStatus.NotReady;
+        return DishComponentStatus;
     }
     
     private static float InverseEvaluateCurve(AnimationCurve curve, float targetValue)

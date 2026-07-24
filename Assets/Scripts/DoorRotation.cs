@@ -3,7 +3,9 @@ using DG.Tweening;
 using UnityEngine;
 
 public class DoorRotation : MonoBehaviour
-{
+{ 
+    [SerializeField] private MicrowaveTimer microwave;
+    
     [SerializeField] private float openedYAngle;
     [SerializeField] private float duration;
     [SerializeField] private Ease easeRotate = Ease.InOutBack;
@@ -11,14 +13,16 @@ public class DoorRotation : MonoBehaviour
     private bool isOpened = false;
     
     public bool IsOpened => isOpened;
-    
-    public bool IsBlocked { get; set; }
 
     public event Action DoorOpened;
     
     private void OnMouseDown()
     {
-        if (IsBlocked) return;
+        if (microwave.State is MicrowaveState.Heating or MicrowaveState.Paused)
+        {
+            microwave.FinishHeating();
+            return;
+        }
         
         if (isOpened)
         {

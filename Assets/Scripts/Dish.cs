@@ -45,7 +45,7 @@ public class Dish : MonoBehaviour
         }
     }
 
-    public void UpdateStatus()
+    private void UpdateStatus()
     {
         foreach (var component in components)
         {
