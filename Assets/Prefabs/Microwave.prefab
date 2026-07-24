@@ -309,9 +309,9 @@ Transform:
   m_GameObject: {fileID: 4967649837510418059}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0.98787737, z: 0, w: 0.15523629}
-  m_LocalPosition: {x: -0.374, y: 0.078, z: 0.638}
+  m_LocalPosition: {x: -0.16283064, y: 0.02500004, z: 0.60312694}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 1
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 8674225504033141582}
   m_LocalEulerAnglesHint: {x: 0, y: 162.139, z: 0}
@@ -571,6 +571,12 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: -2947006744834390023, guid: 2b1cf68ebe03ce2cc9a3d143f3d9e4df, type: 3}
       insertIndex: -1
       addedObject: {fileID: 9054889429371755867}
+    - targetCorrespondingSourceObject: {fileID: -8068073526183931155, guid: 2b1cf68ebe03ce2cc9a3d143f3d9e4df, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 760634329101265529}
+    - targetCorrespondingSourceObject: {fileID: -8068073526183931155, guid: 2b1cf68ebe03ce2cc9a3d143f3d9e4df, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 6036560099169422352}
     - targetCorrespondingSourceObject: {fileID: -96448645733258978, guid: 2b1cf68ebe03ce2cc9a3d143f3d9e4df, type: 3}
       insertIndex: -1
       addedObject: {fileID: 199674460584997975}
@@ -797,6 +803,47 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.0004019222, y: 0.00040192224, z: 0.00017332599}
   m_Center: {x: -0.00047828743, y: 0, z: 0}
+--- !u!1 &8062501621141653064 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: -8068073526183931155, guid: 2b1cf68ebe03ce2cc9a3d143f3d9e4df, type: 3}
+  m_PrefabInstance: {fileID: 9217658279511594149}
+  m_PrefabAsset: {fileID: 0}
+--- !u!65 &760634329101265529
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8062501621141653064}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.005405302, y: 0.0032031843, z: 0.00045282173}
+  m_Center: {x: -0.002702651, y: -4.656613e-10, z: 0.00015435135}
+--- !u!114 &6036560099169422352
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8062501621141653064}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4dd4213999c04b74e90ba08022b2b68a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: NewAssembly::DoorRotation
+  openedYAngle: 60
+  duration: 1
+  easeRotate: 24
 --- !u!1 &8298685574709455348 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 2b1cf68ebe03ce2cc9a3d143f3d9e4df, type: 3}
@@ -815,6 +862,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: NewAssembly::MicrowaveTimer
   lightInside: {fileID: 7293338902810584399}
+  door: {fileID: 6036560099169422352}
 --- !u!114 &6087110578803017910
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -842,6 +890,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: NewAssembly::MovingInsideSystem
   entryPoint: {fileID: 2882797044119542775}
   targetPoint: {fileID: 2512306405653074632}
+  duration: 0.5
+  easeMove: 28
+  door: {fileID: 6036560099169422352}
 --- !u!4 &8674225504033141582 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 2b1cf68ebe03ce2cc9a3d143f3d9e4df, type: 3}

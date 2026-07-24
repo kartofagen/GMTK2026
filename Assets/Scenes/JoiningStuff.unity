@@ -5521,7 +5521,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: NewAssembly::DishesServingManager
   microwave: {fileID: 671359943}
-  duration: 2
+  duration: 1.5
   easeMove: 28
   easeRotate: 28
 --- !u!4 &1140396472
@@ -9693,6 +9693,22 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 45269907256915998, guid: 121f7e6d61bd9c87a90e3f5844ff2bca, type: 3}
+      propertyPath: duration
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 45269907256915998, guid: 121f7e6d61bd9c87a90e3f5844ff2bca, type: 3}
+      propertyPath: easeMove
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2882797044119542775, guid: 121f7e6d61bd9c87a90e3f5844ff2bca, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.02500004
+      objectReference: {fileID: 0}
+    - target: {fileID: 6036560099169422352, guid: 121f7e6d61bd9c87a90e3f5844ff2bca, type: 3}
+      propertyPath: openedYAngle
+      value: 60
+      objectReference: {fileID: 0}
     - target: {fileID: 6087110578803017910, guid: 121f7e6d61bd9c87a90e3f5844ff2bca, type: 3}
       propertyPath: dish
       value: 
@@ -9760,7 +9776,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6069940731485411109, guid: 9399f48b0f568794187ac491685e10a2, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 1.527
+      value: 1.5269998
       objectReference: {fileID: 0}
     - target: {fileID: 6069940731485411109, guid: 9399f48b0f568794187ac491685e10a2, type: 3}
       propertyPath: m_LocalPosition.y
@@ -9772,19 +9788,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6069940731485411109, guid: 9399f48b0f568794187ac491685e10a2, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.15523522
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6069940731485411109, guid: 9399f48b0f568794187ac491685e10a2, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0.0000000058599663
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 6069940731485411109, guid: 9399f48b0f568794187ac491685e10a2, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0.98787755
+      value: -0.000000014901161
       objectReference: {fileID: 0}
     - target: {fileID: 6069940731485411109, guid: 9399f48b0f568794187ac491685e10a2, type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0.000000037291343
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 6069940731485411109, guid: 9399f48b0f568794187ac491685e10a2, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x

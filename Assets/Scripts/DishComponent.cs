@@ -56,7 +56,7 @@ public class DishComponent : MonoBehaviour
         }
         _coolingTime += deltaTime;
 
-        var curveValue = _gameConfig.coolingCurve.Evaluate(_coolingTime);
+        var curveValue = _gameConfig.coolingCurve.Evaluate(_coolingTime / _gameConfig.fullCoolingTime);
         temp = Mathf.Lerp(_coolingStartTemp, _gameConfig.roomTemp, 1 - curveValue);
         temp = Mathf.Max(temp, _gameConfig.roomTemp);
 
