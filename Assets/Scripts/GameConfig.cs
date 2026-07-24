@@ -17,5 +17,3 @@ public class GameConfig : ScriptableObject
     public float coolingToAverageSpeed = 1f;
     public float roomTemp = 20f;
 }
-
-

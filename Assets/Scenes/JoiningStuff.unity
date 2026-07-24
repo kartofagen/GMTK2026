@@ -1292,7 +1292,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ded923788ce0d6e4ba7d1f0375f4f976, type: 3}
   m_Name: 
   m_EditorClassIdentifier: NewAssembly::Microwave
-  timer: 0
 --- !u!114 &1766569049
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1915,6 +1914,7 @@ Transform:
 SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
+  - {fileID: 1847182554}
   - {fileID: 330585546}
   - {fileID: 410087041}
   - {fileID: 832575519}
@@ -1930,4 +1930,3 @@ SceneRoots:
   - {fileID: 977313607}
   - {fileID: 861581314}
   - {fileID: 1766569050}
-  - {fileID: 1847182554}
