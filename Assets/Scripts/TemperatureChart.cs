@@ -31,7 +31,7 @@ public class TemperatureChart : MonoBehaviour
 
     void Start()
     {
-        _start = Time.time;
+        SetupCosmetics();
 
         // X — категория (метка времени), Y — значение температуры.
         // Скольжение ("бегущая ЭКГ") работает именно на Category-оси: при переполнении
@@ -42,19 +42,18 @@ public class TemperatureChart : MonoBehaviour
 
         chart.RemoveData();
 
-        var serie = chart.AddSerie<Line>("Температура");
-        serie.maxCache = maxPoints;
+        // Пересобираем серии при смене набора активных каналов (сменилось блюдо / тестовый источник).
+        // null / пусто -> показываем заглушку "Choose a dish". Подписка сразу отдаёт текущее
+        // значение (стартом это null), так что начальное состояние выставится само.
+        _context.Channels
+        .Subscribe(OnChannelsChanged)
+        .AddTo(this);
 
         // Единый таймер сэмплирования — все серии тикают синхронно, X-оси совпадают.
         Observable
-            .Interval(TimeSpan.FromSeconds(sampleInterval), UnityTimeProvider.Update)
-            .Subscribe(_ =>
-            {
-                float t = Time.time - _start;
-                chart.AddXAxisData(t.ToString("F1"));
-                chart.AddData(0, _model.Temperature.CurrentValue);
-            })
-            .AddTo(this); // авто-отписка при Destroy
+        .Interval(TimeSpan.FromSeconds(sampleInterval), UnityTimeProvider.Update)
+        .Subscribe(_ => Sample())
+        .AddTo(this); // авто-отписка при Destroy
     }
 
     private void SetupCosmetics()
@@ -94,8 +93,8 @@ public class TemperatureChart : MonoBehaviour
         // Опускаем легенду на 50px ниже дефолта. location.bottom при значении <=1 —
         // это доля высоты, поэтому переводим 50px в долю (может уйти в минус — ниже рамки).
         float chartH = chart.chartHeight > 1f
-            ? chart.chartHeight
-            : ((RectTransform)chart.transform).rect.height;
+        ? chart.chartHeight
+        : ((RectTransform)chart.transform).rect.height;
         legend.location.bottom -= 40f / Mathf.Max(chartH, 1f);
 
         // Прозрачный фон: Background с show=true, но своим цветом с alpha=0.
