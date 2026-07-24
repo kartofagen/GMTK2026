@@ -16,4 +16,7 @@ public class GameConfig : ScriptableObject
     public AnimationCurve coolingCurve;
     public float coolingToAverageSpeed = 1f;
     public float roomTemp = 20f;
+    
+    [Tooltip("Время полного остывания")]
+    public float fullCoolingTime = 10f;
 }

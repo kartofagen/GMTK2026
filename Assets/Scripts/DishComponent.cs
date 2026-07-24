@@ -21,6 +21,10 @@ public class DishComponent : MonoBehaviour
     private float _currentTempDelta;
     private float _readyTempDelta;
     private float _readyTempCoeff;
+
+    private bool _isCooling;
+    private float _coolingTime;
+    private float _coolingStartTemp;
     
     public float CurrentTemp => _gameConfig.startTemp + _currentTempDelta;
 
@@ -35,9 +39,32 @@ public class DishComponent : MonoBehaviour
         _time += deltaTime;
         var x = _time / (readyTime / _gameConfig.readyCoeff);
         _currentTempDelta = heatingCurve.Evaluate(x) * _readyTempCoeff * _gameConfig.power;
+        
         Debug.Log($"Температура: {CurrentTemp}, Взрыв: {_gameConfig.explosionThreshold}");
     }
+    
+    public void Cool(float deltaTime, float averageTemp)
+    {
+        var temp = Mathf.MoveTowards(CurrentTemp, averageTemp, 
+            _gameConfig.coolingToAverageSpeed * deltaTime);
 
+        if (!_isCooling)
+        {
+            _isCooling = true;
+            _coolingTime = 0f;
+            _coolingStartTemp = temp;
+        }
+        _coolingTime += deltaTime;
+
+        var curveValue = _gameConfig.coolingCurve.Evaluate(_coolingTime / _gameConfig.fullCoolingTime);
+        temp = Mathf.Lerp(_coolingStartTemp, _gameConfig.roomTemp, 1 - curveValue);
+        temp = Mathf.Max(temp, _gameConfig.roomTemp);
+
+        _currentTempDelta = temp - _gameConfig.startTemp;
+        
+        Debug.Log($"Охлаждение: {CurrentTemp}");
+    }
+    
     public DishComponentStatus GetStatus()
     {
         if (_gameConfig.targetTempRange.x <= CurrentTemp && CurrentTemp <= _gameConfig.targetTempRange.y)
