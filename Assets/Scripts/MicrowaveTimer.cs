@@ -14,6 +14,8 @@ public class MicrowaveTimer : MonoBehaviour
 {
     private float _timer;
     
+    [SerializeField] private Light lightInside; 
+    
     public MicrowaveState State { get; private set; } = MicrowaveState.Idle;
 
     public readonly Subject<float> onTimerChanged = new();
@@ -31,6 +33,7 @@ public class MicrowaveTimer : MonoBehaviour
             .AddTo(_tickSubscription);
 
         State = MicrowaveState.Heating;
+        lightInside.enabled = true;
     }
 
     private void Tick()
@@ -70,6 +73,7 @@ public class MicrowaveTimer : MonoBehaviour
     {
         StopTicks();
         State = MicrowaveState.Finished;
+        lightInside.enabled = false;
     }
     
     public void SetPower(float power)

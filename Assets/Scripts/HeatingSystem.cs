@@ -5,6 +5,8 @@ public class HeatingSystem : MonoBehaviour
     [SerializeField] private Dish dish;
     
     private MicrowaveTimer _microwaveTimer;
+    
+    public Dish Dish {  set => dish = value; }
 
     void Awake()
     {
@@ -13,6 +15,7 @@ public class HeatingSystem : MonoBehaviour
 
     void Update()
     {
+        if (!dish) return;
         if (_microwaveTimer.State == MicrowaveState.Finished) return;
         
         switch (_microwaveTimer.State)
