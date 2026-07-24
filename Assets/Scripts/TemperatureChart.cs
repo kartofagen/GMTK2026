@@ -31,7 +31,7 @@ public class TemperatureChart : MonoBehaviour
 
     void Start()
     {
-        SetupCosmetics();
+        _start = Time.time;
 
         // X — категория (метка времени), Y — значение температуры.
         // Скольжение ("бегущая ЭКГ") работает именно на Category-оси: при переполнении
@@ -42,17 +42,18 @@ public class TemperatureChart : MonoBehaviour
 
         chart.RemoveData();
 
-        // Пересобираем серии при смене набора активных каналов (сменилось блюдо / тестовый источник).
-        // null / пусто -> показываем заглушку "Choose a dish". Подписка сразу отдаёт текущее
-        // значение (стартом это null), так что начальное состояние выставится само.
-        _context.Channels
-            .Subscribe(OnChannelsChanged)
-            .AddTo(this);
+        var serie = chart.AddSerie<Line>("Температура");
+        serie.maxCache = maxPoints;
 
         // Единый таймер сэмплирования — все серии тикают синхронно, X-оси совпадают.
         Observable
             .Interval(TimeSpan.FromSeconds(sampleInterval), UnityTimeProvider.Update)
-            .Subscribe(_ => Sample())
+            .Subscribe(_ =>
+            {
+                float t = Time.time - _start;
+                chart.AddXAxisData(t.ToString("F1"));
+                chart.AddData(0, _model.Temperature.CurrentValue);
+            })
             .AddTo(this); // авто-отписка при Destroy
     }
 
