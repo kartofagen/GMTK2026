@@ -325,7 +325,7 @@ PrefabInstance:
       addedObject: {fileID: 2652911743600780101}
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 2b1cf68ebe03ce2cc9a3d143f3d9e4df, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 504528830014457436}
+      addedObject: {fileID: 6087110578803017910}
     - targetCorrespondingSourceObject: {fileID: -3973107660126017756, guid: 2b1cf68ebe03ce2cc9a3d143f3d9e4df, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1922049617868467012}
@@ -395,6 +395,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 375d25f686ab4eb09d049b76cf89d34d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: NewAssembly::MicrowaveStopButton
+  duration: 0.2
+  vibrato: 2
+  elasticity: 0.5
   microwaveTimer: {fileID: 2652911743600780101}
 --- !u!1 &2950301565842183004 stripped
 GameObject:
@@ -413,6 +416,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1038b7bfa5055a7fe86f1c8762ad772e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: NewAssembly::MicrowaveButton
+  duration: 0.2
+  vibrato: 2
+  elasticity: 0.5
   deltaTime: 30
   microwaveTimer: {fileID: 2652911743600780101}
 --- !u!65 &9054889429371755867
@@ -453,6 +459,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1038b7bfa5055a7fe86f1c8762ad772e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: NewAssembly::MicrowaveButton
+  duration: 0.2
+  vibrato: 2
+  elasticity: 0.5
   deltaTime: 1
   microwaveTimer: {fileID: 2652911743600780101}
 --- !u!65 &3970308882441688227
@@ -498,6 +507,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1038b7bfa5055a7fe86f1c8762ad772e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: NewAssembly::MicrowaveButton
+  duration: 0.2
+  vibrato: 2
+  elasticity: 0.5
   deltaTime: 10
   microwaveTimer: {fileID: 2652911743600780101}
 --- !u!65 &317741157500893069
@@ -538,6 +550,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1038b7bfa5055a7fe86f1c8762ad772e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: NewAssembly::MicrowaveButton
+  duration: 0.2
+  vibrato: 2
+  elasticity: 0.5
   deltaTime: 5
   microwaveTimer: {fileID: 2652911743600780101}
 --- !u!65 &5575733363097389337
@@ -579,8 +594,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: NewAssembly::MicrowaveTimer
   timer: 0
-  state: 0
---- !u!114 &504528830014457436
+--- !u!114 &6087110578803017910
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -589,9 +603,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 8298685574709455348}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f12b1e3c60c6c2f45ba022ca672bfe67, type: 3}
+  m_Script: {fileID: 11500000, guid: 87a8f0c0f5c74b442b0628af1c62775f, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: NewAssembly::DishInstance
-  dish: {fileID: 11400000, guid: 36843ad702ec84b448a8cd42aea08cde, type: 2}
-  currentTemp: 0
-  status: 0
+  m_EditorClassIdentifier: NewAssembly::HeatingSystem
+  dish: {fileID: 0}

@@ -2,19 +2,44 @@ using UnityEngine;
 
 public class HeatingSystem : MonoBehaviour
 {
-    public Vector2 targetTempRange = new Vector2(65f, 75f);
-    public float startTemp = 5f;
-    public float explosionThreshold = 100f;
+    [SerializeField] private Dish dish;
     
-    [Header("Cooling")]
-    public AnimationCurve coolingCurve;
-    public float roomTemp = 20f;
-    public float coolingToAverageSpeed = 1f;
-    
-    private MicrowaveTimer microwaveTimer;
+    private MicrowaveTimer _microwaveTimer;
 
     void Awake()
     {
-        microwaveTimer = GetComponent<MicrowaveTimer>();
+        _microwaveTimer = GetComponent<MicrowaveTimer>();
+    }
+
+    void Update()
+    {
+        if (_microwaveTimer.State == MicrowaveState.Finished) return;
+        
+        switch (_microwaveTimer.State)
+        {
+            case MicrowaveState.Heating:
+                CalculateHeating();
+                break;
+            case MicrowaveState.Paused:
+                CalculateCooling();
+                break;
+        }
+    }
+
+    private void CalculateHeating()
+    {
+        if (dish.DishStatus != DishStatus.InProgress) return;
+        
+        dish.HeatComponents(Time.deltaTime);
+        
+        if (dish.DishStatus == DishStatus.Exploded)
+        {
+            // _microwaveTimer.FinishHeating();
+        }
+    }
+
+    private void CalculateCooling()
+    {
+        dish.CoolComponents(Time.deltaTime);
     }
 }

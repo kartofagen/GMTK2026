@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class GraphCalculator : MonoBehaviour
+public class GraphVisualizer : MonoBehaviour
 {
     public void Draw()
     {

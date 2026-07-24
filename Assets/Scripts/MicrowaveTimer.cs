@@ -12,12 +12,15 @@ public enum MicrowaveState
 
 public class MicrowaveTimer : MonoBehaviour
 {
-    public float timer = 0f;
-    public MicrowaveState state = MicrowaveState.Idle;
+    private float _timer;
+    
+    public MicrowaveState State { get; private set; } = MicrowaveState.Idle;
 
     public readonly Subject<float> onTimerChanged = new();
     private CompositeDisposable _tickSubscription = new();
 
+    public float Timer => _timer;
+    
     private void StartHeating()
     {
         _tickSubscription = new CompositeDisposable();
@@ -27,15 +30,15 @@ public class MicrowaveTimer : MonoBehaviour
             .Subscribe(_ => Tick())
             .AddTo(_tickSubscription);
 
-        state = MicrowaveState.Heating;
+        State = MicrowaveState.Heating;
     }
 
     private void Tick()
     {
-        if (timer > 0f)
+        if (_timer > 0f)
         {
-            timer -= 1f;
-            onTimerChanged.OnNext(timer);
+            _timer -= 1f;
+            onTimerChanged.OnNext(_timer);
         }
         else
         {
@@ -47,8 +50,11 @@ public class MicrowaveTimer : MonoBehaviour
 
     public void AddTime(float time)
     {
-        timer += time;
-        onTimerChanged.OnNext(timer);
+        if (State != MicrowaveState.Paused)
+        {
+            _timer += time;
+            onTimerChanged.OnNext(_timer);
+        }
         
         StopTicks();
         StartHeating();
@@ -57,13 +63,13 @@ public class MicrowaveTimer : MonoBehaviour
     public void PauseHeating()
     {
         StopTicks();
-        state = MicrowaveState.Paused;
+        State = MicrowaveState.Paused;
     }
 
-    private void FinishHeating()
+    public void FinishHeating()
     {
         StopTicks();
-        state = MicrowaveState.Finished;
+        State = MicrowaveState.Finished;
     }
     
     public void SetPower(float power)
