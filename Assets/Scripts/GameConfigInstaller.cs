@@ -9,6 +9,6 @@ public class GameConfigInstaller : ScriptableObjectInstaller<GameConfigInstaller
     public override void InstallBindings()
     {
         Container.BindInstances(gameConfig);
-        Container.Bind<TemperatureModel>().AsSingle();
+        Container.Bind<MicrowaveContext>().AsSingle();
     }
 }

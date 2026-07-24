@@ -1864,6 +1864,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 588853263}
+  - component: {fileID: 588853266}
+  - component: {fileID: 588853264}
+  - component: {fileID: 588853265}
   m_Layer: 0
   m_Name: ChartController
   m_TagString: Untagged
@@ -1886,6 +1889,51 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &588853264
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 588853262}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a0c53cd7202d9e171b18e32b6ef3f411, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: NewAssembly::DummyTemperatureSource
+  channelCount: 2
+  baseTemp: 50
+  amplitude: 30
+  frequency: 0.2
+  noise: 3
+--- !u!114 &588853265
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 588853262}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a03121aeee5737faf97592a7b4097a5c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: NewAssembly::TemperatureChart
+  chart: {fileID: 1513394551}
+  sampleInterval: 0.5
+  maxPoints: 20
+--- !u!114 &588853266
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 588853262}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cf59decbddc1abe39a3bbf8c73f01125, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: NewAssembly::Example05_DynamicChart
+  chart: {fileID: 0}
 --- !u!1 &596980125
 GameObject:
   m_ObjectHideFlags: 0
@@ -4797,6 +4845,7 @@ MonoBehaviour:
   - XAxis0
   - YAxis0
   m_ChartName: 
+  m_UseUtc: 1
   m_Theme:
     m_Show: 1
     m_SharedTheme: {fileID: 11400000, guid: e1dc23a10de1e4c5dbfbaf74c4dfd218, type: 2}
@@ -4843,6 +4892,12 @@ MonoBehaviour:
       m_NumericFormatter: 
       m_Width: 0
       m_Height: 0
+      m_FixedX: 0
+      m_FixedY: 0
+      m_ShowCondition: 0
+      m_ShowFilter: 0
+      m_ShowThreshold: 0
+      m_ShowMinGap: 0
       m_Icon:
         m_Show: 0
         m_Layer: 0
@@ -4941,6 +4996,12 @@ MonoBehaviour:
       m_NumericFormatter: 
       m_Width: 0
       m_Height: 0
+      m_FixedX: 0
+      m_FixedY: 0
+      m_ShowCondition: 0
+      m_ShowFilter: 0
+      m_ShowThreshold: 0
+      m_ShowMinGap: 0
       m_Icon:
         m_Show: 0
         m_Layer: 0
@@ -4990,6 +5051,12 @@ MonoBehaviour:
       m_NumericFormatter: 
       m_Width: 0
       m_Height: 0
+      m_FixedX: 0
+      m_FixedY: 0
+      m_ShowCondition: 0
+      m_ShowFilter: 0
+      m_ShowThreshold: 0
+      m_ShowMinGap: 0
       m_Icon:
         m_Show: 0
         m_Layer: 0
@@ -5098,6 +5165,12 @@ MonoBehaviour:
       m_NumericFormatter: 
       m_Width: 0
       m_Height: 0
+      m_FixedX: 0
+      m_FixedY: 0
+      m_ShowCondition: 0
+      m_ShowFilter: 0
+      m_ShowThreshold: 0
+      m_ShowMinGap: 0
       m_Icon:
         m_Show: 0
         m_Layer: 0
@@ -5147,6 +5220,12 @@ MonoBehaviour:
       m_NumericFormatter: 
       m_Width: 0
       m_Height: 0
+      m_FixedX: 0
+      m_FixedY: 0
+      m_ShowCondition: 0
+      m_ShowFilter: 0
+      m_ShowThreshold: 0
+      m_ShowMinGap: 0
       m_Icon:
         m_Show: 0
         m_Layer: 0
@@ -5195,6 +5274,12 @@ MonoBehaviour:
       m_NumericFormatter: 
       m_Width: 0
       m_Height: 0
+      m_FixedX: 0
+      m_FixedY: 0
+      m_ShowCondition: 0
+      m_ShowFilter: 0
+      m_ShowThreshold: 0
+      m_ShowMinGap: 0
       m_Icon:
         m_Show: 0
         m_Layer: 0
@@ -5243,6 +5328,12 @@ MonoBehaviour:
       m_NumericFormatter: 
       m_Width: 0
       m_Height: 0
+      m_FixedX: 0
+      m_FixedY: 0
+      m_ShowCondition: 0
+      m_ShowFilter: 0
+      m_ShowThreshold: 0
+      m_ShowMinGap: 0
       m_Icon:
         m_Show: 0
         m_Layer: 0
@@ -5303,6 +5394,7 @@ MonoBehaviour:
     m_Clockwise: 1
     m_InsertDataToHead: 0
     m_MinCategorySpacing: 0
+    m_MainAxis: 0
     m_Icons: []
     m_Data:
     - x1
@@ -5331,6 +5423,8 @@ MonoBehaviour:
         m_DotLength: 2
         m_GapLength: 2
       m_OnZero: 1
+      m_StartExtendLength: 0
+      m_EndExtendLength: 0
       m_ShowArrow: 0
       m_Arrow:
         m_Width: 10
@@ -5356,6 +5450,12 @@ MonoBehaviour:
         m_NumericFormatter: 
         m_Width: 0
         m_Height: 0
+        m_FixedX: 0
+        m_FixedY: 0
+        m_ShowCondition: 0
+        m_ShowFilter: 0
+        m_ShowThreshold: 0
+        m_ShowMinGap: 0
         m_Icon:
           m_Show: 0
           m_Layer: 0
@@ -5432,6 +5532,12 @@ MonoBehaviour:
       m_NumericFormatter: 
       m_Width: 0
       m_Height: 0
+      m_FixedX: 0
+      m_FixedY: 0
+      m_ShowCondition: 0
+      m_ShowFilter: 0
+      m_ShowThreshold: 0
+      m_ShowMinGap: 0
       m_Icon:
         m_Show: 0
         m_Layer: 0
@@ -5475,6 +5581,7 @@ MonoBehaviour:
       m_OnZero: 0
       m_ShowStartLabel: 1
       m_ShowEndLabel: 1
+      m_ShowZeroLabel: 1
       m_TextLimit:
         m_Enable: 1
         m_MaxWidth: 0
@@ -5569,6 +5676,12 @@ MonoBehaviour:
       m_NumericFormatter: f2
       m_Width: 0
       m_Height: 0
+      m_FixedX: 0
+      m_FixedY: 0
+      m_ShowCondition: 0
+      m_ShowFilter: 0
+      m_ShowThreshold: 0
+      m_ShowMinGap: 0
       m_Icon:
         m_Show: 0
         m_Layer: 0
@@ -5628,6 +5741,7 @@ MonoBehaviour:
     m_Clockwise: 1
     m_InsertDataToHead: 0
     m_MinCategorySpacing: 0
+    m_MainAxis: 0
     m_Icons: []
     m_Data: []
     m_AxisLine:
@@ -5651,6 +5765,8 @@ MonoBehaviour:
         m_DotLength: 2
         m_GapLength: 2
       m_OnZero: 1
+      m_StartExtendLength: 0
+      m_EndExtendLength: 0
       m_ShowArrow: 0
       m_Arrow:
         m_Width: 10
@@ -5676,6 +5792,12 @@ MonoBehaviour:
         m_NumericFormatter: 
         m_Width: 0
         m_Height: 0
+        m_FixedX: 0
+        m_FixedY: 0
+        m_ShowCondition: 0
+        m_ShowFilter: 0
+        m_ShowThreshold: 0
+        m_ShowMinGap: 0
         m_Icon:
           m_Show: 0
           m_Layer: 0
@@ -5752,6 +5874,12 @@ MonoBehaviour:
       m_NumericFormatter: 
       m_Width: 0
       m_Height: 0
+      m_FixedX: 0
+      m_FixedY: 0
+      m_ShowCondition: 0
+      m_ShowFilter: 0
+      m_ShowThreshold: 0
+      m_ShowMinGap: 0
       m_Icon:
         m_Show: 0
         m_Layer: 0
@@ -5795,6 +5923,7 @@ MonoBehaviour:
       m_OnZero: 0
       m_ShowStartLabel: 1
       m_ShowEndLabel: 1
+      m_ShowZeroLabel: 1
       m_TextLimit:
         m_Enable: 0
         m_MaxWidth: 0
@@ -5889,6 +6018,12 @@ MonoBehaviour:
       m_NumericFormatter: f2
       m_Width: 0
       m_Height: 0
+      m_FixedX: 0
+      m_FixedY: 0
+      m_ShowCondition: 0
+      m_ShowFilter: 0
+      m_ShowThreshold: 0
+      m_ShowMinGap: 0
       m_Icon:
         m_Show: 0
         m_Layer: 0
@@ -5975,6 +6110,7 @@ MonoBehaviour:
     m_BarGap: 0.1
     m_BarZebraWidth: 4
     m_BarZebraGap: 2
+    m_IgnoreZeroOccupy: 0
     m_Min: 0
     m_Max: 0
     m_MinSize: 0
@@ -6114,6 +6250,12 @@ MonoBehaviour:
         m_Offset:
           m_Type: 1
           m_Value: 5
+      m_Exchange:
+        m_Enable: 1
+        m_Reverse: 0
+        m_Delay: 0
+        m_Duration: 250
+        m_Speed: 0
     m_ItemStyle:
       m_Show: 1
       m_Color:
@@ -6135,6 +6277,7 @@ MonoBehaviour:
         serializedVersion: 2
         rgba: 0
       m_BackgroundWidth: 0
+      m_BackgroundGap: 0
       m_CenterColor:
         serializedVersion: 2
         rgba: 0
@@ -7181,7 +7324,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 0, y: -24}
+  m_AnchoredPosition: {x: 0, y: -22}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!114 &1797674109
@@ -7345,7 +7488,7 @@ MonoBehaviour:
     m_Right: 10
     m_Top: 10
     m_Bottom: 10
-  m_ChildAlignment: 0
+  m_ChildAlignment: 3
   m_Spacing: 0
   m_ChildForceExpandWidth: 0
   m_ChildForceExpandHeight: 0
@@ -8119,6 +8262,115 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2051480435}
   m_CullTransparentMesh: 1
+--- !u!1 &2056614703
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2056614705}
+  - component: {fileID: 2056614704}
+  m_Layer: 0
+  m_Name: SceneContext
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &2056614704
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2056614703}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 89715ad69b973a14899afa2c6730b30b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Zenject::Zenject.SceneContext
+  _scriptableObjectInstallers:
+  - {fileID: 11400000, guid: 51ce743eb60928f42908fca83b75fda5, type: 2}
+  _monoInstallers: []
+  _installerPrefabs: []
+  _autoRun: 1
+  OnPreInstall:
+    m_PersistentCalls:
+      m_Calls: []
+  OnPostInstall:
+    m_PersistentCalls:
+      m_Calls: []
+  OnPreResolve:
+    m_PersistentCalls:
+      m_Calls: []
+  OnPostResolve:
+    m_PersistentCalls:
+      m_Calls: []
+  _parentNewObjectsUnderSceneContext: 0
+  _contractNames: []
+  _parentContractNames: []
+--- !u!4 &2056614705
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2056614703}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &2080758613
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2080758615}
+  - component: {fileID: 2080758614}
+  m_Layer: 0
+  m_Name: HeatingSystem
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &2080758614
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2080758613}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 87a8f0c0f5c74b442b0628af1c62775f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: NewAssembly::HeatingSystem
+  dish: {fileID: 0}
+--- !u!4 &2080758615
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2080758613}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 1151.7228, y: 0, z: 737.91156}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2089396292
 GameObject:
   m_ObjectHideFlags: 0
@@ -8409,3 +8661,5 @@ SceneRoots:
   - {fileID: 492058784}
   - {fileID: 1511289658}
   - {fileID: 588853263}
+  - {fileID: 2080758615}
+  - {fileID: 2056614705}
