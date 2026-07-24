@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public enum DishStatus
@@ -12,8 +13,13 @@ public class Dish : MonoBehaviour
 {
     public string dishName;
     [SerializeField] private DishComponent[] components;
-    
+
     public DishStatus DishStatus { get; private set; } = DishStatus.InProgress;
+
+    public string DishName => dishName;
+
+    /// <summary>Каналы температуры по компонентам — по одному на серию графика.</summary>
+    public IReadOnlyList<ITemperatureChannel> Channels => components;
 
     public void HeatComponents(float deltaTime)
     {

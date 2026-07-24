@@ -1,3 +1,4 @@
+using R3;
 using UnityEngine;
 using Zenject;
 
@@ -8,13 +9,13 @@ public enum DishComponentStatus
     Explodes
 }
 
-public class DishComponent : MonoBehaviour
+public class DishComponent : MonoBehaviour, ITemperatureChannel
 {
     public string componentName;
     [SerializeField] private AnimationCurve heatingCurve;
     [SerializeField,
-     Tooltip("Время, за которое еда готова (по нижней границе)")] private float readyTime; 
-    
+     Tooltip("Время, за которое еда готова (по нижней границе)")] private float readyTime;
+
     [Inject] private GameConfig _gameConfig;
 
     private float _time;
@@ -25,13 +26,20 @@ public class DishComponent : MonoBehaviour
     private bool _isCooling;
     private float _coolingTime;
     private float _coolingStartTemp;
-    
-    public float CurrentTemp => _gameConfig.startTemp + _currentTempDelta;
+
+    private readonly ReactiveProperty<float> _temperature = new();
+
+    // ITemperatureChannel
+    public string Name => componentName;
+    public ReadOnlyReactiveProperty<float> Temperature => _temperature;
+
+    public float CurrentTemp => _temperature.Value;
 
     void Awake()
     {
         _readyTempDelta = _gameConfig.targetTempRange.x - _gameConfig.startTemp;
         _readyTempCoeff = _readyTempDelta / heatingCurve.Evaluate(_gameConfig.readyCoeff);
+        _temperature.Value = _gameConfig.startTemp;
     }
     
     public void Heat(float deltaTime)
@@ -39,7 +47,8 @@ public class DishComponent : MonoBehaviour
         _time += deltaTime;
         var x = _time / (readyTime / _gameConfig.readyCoeff);
         _currentTempDelta = heatingCurve.Evaluate(x) * _readyTempCoeff * _gameConfig.power;
-        
+        _temperature.Value = _gameConfig.startTemp + _currentTempDelta;
+
         Debug.Log($"Температура: {CurrentTemp}, Взрыв: {_gameConfig.explosionThreshold}");
     }
     
@@ -61,7 +70,8 @@ public class DishComponent : MonoBehaviour
         temp = Mathf.Max(temp, _gameConfig.roomTemp);
 
         _currentTempDelta = temp - _gameConfig.startTemp;
-        
+        _temperature.Value = _gameConfig.startTemp + _currentTempDelta;
+
         Debug.Log($"Охлаждение: {CurrentTemp}");
     }
     
