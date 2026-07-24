@@ -8,6 +8,8 @@ using Zenject;
 public class TemperatureChart : MonoBehaviour
 {
     [SerializeField] private LineChart chart;
+    [SerializeField, Tooltip("Заглушка \"Choose a dish\" — показывается, пока каналов нет")]
+    private GameObject placeholder;
     [SerializeField] private float sampleInterval = 0.5f;
     [SerializeField] private int maxPoints = 20; // ширина окна прокрутки (кол-во точек)
 
@@ -28,9 +30,10 @@ public class TemperatureChart : MonoBehaviour
         chart.RemoveData();
 
         // Пересобираем серии при смене набора активных каналов (сменилось блюдо / тестовый источник).
+        // null / пусто -> показываем заглушку "Choose a dish". Подписка сразу отдаёт текущее
+        // значение (стартом это null), так что начальное состояние выставится само.
         _context.Channels
-            .Where(channels => channels != null)
-            .Subscribe(RebuildSeries)
+            .Subscribe(OnChannelsChanged)
             .AddTo(this);
 
         // Единый таймер сэмплирования — все серии тикают синхронно, X-оси совпадают.
@@ -38,6 +41,23 @@ public class TemperatureChart : MonoBehaviour
             .Interval(TimeSpan.FromSeconds(sampleInterval), UnityTimeProvider.Update)
             .Subscribe(_ => Sample())
             .AddTo(this); // авто-отписка при Destroy
+    }
+
+    private void OnChannelsChanged(IReadOnlyList<ITemperatureChannel> channels)
+    {
+        bool hasChannels = channels != null && channels.Count > 0;
+
+        if (placeholder) placeholder.SetActive(!hasChannels);
+        chart.gameObject.SetActive(hasChannels);
+
+        if (!hasChannels)
+        {
+            _channels = null;
+            chart.RemoveData();
+            return;
+        }
+
+        RebuildSeries(channels);
     }
 
     private void RebuildSeries(IReadOnlyList<ITemperatureChannel> channels)
