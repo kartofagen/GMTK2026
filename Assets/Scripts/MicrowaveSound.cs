@@ -1,55 +1,81 @@
+using R3;
 using UnityEngine;
 
 /// <summary>
-/// Drives the running hum and the end chime from MicrowaveTimer's state.
-/// Polls the public State property rather than hooking into the timer, so the
-/// heating logic stays untouched. Sits on the same GameObject as the timer.
+/// Drives the microwave's own sounds from MicrowaveTimer's state and the dish
+/// that MovingInsideSystem parents inside the cavity. Observes public API only,
+/// so the heating and dish-moving logic stay untouched. Sits on the same
+/// GameObject as MicrowaveTimer.
 /// </summary>
 public class MicrowaveSound : MonoBehaviour
 {
     [SerializeField] private AudioSource humSource;
     [SerializeField] private AudioSource endSource;
     [SerializeField] private AudioSource dishSource;
+    [SerializeField] private AudioSource tickSource;
+    [SerializeField] private AudioSource plateSource;
+
     [SerializeField] private AudioClip humClip;
     [SerializeField] private AudioClip endClip;
     [SerializeField] private AudioClip dishClip;
+    [SerializeField] private AudioClip tickClip;
+    [SerializeField] private AudioClip plateClip;
+
     [SerializeField, Range(0f, 1f)] private float humVolume = 1f;
     [SerializeField, Range(0f, 1f)] private float endVolume = 1f;
     [SerializeField, Range(0f, 1f)] private float dishVolume = 1f;
+    [SerializeField, Range(0f, 1f)] private float tickVolume = 1f;
+    [SerializeField, Range(0f, 1f)] private float plateVolume = 1f;
+
+    [SerializeField,
+     Tooltip("Delay from the dish entering the cavity to it settling, so the sound lands on the landing")]
+    private float plateSettleDelay = 1f;
 
     private MicrowaveTimer _timer;
     private MicrowaveState _previous;
     private Dish _dish;
+    private float _lastTimerValue;
+    private bool _platePlayed;
+    private float _plateDueAt = -1f;
 
     private void Awake()
     {
         _timer = GetComponent<MicrowaveTimer>();
         _previous = _timer.State;
+        _lastTimerValue = _timer.Timer;
 
-        if (humSource != null)
+        Configure(humSource, humClip, true, humVolume);
+        Configure(dishSource, dishClip, true, dishVolume);
+        Configure(endSource, null, false, endVolume);
+        Configure(tickSource, null, false, tickVolume);
+        Configure(plateSource, null, false, plateVolume);
+
+        // The countdown is the only thing that lowers the timer; adding time
+        // raises it, so comparing against the previous value keeps the tick off
+        // the time buttons.
+        _timer.onTimerChanged
+            .Subscribe(OnTimerChanged)
+            .AddTo(this);
+    }
+
+    private static void Configure(AudioSource source, AudioClip clip, bool loop, float volume)
+    {
+        if (source == null) return;
+
+        if (clip != null) source.clip = clip;
+        source.loop = loop;
+        source.playOnAwake = false;
+        source.volume = volume;
+    }
+
+    private void OnTimerChanged(float value)
+    {
+        if (value < _lastTimerValue && tickSource != null && tickClip != null)
         {
-            humSource.clip = humClip;
-            humSource.loop = true;
-            humSource.playOnAwake = false;
-            humSource.volume = humVolume;
+            tickSource.PlayOneShot(tickClip, tickVolume);
         }
 
-        if (endSource != null)
-        {
-            endSource.playOnAwake = false;
-        }
-
-        if (dishSource != null)
-        {
-            dishSource.clip = dishClip;
-            dishSource.loop = true;
-            dishSource.playOnAwake = false;
-            dishSource.volume = dishVolume;
-        }
-
-        // Nothing spawns or removes dishes at runtime, so the one wired up in the
-        // scene is the one that is in the microwave for the whole session.
-        _dish = FindAnyObjectByType<Dish>();
+        _lastTimerValue = value;
     }
 
     private void Update()
@@ -77,16 +103,33 @@ public class MicrowaveSound : MonoBehaviour
             _previous = state;
         }
 
+        TrackDish();
         UpdateDishLayer(state);
     }
 
     /// <summary>
-    /// Layers the food's own sound over the hum while it is actually cooking.
-    /// Checked every frame rather than on state changes, because the dish can
-    /// finish or explode part way through a run.
+    /// MovingInsideSystem reparents the dish under the microwave once it goes in,
+    /// and nothing ever takes it back out, so a child Dish means one is loaded.
     /// </summary>
+    private void TrackDish()
+    {
+        if (_dish != null) return;
+
+        _dish = GetComponentInChildren<Dish>();
+        if (_dish == null) return;
+
+        // The dish is reparented as its travel starts, so wait for it to settle
+        // before the plate lands.
+        _plateDueAt = Time.time + plateSettleDelay;
+    }
+
     private void UpdateDishLayer(MicrowaveState state)
     {
+        if (!_platePlayed && _plateDueAt >= 0f && Time.time >= _plateDueAt)
+        {
+            PlatePlaced();
+        }
+
         if (dishSource == null || dishClip == null) return;
 
         var cooking = state == MicrowaveState.Heating
@@ -101,6 +144,15 @@ public class MicrowaveSound : MonoBehaviour
         {
             dishSource.Stop();
         }
+    }
+
+    private void PlatePlaced()
+    {
+        _platePlayed = true;
+
+        if (plateSource == null || plateClip == null) return;
+
+        plateSource.PlayOneShot(plateClip, plateVolume);
     }
 
     private void StartHum()
