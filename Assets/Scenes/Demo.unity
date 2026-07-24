@@ -3218,7 +3218,7 @@ RectTransform:
   m_GameObject: {fileID: 794721151}
   m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
   m_LocalPosition: {x: 0, y: 0, z: 0.00005}
-  m_LocalScale: {x: 0.00002, y: 0.00002, z: 0.00002}
+  m_LocalScale: {x: 0.000024, y: 0.000024, z: 0.000024}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 832731632}
@@ -3280,7 +3280,7 @@ Canvas:
   m_Enabled: 1
   serializedVersion: 3
   m_RenderMode: 2
-  m_Camera: {fileID: 0}
+  m_Camera: {fileID: 330585545}
   m_PlaneDistance: 100
   m_PixelPerfect: 0
   m_ReceivesEvents: 1
@@ -6885,16 +6885,7 @@ MonoBehaviour:
   m_SerieEffectScatters: []
   m_SerieHeatmaps: []
   m_SerieLines:
-  - m_Labels: []
-    m_LabelLines: []
-    m_EndLabels: []
-    m_LineArrows: []
-    m_AreaStyles: []
-    m_TitleStyles: []
-    m_EmphasisStyles: []
-    m_BlurStyles: []
-    m_SelectStyles: []
-    m_Index: 0
+  - m_Index: 0
     m_Show: 1
     m_CoordSystem: GridCoord
     m_SerieType: Line
@@ -7224,6 +7215,15 @@ MonoBehaviour:
       - 4
       - 28
     m_Links: []
+    m_Labels: []
+    m_LabelLines: []
+    m_EndLabels: []
+    m_LineArrows: []
+    m_AreaStyles: []
+    m_TitleStyles: []
+    m_EmphasisStyles: []
+    m_BlurStyles: []
+    m_SelectStyles: []
   m_SeriePies: []
   m_SerieRadars: []
   m_SerieRings: []

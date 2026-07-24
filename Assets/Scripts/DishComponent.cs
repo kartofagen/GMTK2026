@@ -18,7 +18,7 @@ public class DishComponent : MonoBehaviour, ITemperatureChannel
 
     [Inject] private GameConfig _gameConfig;
 
-    private float _time;
+    private float _heatingTime;
     private float _currentTempDelta;
     private float _readyTempDelta;
     private float _readyTempCoeff;
@@ -44,8 +44,17 @@ public class DishComponent : MonoBehaviour, ITemperatureChannel
     
     public void Heat(float deltaTime)
     {
-        _time += deltaTime;
-        var x = _time / (readyTime / _gameConfig.readyCoeff);
+        if (_isCooling)
+        {
+            _isCooling = false;
+            
+            var targetCurveValue = _currentTempDelta / (_readyTempCoeff * _gameConfig.power);
+            var xToContinue = InverseEvaluateCurve(heatingCurve, targetCurveValue);
+            _heatingTime = xToContinue * (readyTime / _gameConfig.readyCoeff);
+        }
+        
+        _heatingTime += deltaTime;
+        var x = _heatingTime / (readyTime / _gameConfig.readyCoeff);
         _currentTempDelta = heatingCurve.Evaluate(x) * _readyTempCoeff * _gameConfig.power;
         _temperature.Value = _gameConfig.startTemp + _currentTempDelta;
 
@@ -89,4 +98,26 @@ public class DishComponent : MonoBehaviour, ITemperatureChannel
         
         return DishComponentStatus.NotReady;
     }
+    
+    private static float InverseEvaluateCurve(AnimationCurve curve, float targetValue)
+    {
+        var left = 0f;
+        var right = 1f;
+
+        for (var i = 0; i < 32; ++i)
+        {
+            var middle = (left + right) / 2;
+            if (curve.Evaluate(middle) < targetValue)
+            {
+                left = middle;
+            }
+            else
+            {
+                right = middle;
+            }
+        }
+
+        return (left + right) / 2;
+    }
+
 }
