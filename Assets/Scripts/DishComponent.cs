@@ -39,7 +39,7 @@ public class DishComponent : MonoBehaviour, ITemperatureChannel
 
     void Awake()
     {
-        _readyTempDelta = _gameConfig.targetTempRange.x - _gameConfig.startTemp;
+        _readyTempDelta = (_gameConfig.targetTempRange.x + _gameConfig.targetTempRange.y) * 0.5f - _gameConfig.startTemp;
         _readyTempCoeff = _readyTempDelta / heatingCurve.Evaluate(_gameConfig.readyCoeff);
         _temperature.Value = _gameConfig.startTemp;
     }
@@ -118,7 +118,7 @@ public class DishComponent : MonoBehaviour, ITemperatureChannel
 
         for (var i = 0; i < 32; ++i)
         {
-            var middle = (left + right) / 2;
+            var middle = (left + right) * 0.5f;
             if (curve.Evaluate(middle) < targetValue)
             {
                 left = middle;
@@ -129,11 +129,13 @@ public class DishComponent : MonoBehaviour, ITemperatureChannel
             }
         }
 
-        return (left + right) / 2;
+        return (left + right) * 0.5f;
     }
 
     public void Reset()
     {
+        DishComponentStatus = DishComponentStatus.NotReady;
+        
         _temperature.Value = _gameConfig.startTemp;
         _heatingTime = 0f;
         _currentTempDelta = 0f;

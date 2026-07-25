@@ -115,7 +115,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6778fde939b3b8c4b9e392030ffbce7d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: NewAssembly::DishComponent
-  componentName: Sausage
+  componentName: Thanks for playing!
   heatingCurve:
     serializedVersion: 2
     m_Curve:
@@ -188,7 +188,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f12b1e3c60c6c2f45ba022ca672bfe67, type: 3}
   m_Name: 
   m_EditorClassIdentifier: NewAssembly::Dish
-  dishName: Single Sausage
+  dishName: Thanks for playing!
   components:
   - {fileID: 4081299859867230768}
 --- !u!114 &359343426724802067
