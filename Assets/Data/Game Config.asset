@@ -41,6 +41,6 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  coolingToAverageSpeed: 1
+  coolingToAverageSpeed: 2
   roomTemp: 20
   fullCoolingTime: 20

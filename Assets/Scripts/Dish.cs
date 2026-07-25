@@ -5,7 +5,7 @@ public enum DishStatus
 {
     InProgress,
     Success,
-    Underheated,
+    BadHeating,
     Exploded
 }
 
@@ -57,5 +57,23 @@ public class Dish : MonoBehaviour
                 return;
             }
         }
+    }
+
+    public DishStatus GetFinalStatus()
+    {
+        if (DishStatus != DishStatus.Exploded)
+        {
+            foreach (var component in components)
+            {
+                var status = component.GetStatus();
+                if (status != DishComponentStatus.Ready)
+                {
+                    DishStatus = DishStatus.BadHeating;
+                    break;
+                }
+            }
+            if (DishStatus != DishStatus.BadHeating) DishStatus = DishStatus.Success;
+        }
+        return DishStatus;
     }
 }

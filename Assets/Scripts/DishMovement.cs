@@ -6,7 +6,10 @@ public class DishMovement : MonoBehaviour
     
     private void OnMouseDown()
     {
-        if (_isChosen) return;
+        if (_isChosen)
+        {
+            
+        }
         
         transform.parent.GetComponent<DishesServingManager>().Serve(transform);
         _isChosen = true;

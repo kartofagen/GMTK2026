@@ -1,4 +1,5 @@
 using System;
+using Codice.Utils;
 using R3;
 using UnityEngine;
 
@@ -83,7 +84,7 @@ public class MicrowaveTimer : MonoBehaviour
         _timer = 0f;
         onTimerChanged.OnNext(0f);
         onFinished.OnNext(Unit.Default);
-            
+        
         State = MicrowaveState.Finished;
     }
     

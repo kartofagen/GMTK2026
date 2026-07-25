@@ -65,8 +65,6 @@ public class DishComponent : MonoBehaviour, ITemperatureChannel
         var x = _heatingTime / (readyTime / _gameConfig.readyCoeff);
         _currentTempDelta = heatingCurve.Evaluate(x) * _readyTempCoeff * _gameConfig.power;
         _temperature.Value = _gameConfig.startTemp + _currentTempDelta;
-
-        Debug.Log($"Температура: {CurrentTemp}, Взрыв: {_gameConfig.explosionThreshold}");
     }
     
     public void Cool(float deltaTime, float averageTemp)
@@ -93,8 +91,6 @@ public class DishComponent : MonoBehaviour, ITemperatureChannel
 
         _currentTempDelta = temp - _gameConfig.startTemp;
         _temperature.Value = _gameConfig.startTemp + _currentTempDelta;
-
-        Debug.Log($"Охлаждение: {CurrentTemp}");
     }
     
     public DishComponentStatus GetStatus()
