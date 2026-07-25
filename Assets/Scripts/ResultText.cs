@@ -6,7 +6,7 @@ using UnityEngine;
 public class ResultText : MonoBehaviour
 {
     private TextMeshProUGUI _timerText;
-    [SerializeField] private HeatingSystem microwave;
+    [SerializeField] private Transform microwave;
     
     private Dictionary<DishStatus, KeyValuePair<string, Color>> resultDict = new()
     {
@@ -16,13 +16,24 @@ public class ResultText : MonoBehaviour
         
     };
     
+    private HeatingSystem _heatingSystem;
+    private MovingInsideSystem _movingInsideSystem;
+    
     private void Awake()
     {
         _timerText = GetComponent<TextMeshProUGUI>();
         
-        microwave
+        _heatingSystem = microwave.GetComponent<HeatingSystem>();
+        _movingInsideSystem = microwave.GetComponent<MovingInsideSystem>();
+        
+        _heatingSystem
             .onHeatingFinished
             .Subscribe(PrintResult)
+            .AddTo(this);
+        
+        _movingInsideSystem
+            .onMovingOutside
+            .Subscribe(HideResult)
             .AddTo(this);
     }
 
@@ -33,5 +44,5 @@ public class ResultText : MonoBehaviour
         _timerText.enabled = true;
     }
     
-    private void HideResult() => _timerText.enabled = false;
+    private void HideResult(Unit unit) => _timerText.enabled = false;
 }

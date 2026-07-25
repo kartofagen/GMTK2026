@@ -1456,7 +1456,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: NewAssembly::DoorRotation
   microwave: {fileID: 2652911743600780101}
-  openedYAngle: 60
+  openedYAngle: 75
   duration: 1
   easeRotate: 24
 --- !u!114 &7100000000000000016
@@ -1620,6 +1620,12 @@ MonoBehaviour:
   duration: 1
   easeMove: 2
   door: {fileID: 4898915537773564687}
+  dishesServingManager: {fileID: 0}
+  mouthPoint: {fileID: 0}
+  easeToMouth: 23
+  trashPoint: {fileID: 0}
+  easeToTrash: 27
+  finishedDuration: 1
 --- !u!114 &7100000000000000010
 MonoBehaviour:
   m_ObjectHideFlags: 0

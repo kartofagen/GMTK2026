@@ -1475,13 +1475,9 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 275114437}
     - target: {fileID: 107431851416530436, guid: 121f7e6d61bd9c87a90e3f5844ff2bca, type: 3}
-      propertyPath: easeToMouth
-      value: 27
-      objectReference: {fileID: 0}
-    - target: {fileID: 107431851416530436, guid: 121f7e6d61bd9c87a90e3f5844ff2bca, type: 3}
-      propertyPath: easeToTrash
-      value: 27
-      objectReference: {fileID: 0}
+      propertyPath: dishesServingManager
+      value: 
+      objectReference: {fileID: 1140396471}
     - target: {fileID: 8298685574709455348, guid: 121f7e6d61bd9c87a90e3f5844ff2bca, type: 3}
       propertyPath: m_Name
       value: Microwave
@@ -2715,17 +2711,11 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 8298685574709455348, guid: 121f7e6d61bd9c87a90e3f5844ff2bca, type: 3}
   m_PrefabInstance: {fileID: 299296215}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &671359951 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 6087110578803017910, guid: 121f7e6d61bd9c87a90e3f5844ff2bca, type: 3}
+--- !u!4 &671359953 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 8674225504033141582, guid: 121f7e6d61bd9c87a90e3f5844ff2bca, type: 3}
   m_PrefabInstance: {fileID: 299296215}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 671359943}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 87a8f0c0f5c74b442b0628af1c62775f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: NewAssembly::HeatingSystem
 --- !u!1001 &691283505
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5032,9 +5022,9 @@ MonoBehaviour:
   dishesSequence:
   - dishes:
     - {fileID: 1468668238647002992, guid: 9399f48b0f568794187ac491685e10a2, type: 3}
-    - {fileID: 1468668238647002992, guid: 9399f48b0f568794187ac491685e10a2, type: 3}
-    - {fileID: 1468668238647002992, guid: 9399f48b0f568794187ac491685e10a2, type: 3}
-  index: 0
+  - dishes:
+    - {fileID: 6696455414488572932, guid: b3077d8c3ba97a449acbabc65bd7920d, type: 3}
+  levelIndex: 0
   spawnRadius: 0.2
 --- !u!1 &1182627350
 GameObject:
@@ -9658,7 +9648,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d3c36bb7858c5104a9e4f6b71dc36aa5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: NewAssembly::ResultText
-  microwave: {fileID: 671359951}
+  microwave: {fileID: 671359953}
 --- !u!114 &2140115769
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9840,7 +9830,7 @@ SceneRoots:
   - {fileID: 660771640}
   - {fileID: 1398528690}
   - {fileID: 775748814}
+  - {fileID: 275114437}
   - {fileID: 2037796586}
   - {fileID: 1755914463}
   - {fileID: 1140396472}
-  - {fileID: 275114437}

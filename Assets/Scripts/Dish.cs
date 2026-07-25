@@ -20,6 +20,15 @@ public class Dish : MonoBehaviour
 
     /// <summary>Каналы температуры по компонентам — по одному на серию графика.</summary>
     public IReadOnlyList<ITemperatureChannel> Channels => components;
+    
+    public int Index { get; set; }
+
+    private DishMovement _dishMovement;
+
+    void Awake()
+    {
+        _dishMovement = GetComponent<DishMovement>();
+    }
 
     public void HeatComponents(float deltaTime)
     {
@@ -75,5 +84,15 @@ public class Dish : MonoBehaviour
             if (DishStatus != DishStatus.BadHeating) DishStatus = DishStatus.Success;
         }
         return DishStatus;
+    }
+
+    public void Reset()
+    {
+        DishStatus = DishStatus.InProgress;
+        _dishMovement.MovementState = DishMovementState.Idle;
+        foreach (var component in components)
+        {
+            component.Reset();
+        }
     }
 }

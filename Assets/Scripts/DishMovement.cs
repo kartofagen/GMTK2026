@@ -9,14 +9,7 @@ public enum DishMovementState
 
 public class DishMovement : MonoBehaviour
 {
-    private Dish dish;
-    
     public DishMovementState MovementState { get; set; } = DishMovementState.Idle;
-
-    private void Awake()
-    {
-        dish = GetComponent<Dish>();
-    }
     
     private void OnMouseDown()
     {
@@ -33,10 +26,5 @@ public class DishMovement : MonoBehaviour
             case DishMovementState.Outside:
                 break;
         }
-    }
-
-    private void OnFinished()
-    {
-        
     }
 }

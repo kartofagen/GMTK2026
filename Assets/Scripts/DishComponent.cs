@@ -132,4 +132,12 @@ public class DishComponent : MonoBehaviour, ITemperatureChannel
         return (left + right) / 2;
     }
 
+    public void Reset()
+    {
+        _temperature.Value = _gameConfig.startTemp;
+        _heatingTime = 0f;
+        _currentTempDelta = 0f;
+        
+        _isCooling = false;
+    }
 }
