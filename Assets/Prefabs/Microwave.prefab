@@ -99,7 +99,7 @@ MonoBehaviour:
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
-  m_fontStyle: 0
+  m_fontStyle: 1
   m_HorizontalAlignment: 2
   m_VerticalAlignment: 512
   m_textAlignment: 65535
@@ -1972,6 +1972,7 @@ MonoBehaviour:
   dish: {fileID: 0}
   microwaveBodyRenderer: {fileID: 6649413368976106371}
   dirtyTexture: {fileID: 2800000, guid: 333a7b1f1d859943d96b3ff7c4505e35, type: 3}
+  dishRotationSpeed: 5
 --- !u!114 &107431851416530436
 MonoBehaviour:
   m_ObjectHideFlags: 0

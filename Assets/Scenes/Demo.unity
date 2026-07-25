@@ -1478,6 +1478,14 @@ PrefabInstance:
       propertyPath: dishesServingManager
       value: 
       objectReference: {fileID: 1140396471}
+    - target: {fileID: 1390650232033879949, guid: 121f7e6d61bd9c87a90e3f5844ff2bca, type: 3}
+      propertyPath: m_fontStyle
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1390650232033879949, guid: 121f7e6d61bd9c87a90e3f5844ff2bca, type: 3}
+      propertyPath: m_VerticalAlignment
+      value: 512
+      objectReference: {fileID: 0}
     - target: {fileID: 8298685574709455348, guid: 121f7e6d61bd9c87a90e3f5844ff2bca, type: 3}
       propertyPath: m_Name
       value: Microwave
@@ -5078,7 +5086,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: NewAssembly::LevelManager
   dishesSequence:
   - dishes:
-    - {fileID: 1468668238647002992, guid: 9399f48b0f568794187ac491685e10a2, type: 3}
+    - {fileID: 1468668238647002992, guid: db4c239abd82171af9fae695db8a587e, type: 3}
   - dishes:
     - {fileID: 6696455414488572932, guid: b3077d8c3ba97a449acbabc65bd7920d, type: 3}
   levelIndex: 0
