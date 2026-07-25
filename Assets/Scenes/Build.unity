@@ -5086,16 +5086,34 @@ MonoBehaviour:
   m_EditorClassIdentifier: NewAssembly::LevelManager
   dishesSequence:
   - dishes:
-    - {fileID: 1468668238647002992, guid: db4c239abd82171af9fae695db8a587e, type: 3}
-    - {fileID: 1468668238647002992, guid: afb0acc439f270f7e860717da83dca37, type: 3}
     - {fileID: 1468668238647002992, guid: 9399f48b0f568794187ac491685e10a2, type: 3}
     spawnOffset: {x: 0, y: 0, z: 0}
-    spawnRadius: 0.2
+    spawnRadius: 0
   - dishes:
-    - {fileID: 6696455414488572932, guid: b3077d8c3ba97a449acbabc65bd7920d, type: 3}
+    - {fileID: 1468668238647002992, guid: 447d95eb6ab504f42b35b1ff5128bd00, type: 3}
     spawnOffset: {x: 0, y: 0, z: 0}
-    spawnRadius: 0.2
-  levelIndex: 0
+    spawnRadius: 0
+  - dishes:
+    - {fileID: 1468668238647002992, guid: 15e92be578d5a5c4aa2f9116bd2b05b0, type: 3}
+    spawnOffset: {x: 0, y: 0, z: 0}
+    spawnRadius: 0
+  - dishes:
+    - {fileID: 1468668238647002992, guid: 66a74144d20ac084086bfe11f6be01ec, type: 3}
+    spawnOffset: {x: 0, y: 0, z: 0}
+    spawnRadius: 0
+  - dishes:
+    - {fileID: 1468668238647002992, guid: 99a20ab4a808cd449a0b4d764d52b77e, type: 3}
+    spawnOffset: {x: 0, y: 0, z: 0}
+    spawnRadius: 0
+  - dishes:
+    - {fileID: 1468668238647002992, guid: b5fb4dad895c76642a862257edc19f5f, type: 3}
+    spawnOffset: {x: 0, y: 0, z: 0}
+    spawnRadius: 0
+  - dishes:
+    - {fileID: 6696455414488572932, guid: 6f6f508daf820414abfa4b2c186d8e4e, type: 3}
+    spawnOffset: {x: 0, y: 0, z: 0}
+    spawnRadius: 0
+  levelIndex: 4
 --- !u!1 &1182627350
 GameObject:
   m_ObjectHideFlags: 1

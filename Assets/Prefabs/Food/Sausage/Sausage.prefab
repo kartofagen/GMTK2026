@@ -47,31 +47,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: NewAssembly::DishComponent
   componentName: Sausage
-  heatingCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 1
-      outSlope: 1
-      tangentMode: 34
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    - serializedVersion: 3
-      time: 1
-      value: 1
-      inSlope: 1
-      outSlope: 1
-      tangentMode: 34
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  readyTime: 10
   explodeMethod: 1
   explosionParts:
   - {fileID: 6692714323510323363, guid: 9d430ee0b33b99deba79f6de168f8791, type: 3}
@@ -81,6 +56,7 @@ MonoBehaviour:
   explosionSounds:
   - {fileID: 8300000, guid: 855a2ddb9f2d485dabe49ca6e938bf26, type: 3}
   - {fileID: 8300000, guid: 7e4f9b1c0a6d42e8b53f8c2a91d604f7, type: 3}
+  explosionPower: 1
 --- !u!82 &1514359343134500062
 AudioSource:
   m_ObjectHideFlags: 0
