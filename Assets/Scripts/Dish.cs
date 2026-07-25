@@ -13,53 +13,84 @@ public enum DishStatus
 public class Dish : MonoBehaviour
 {
     public string dishName;
+
+    [SerializeField, Tooltip("Параметры продуктов и печи. Порядок компонентов должен совпадать с components")]
+    private LevelConfig level;
+
     [SerializeField] private DishComponent[] components;
+
+    private ThermalSolver _solver;
 
     public DishStatus DishStatus { get; private set; } = DishStatus.InProgress;
 
     public string DishName => dishName;
+
+    public LevelConfig Level => level;
 
     /// <summary>Каналы температуры по компонентам — по одному на серию графика.</summary>
     public IReadOnlyList<ITemperatureChannel> Channels => components;
 
     public event Action OnExplosion;
 
-    public void HeatComponents(float deltaTime)
+    void Awake()
     {
-        foreach (var component in components)
+        if (!level)
         {
-            component.Heat(deltaTime);
+            Debug.LogError($"{name}: не задан LevelConfig — блюдо не будет греться", this);
+            return;
         }
-        UpdateStatus();
-    }
-    
-    public void CoolComponents(float deltaTime)
-    {
-        float averageTemp = 0f;
-        foreach (var component in components)
-        {
-            averageTemp += component.CurrentTemp;
-        }
-        averageTemp /= components.Length;
 
-        foreach (var component in components)
+        if (level.ComponentCount != components.Length)
         {
-            component.Cool(deltaTime, averageTemp);
+            Debug.LogError(
+                $"{name}: в LevelConfig {level.ComponentCount} компонент(ов), а на сцене {components.Length}. " +
+                "Соответствие идёт по индексу, поэтому количества должны совпадать", this);
+            return;
         }
+
+        _solver = new ThermalSolver(level);
+        PushTemperatures();
     }
 
-    private void UpdateStatus()
+    /// <summary>
+    /// Один шаг симуляции. u = 1, когда печь включена; остывание — это тот же шаг при u = 0.
+    /// </summary>
+    public void Tick(float u, float dt)
     {
-        foreach (var component in components)
+        if (_solver == null || DishStatus == DishStatus.Exploded) return;
+
+        _solver.Step(u, dt);
+        PushTemperatures();
+
+        // Потолок tMax нельзя пробивать НИ В ОДИН момент времени — проверяем на каждом шаге.
+        if (_solver.TryGetViolation(out int index))
         {
-            var status = component.GetStatus();
-            if (status == DishComponentStatus.Explodes)
-            {
-                DishStatus = DishStatus.Exploded;
-                OnExplosion?.Invoke();
-                Debug.Log("Explode!!!");
-                return;
-            }
+            DishStatus = DishStatus.Exploded;
+            components[index].Explode();
+            OnExplosion?.Invoke();
+        }
+    }
+
+    /// <summary>
+    /// Итог на момент остановки («открыли дверцу»): успех, если все компоненты
+    /// одновременно попали в свои целевые окна.
+    /// </summary>
+    public DishStatus EvaluateResult()
+    {
+        if (DishStatus == DishStatus.Exploded) return DishStatus;
+
+        DishStatus = _solver != null && _solver.AllInTargetWindow()
+            ? DishStatus.Success
+            : DishStatus.Underheated;
+
+        return DishStatus;
+    }
+
+    private void PushTemperatures()
+    {
+        for (int i = 0; i < components.Length; i++)
+        {
+            components[i].SetTemperature(_solver[i]);
         }
     }
 }

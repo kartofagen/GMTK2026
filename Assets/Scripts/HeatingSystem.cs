@@ -1,23 +1,33 @@
+using R3;
 using UnityEngine;
 using Zenject;
 
+/// <summary>
+/// Гоняет тепловую модель загруженного блюда с фиксированным шагом и связывает её
+/// с микроволновкой: таймер даёт управление u, взрыв останавливает печь, открытие
+/// дверцы (оно же FinishHeating) фиксирует результат.
+/// </summary>
 public class HeatingSystem : MonoBehaviour
 {
     [SerializeField] private Dish dish;
     [SerializeField] private MeshRenderer microwaveBodyRenderer;
     [SerializeField] private Texture2D dirtyTexture;
 
+    [SerializeField,
+     Tooltip("Предохранитель: сколько шагов симуляции максимум за кадр при просадке FPS")]
+    private int maxStepsPerFrame = 8;
+
     [Inject] private MicrowaveContext _context;
 
     private MicrowaveTimer _microwaveTimer;
+    private float _accumulator;
 
     public Dish Dish
     {
         set
         {
             dish = value;
-            _context.Channels.Value = dish ? dish.Channels : null;
-            dish.OnExplosion += PlayExplosionEffects;
+            Bind();
         }
     }
 
@@ -28,24 +38,64 @@ public class HeatingSystem : MonoBehaviour
 
     void Start()
     {
+        _microwaveTimer.onFinished
+            .Subscribe(_ => OnHeatingFinished())
+            .AddTo(this);
+
         // Блюдо могло быть задано в инспекторе, а не через сеттер.
-        if (dish) _context.Channels.Value = dish.Channels;
+        if (dish) Bind();
     }
 
     void Update()
     {
-        if (!dish) return;
-        if (_microwaveTimer.State == MicrowaveState.Finished) return;
-        
-        switch (_microwaveTimer.State)
+        if (!dish || !dish.Level) return;
+        if (dish.DishStatus == DishStatus.Exploded) return;
+
+        // Шаг фиксированный: траектория температур не должна зависеть от FPS.
+        float dt = 1f / dish.Level.simRate;
+        float u = _microwaveTimer.State == MicrowaveState.Heating ? 1f : 0f;
+
+        _accumulator += Time.deltaTime;
+
+        int steps = 0;
+        while (_accumulator >= dt && steps < maxStepsPerFrame)
         {
-            case MicrowaveState.Heating:
-                CalculateHeating();
-                break;
-            case MicrowaveState.Paused:
-                CalculateCooling();
-                break;
+            _accumulator -= dt;
+            steps++;
+            dish.Tick(u, dt);
+
+            if (dish.DishStatus == DishStatus.Exploded) break;
         }
+
+        // При долгой просадке не копим неоплатный долг по времени.
+        if (_accumulator > dt * maxStepsPerFrame) _accumulator = 0f;
+    }
+
+    private void Bind()
+    {
+        if (!dish)
+        {
+            _context.Channels.Value = null;
+            _context.Level.Value = null;
+            return;
+        }
+
+        _context.Level.Value = dish.Level;
+        _context.Channels.Value = dish.Channels;
+
+        // Блюдо могло быть и задано в инспекторе, и подано сеттером — не подписываемся дважды.
+        dish.OnExplosion -= OnExplosion;
+        dish.OnExplosion += OnExplosion;
+
+        _accumulator = 0f;
+    }
+
+    private void OnExplosion()
+    {
+        PlayExplosionEffects();
+
+        // Печь с рванувшим блюдом дальше не работает.
+        if (_microwaveTimer.State != MicrowaveState.Finished) _microwaveTimer.FinishHeating();
     }
 
     private void PlayExplosionEffects()
@@ -53,20 +103,17 @@ public class HeatingSystem : MonoBehaviour
         microwaveBodyRenderer.material.SetTexture("_BaseMap", dirtyTexture);
     }
 
-    private void CalculateHeating()
+    /// <summary>Печь остановилась — таймер вышел, нажали стоп или открыли дверцу.</summary>
+    private void OnHeatingFinished()
     {
-        // if (dish.DishStatus != DishStatus.InProgress) return;
-        
-        dish.HeatComponents(Time.deltaTime);
-        
-        /*if (dish.DishStatus == DishStatus.Exploded)
-        {
-            _microwaveTimer.FinishHeating();
-        }*/
+        if (!dish) return;
+
+        var result = dish.EvaluateResult();
+        Debug.Log($"Блюдо «{dish.DishName}»: {result}");
     }
 
-    private void CalculateCooling()
+    private void OnDestroy()
     {
-        dish.CoolComponents(Time.deltaTime);
+        if (dish) dish.OnExplosion -= OnExplosion;
     }
 }
