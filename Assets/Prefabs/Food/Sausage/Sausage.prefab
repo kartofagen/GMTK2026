@@ -47,6 +47,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f12b1e3c60c6c2f45ba022ca672bfe67, type: 3}
   m_Name: 
   m_EditorClassIdentifier: NewAssembly::Dish
+  level: {fileID: 11400000, guid: fde97d51bd144b028cb1a510477ecb73, type: 2}
   dishName: Single Sausage
   components:
   - {fileID: 173381731037557681}
