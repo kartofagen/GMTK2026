@@ -5,13 +5,14 @@ using Zenject;
 public class LevelDishes
 {
     public GameObject[] dishes;
+    public Vector3 spawnOffset = Vector3.zero;
+    public float spawnRadius = 0.2f;
 }
 
 public class LevelManager : MonoBehaviour
 {
     [SerializeField] private LevelDishes[] dishesSequence;
     [SerializeField] private int levelIndex;
-    [SerializeField] private float spawnRadius;
     
     [Inject] private IInstantiator _instantiator;
 
@@ -67,7 +68,9 @@ public class LevelManager : MonoBehaviour
             float angle = (i * 360f) / count;
             Quaternion rotation = Quaternion.Euler(0f, angle, 0f);
             Vector3 direction = rotation * Vector3.forward;
-            Vector3 spawnPosition = transform.position + direction * spawnRadius;
+            Vector3 spawnPosition = transform.position +
+                                    direction * dishesSequence[levelIndex].spawnRadius +
+                                    dishesSequence[levelIndex].spawnOffset;
 
             _currentSpawned[i].transform.position = spawnPosition;
             _currentSpawned[i].transform.rotation = Quaternion.identity;

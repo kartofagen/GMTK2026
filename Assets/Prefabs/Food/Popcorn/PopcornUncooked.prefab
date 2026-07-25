@@ -44,7 +44,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5016269720157180699}
-  m_Mesh: {fileID: 2179904390463489302, guid: 068f870a4ae540e7c8ab0d08f5c85cae, type: 3}
+  m_Mesh: {fileID: 2179904390463489302, guid: ff8412e09a24a5f47b08efd83791dde5, type: 3}
 --- !u!23 &1841148477846151728
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -204,31 +204,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: NewAssembly::DishComponent
   componentName: Popcorn
-  heatingCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 1
-      outSlope: 1
-      tangentMode: 34
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    - serializedVersion: 3
-      time: 1
-      value: 1
-      inSlope: 1
-      outSlope: 1
-      tangentMode: 34
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  readyTime: 10
   explodeMethod: 1
   explosionParts:
   - {fileID: 4948779082486670570, guid: b202350b4ad7261f3828003b32d6c2a1, type: 3}
@@ -272,7 +247,8 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 0fcf0eb9115d45999f8c0c5cd029d0ed, type: 3}
+  m_audioClip: {fileID: 0}
+  m_Resource: {fileID: 8300000, guid: 0fcf0eb9115d45999f8c0c5cd029d0ed, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 0.6
   m_Pitch: 1
