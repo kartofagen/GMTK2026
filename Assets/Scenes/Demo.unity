@@ -261,11 +261,11 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 841600522}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 1, y: 0.5}
-  m_AnchorMax: {x: 1, y: 0.5}
-  m_AnchoredPosition: {x: -2, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 2, y: -0}
   m_SizeDelta: {x: 0, y: 0}
-  m_Pivot: {x: 1, y: 0.5}
+  m_Pivot: {x: 0, y: 1}
 --- !u!114 &51949310
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -293,7 +293,7 @@ MonoBehaviour:
     m_BestFit: 0
     m_MinSize: 10
     m_MaxSize: 40
-    m_Alignment: 5
+    m_Alignment: 0
     m_AlignByGeometry: 0
     m_RichText: 1
     m_HorizontalOverflow: 1
@@ -3022,11 +3022,11 @@ RectTransform:
   - {fileID: 1674581814}
   m_Father: {fileID: 1350716860}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 290, y: -150}
   m_SizeDelta: {x: 0, y: 0}
-  m_Pivot: {x: 0.5, y: 0.5}
+  m_Pivot: {x: 0, y: 1}
 --- !u!114 &749180834
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3757,11 +3757,11 @@ RectTransform:
   - {fileID: 1210593276}
   m_Father: {fileID: 1350716860}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 1, y: 0.5}
-  m_AnchorMax: {x: 1, y: 0.5}
-  m_AnchoredPosition: {x: -290, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 290, y: -150}
   m_SizeDelta: {x: 0, y: 0}
-  m_Pivot: {x: 1, y: 0.5}
+  m_Pivot: {x: 0, y: 1}
 --- !u!114 &841600523
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5087,10 +5087,15 @@ MonoBehaviour:
   dishesSequence:
   - dishes:
     - {fileID: 1468668238647002992, guid: db4c239abd82171af9fae695db8a587e, type: 3}
+    - {fileID: 1468668238647002992, guid: afb0acc439f270f7e860717da83dca37, type: 3}
+    - {fileID: 1468668238647002992, guid: 9399f48b0f568794187ac491685e10a2, type: 3}
+    spawnOffset: {x: 0, y: 0, z: 0}
+    spawnRadius: 0.2
   - dishes:
     - {fileID: 6696455414488572932, guid: b3077d8c3ba97a449acbabc65bd7920d, type: 3}
+    spawnOffset: {x: 0, y: 0, z: 0}
+    spawnRadius: 0.2
   levelIndex: 0
-  spawnRadius: 0.2
 --- !u!1 &1182627350
 GameObject:
   m_ObjectHideFlags: 1
@@ -8588,11 +8593,11 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 749180833}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 2, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 2, y: -0}
   m_SizeDelta: {x: 0, y: 0}
-  m_Pivot: {x: 0.5, y: 0.5}
+  m_Pivot: {x: 0, y: 1}
 --- !u!114 &1787738949
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8620,7 +8625,7 @@ MonoBehaviour:
     m_BestFit: 0
     m_MinSize: 10
     m_MaxSize: 40
-    m_Alignment: 4
+    m_Alignment: 0
     m_AlignByGeometry: 0
     m_RichText: 1
     m_HorizontalOverflow: 1
