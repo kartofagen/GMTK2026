@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8b6ebfcb1b7a4e7ead48196482a77c76, type: 3}
-  m_Name: Level00 Single Sausage
+  m_Name: Level02 Sausage Puree
   m_EditorClassIdentifier: NewAssembly::LevelConfig
   components:
   - name: Sausage
@@ -46,9 +46,45 @@ MonoBehaviour:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
+  - name: Puree
+    color: {r: 0.94117647, g: 0.70588235, b: 0.16078431, a: 1}
+    C: 2.75
+    w: 1
+    mu: 0
+    tMax: 80
+    tOptLow: 60
+    tOptHigh: 72
+    t0: 20
+    heatCurve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 1
+        inSlope: 0.0
+        outSlope: 0.0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 200
+        value: 1
+        inSlope: 0.0
+        outSlope: 0.0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
   h:
   - 0
-  P: 5.5
+  - 0.001
+  - 0.001
+  - 0
+  P: 11
   tEnv: 20
   cooldown: 2
   simRate: 60
