@@ -1623,6 +1623,7 @@ GameObject:
   - component: {fileID: 330585544}
   - component: {fileID: 330585547}
   - component: {fileID: 330585548}
+  - component: {fileID: 330585549}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -1771,6 +1772,18 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &330585549
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 330585543}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 55ca9570c4ccebe43acd600deaad38be, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: NewAssembly::GameRestarter
 --- !u!1 &386580147
 GameObject:
   m_ObjectHideFlags: 0
@@ -5102,18 +5115,18 @@ MonoBehaviour:
     spawnOffset: {x: 0, y: 0, z: 0}
     spawnRadius: 0
   - dishes:
-    - {fileID: 1468668238647002992, guid: 99a20ab4a808cd449a0b4d764d52b77e, type: 3}
+    - {fileID: 1468668238647002992, guid: b5fb4dad895c76642a862257edc19f5f, type: 3}
     spawnOffset: {x: 0, y: 0, z: 0}
     spawnRadius: 0
   - dishes:
-    - {fileID: 1468668238647002992, guid: b5fb4dad895c76642a862257edc19f5f, type: 3}
+    - {fileID: 1468668238647002992, guid: 99a20ab4a808cd449a0b4d764d52b77e, type: 3}
     spawnOffset: {x: 0, y: 0, z: 0}
     spawnRadius: 0
   - dishes:
     - {fileID: 6696455414488572932, guid: 6f6f508daf820414abfa4b2c186d8e4e, type: 3}
     spawnOffset: {x: 0, y: 0, z: 0}
     spawnRadius: 0
-  levelIndex: 4
+  levelIndex: 3
 --- !u!1 &1182627350
 GameObject:
   m_ObjectHideFlags: 1
@@ -9785,7 +9798,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 47.25
+  m_fontSize: 30.35
   m_fontSizeBase: 64
   m_fontWeight: 400
   m_enableAutoSizing: 1

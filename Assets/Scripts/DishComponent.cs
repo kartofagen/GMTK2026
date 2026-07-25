@@ -57,8 +57,6 @@ public class DishComponent : MonoBehaviour, ITemperatureChannel
     {
         if (_exploded) return;
         _exploded = true;
-        
-        SetTemperature(1000f);
 
         if (explosionSounds.Length > 0)
         {
