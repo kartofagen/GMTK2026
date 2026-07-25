@@ -235,5 +235,6 @@ MonoBehaviour:
   - {fileID: 1534582612519915760, guid: 2eb51c8d720f5d8c1b2db2bf56872b01, type: 3}
   explodePointOffset: 0.1
   explosionParticles: 10
-  explosionSounds: []
+  explosionSounds:
+  - {fileID: 8300000, guid: 78721b5681ae4e9bb0fff3e52c75c3a0, type: 3}
   explosionPower: 3
