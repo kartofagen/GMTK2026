@@ -194,6 +194,11 @@ public class DishComponent : MonoBehaviour, ITemperatureChannel
         _currentTempDelta = 0f;
         
         _isCooling = false;
+        _exploded = false;
+        
+        var meshRenderer = GetComponentInChildren<MeshRenderer>();
+        if (meshRenderer != null)
+            meshRenderer.enabled = true;
     }
     
     private void OnDrawGizmos()
