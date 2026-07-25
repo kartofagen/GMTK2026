@@ -94,7 +94,8 @@ MonoBehaviour:
   explodePointOffset: 0.1
   explosionParticles: 10
   explosionSounds:
-  - {fileID: 8300000, guid: 3e546a4935d46aa75b8e90ed5ecc7346, type: 3}
+  - {fileID: 8300000, guid: 855a2ddb9f2d485dabe49ca6e938bf26, type: 3}
+  - {fileID: 8300000, guid: 7e4f9b1c0a6d42e8b53f8c2a91d604f7, type: 3}
 --- !u!82 &1514359343134500062
 AudioSource:
   m_ObjectHideFlags: 0
