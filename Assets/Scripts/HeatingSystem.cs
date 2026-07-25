@@ -4,6 +4,8 @@ using Zenject;
 public class HeatingSystem : MonoBehaviour
 {
     [SerializeField] private Dish dish;
+    [SerializeField] private MeshRenderer microwaveBodyRenderer;
+    [SerializeField] private Texture2D dirtyTexture;
 
     [Inject] private MicrowaveContext _context;
 
@@ -15,6 +17,7 @@ public class HeatingSystem : MonoBehaviour
         {
             dish = value;
             _context.Channels.Value = dish ? dish.Channels : null;
+            dish.OnExplosion += PlayExplosionEffects;
         }
     }
 
@@ -43,6 +46,11 @@ public class HeatingSystem : MonoBehaviour
                 CalculateCooling();
                 break;
         }
+    }
+
+    private void PlayExplosionEffects()
+    {
+        microwaveBodyRenderer.material.SetTexture("_BaseMap", dirtyTexture);
     }
 
     private void CalculateHeating()
