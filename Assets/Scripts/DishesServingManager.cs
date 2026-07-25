@@ -29,6 +29,6 @@ public class DishesServingManager : MonoBehaviour
         dish.DOMove(_movingInsideSystem.EntryPoint.position, duration).SetEase(easeMove)
             .OnComplete(() => _movingInsideSystem.Register(dish));
         
-        Camera.main.transform.GetComponent<Animator>().SetTrigger("Turn");
+        Camera.main?.transform.GetComponent<Animator>().SetTrigger("Turn");
     }
 }

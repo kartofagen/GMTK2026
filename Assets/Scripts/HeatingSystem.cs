@@ -15,6 +15,7 @@ public class HeatingSystem : MonoBehaviour
 
     public Dish Dish
     {
+        get => dish;
         set
         {
             dish = value;

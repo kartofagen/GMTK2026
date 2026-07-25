@@ -28,9 +28,10 @@ public class ResultText : MonoBehaviour
 
     private void PrintResult(DishStatus status)
     {
-        Debug.Log("asdfasdf");
-        _timerText.enabled = true;
         _timerText.text = resultDict[status].Key;
         _timerText.color = resultDict[status].Value;
+        _timerText.enabled = true;
     }
+    
+    private void HideResult() => _timerText.enabled = false;
 }

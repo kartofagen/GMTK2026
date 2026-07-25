@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Game Config
   m_EditorClassIdentifier: NewAssembly::GameConfig
   power: 1
-  targetTempRange: {x: 65, y: 75}
+  targetTempRange: {x: 60, y: 80}
   startTemp: 20
   explosionThreshold: 100
   readyCoeff: 0.5
