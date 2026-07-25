@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 0c8cd2e6fb65b2fd68a32354af151ea6
+guid: b9ce61373cd31ff6a99ca3ac6ec96830
 ModelImporter:
   serializedVersion: 24200
   internalIDToNameTable: []
@@ -7,13 +7,13 @@ ModelImporter:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
-      name: PlateCleanPSX
-    second: {fileID: 2100000, guid: bad3a72d168835d2b85e7a55951ff9ba, type: 2}
+      name: Sausage
+    second: {fileID: 2100000, guid: 5dabf376861dbdb8885bdfde48ecf704, type: 2}
   - first:
-      type: UnityEngine:Material
+      type: UnityEngine:Texture2D
       assembly: UnityEngine.CoreModule
-      name: PlateDirtyPSX
-    second: {fileID: 2100000, guid: e69fe19af72dec06db2e68e6843fd8e0, type: 2}
+      name: Sausage Mapped_lambert1_AlbedoTransparency
+    second: {fileID: 2800000, guid: d6818357eb7ec8843b82502c789a2ec9, type: 3}
   materials:
     materialImportMode: 2
     materialName: 0

@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 0c8cd2e6fb65b2fd68a32354af151ea6
+guid: ee8c44aa4514f0205a89147bda0f7ab9
 ModelImporter:
   serializedVersion: 24200
   internalIDToNameTable: []
@@ -7,13 +7,13 @@ ModelImporter:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
-      name: PlateCleanPSX
-    second: {fileID: 2100000, guid: bad3a72d168835d2b85e7a55951ff9ba, type: 2}
+      name: Material
+    second: {fileID: 2100000, guid: ee00a2c8d11d2932a9c4e6d6167cbc28, type: 2}
   - first:
-      type: UnityEngine:Material
+      type: UnityEngine:Texture2D
       assembly: UnityEngine.CoreModule
-      name: PlateDirtyPSX
-    second: {fileID: 2100000, guid: e69fe19af72dec06db2e68e6843fd8e0, type: 2}
+      name: texture-mashed-potatoes-top-view_187194-4758-2885706053
+    second: {fileID: 2800000, guid: 5315fb20802f417238ff64058f46e343, type: 3}
   materials:
     materialImportMode: 2
     materialName: 0
