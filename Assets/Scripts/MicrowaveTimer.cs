@@ -15,6 +15,7 @@ public class MicrowaveTimer : MonoBehaviour
     private float _timer;
     
     [SerializeField] private Light lightInside;
+    [SerializeField] private DoorRotation door;
     
     public MicrowaveState State { get; private set; } = MicrowaveState.Idle;
 
@@ -55,6 +56,8 @@ public class MicrowaveTimer : MonoBehaviour
 
     public void AddTime(float time)
     {
+        if (door.IsOpened) return;
+        
         if (State != MicrowaveState.Paused)
         {
             _timer += time;
@@ -67,6 +70,8 @@ public class MicrowaveTimer : MonoBehaviour
 
     public void PauseHeating()
     {
+        if (door.IsOpened) return;
+        
         StopTicks();
         State = MicrowaveState.Paused;
     }

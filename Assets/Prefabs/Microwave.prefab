@@ -1589,6 +1589,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: NewAssembly::MicrowaveTimer
   lightInside: {fileID: 3470232187638189025}
+  door: {fileID: 4898915537773564687}
 --- !u!114 &6087110578803017910
 MonoBehaviour:
   m_ObjectHideFlags: 0

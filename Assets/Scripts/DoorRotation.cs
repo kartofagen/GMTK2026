@@ -21,7 +21,6 @@ public class DoorRotation : MonoBehaviour
         if (microwave.State is MicrowaveState.Heating or MicrowaveState.Paused)
         {
             microwave.FinishHeating();
-            return;
         }
         
         if (isOpened)
