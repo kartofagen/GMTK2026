@@ -6,6 +6,7 @@ public class HeatingSystem : MonoBehaviour
     [SerializeField] private Dish dish;
     [SerializeField] private MeshRenderer microwaveBodyRenderer;
     [SerializeField] private Texture2D dirtyTexture;
+    [SerializeField] private float dishRotationSpeed = 5f;
 
     [Inject] private MicrowaveContext _context;
 
@@ -41,6 +42,7 @@ public class HeatingSystem : MonoBehaviour
         {
             case MicrowaveState.Heating:
                 CalculateHeating();
+                dish.transform.Rotate(Vector3.up, dishRotationSpeed * Time.deltaTime); 
                 break;
             case MicrowaveState.Paused:
                 CalculateCooling();

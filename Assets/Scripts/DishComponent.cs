@@ -11,6 +11,12 @@ public enum DishComponentStatus
     Explodes
 }
 
+public enum ExplodeMethod
+{
+    StickToWalls,
+    Simulation
+}
+
 [RequireComponent(typeof(AudioSource))]
 public class DishComponent : MonoBehaviour, ITemperatureChannel
 {
@@ -21,10 +27,12 @@ public class DishComponent : MonoBehaviour, ITemperatureChannel
      Tooltip("Время, за которое еда готова (по нижней границе)")]
     private float readyTime;
 
+    [SerializeField] private ExplodeMethod explodeMethod;
     [SerializeField] private GameObject[] explosionParts;
     [SerializeField] private float explodePointOffset = 0.1f;
     [SerializeField] private int explosionParticles = 10;
     [SerializeField] private AudioClip[] explosionSounds;
+    [SerializeField] private float explosionPower = 1f;
 
     [Inject] private GameConfig _gameConfig;
 
@@ -55,7 +63,7 @@ public class DishComponent : MonoBehaviour, ITemperatureChannel
         _readyTempDelta = _gameConfig.targetTempRange.x - _gameConfig.startTemp;
         _readyTempCoeff = _readyTempDelta / heatingCurve.Evaluate(_gameConfig.readyCoeff);
         _temperature.Value = _gameConfig.startTemp;
-        
+
         _source = GetComponent<AudioSource>();
         _source.playOnAwake = false;
     }
@@ -140,25 +148,32 @@ public class DishComponent : MonoBehaviour, ITemperatureChannel
 
     private void Explode()
     {
-        Debug.Log("Spawning explosion parts from " + componentName);
         _source.PlayOneShot(explosionSounds[Random.Range(0, explosionSounds.Length)], 1f);
         var explosionPoint = transform.position + new Vector3(0, explodePointOffset, 0);
+
         for (int i = 0; i < explosionParticles; ++i)
         {
             var particleDirection = Vector3.forward;
             particleDirection = Quaternion.AngleAxis(Random.Range(30f, -90f), Vector3.right) * particleDirection;
             particleDirection = Quaternion.AngleAxis(Random.Range(0f, 360f), Vector3.up) * particleDirection;
-            
-            var ray = new Ray(explosionPoint, particleDirection);
-            RaycastHit hit;
 
-            if (Physics.Raycast(ray, out hit, 1))
+            if (explodeMethod == ExplodeMethod.StickToWalls)
             {
-                hit.point -= particleDirection * 0.05f;
-                Instantiate(explosionParts[Random.Range(0, explosionParts.Length)], hit.point, Random.rotation);
-            }
+                var ray = new Ray(explosionPoint, particleDirection);
+                RaycastHit hit;
 
-            Debug.Log($"Spawned part {i}");
+                if (Physics.Raycast(ray, out hit, 1))
+                {
+                    hit.point -= particleDirection * 0.05f;
+                    Instantiate(explosionParts[Random.Range(0, explosionParts.Length)], hit.point, Random.rotation);
+                }
+            }
+            else
+            {   
+                var particle = Instantiate(explosionParts[Random.Range(0, explosionParts.Length)], explosionPoint, Random.rotation);
+                var rb = particle.AddComponent<Rigidbody>();
+                rb.AddForce(particleDirection * explosionPower, ForceMode.Impulse);
+            }
         }
 
         GetComponentInChildren<MeshRenderer>().enabled = false;

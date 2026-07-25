@@ -10134,6 +10134,10 @@ PrefabInstance:
       propertyPath: readyTime
       value: 13
       objectReference: {fileID: 0}
+    - target: {fileID: 1581210535932556977, guid: 9399f48b0f568794187ac491685e10a2, type: 3}
+      propertyPath: explosionPower
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 1684283987072750485, guid: 9399f48b0f568794187ac491685e10a2, type: 3}
       propertyPath: m_IsActive
       value: 1

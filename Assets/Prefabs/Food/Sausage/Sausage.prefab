@@ -88,6 +88,7 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   readyTime: 10
+  explodeMethod: 1
   explosionParts:
   - {fileID: 6692714323510323363, guid: 9d430ee0b33b99deba79f6de168f8791, type: 3}
   - {fileID: 6692714323510323363, guid: 0e69b369a75332105a7a0377083792ad, type: 3}
