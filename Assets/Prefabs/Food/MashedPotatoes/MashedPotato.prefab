@@ -177,32 +177,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6778fde939b3b8c4b9e392030ffbce7d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: NewAssembly::DishComponent
-  componentName: Mashed Potatoes
-  heatingCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 1
-      outSlope: 1
-      tangentMode: 34
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    - serializedVersion: 3
-      time: 1
-      value: 1
-      inSlope: 1
-      outSlope: 1
-      tangentMode: 34
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  readyTime: 10
+  componentName: Puree
   explodeMethod: 0
   explosionParts:
   - {fileID: 8360511418046623714, guid: 2f0f355345d6215d0804300afe1a093f, type: 3}
@@ -213,5 +188,7 @@ MonoBehaviour:
   - {fileID: 6903959808069243548, guid: 72fbc1786a7b7d9649ac5cb4a863d4b5, type: 3}
   explodePointOffset: 0.02
   explosionParticles: 10
-  explosionSounds: []
+  explosionSounds:
+  - {fileID: 8300000, guid: 855a2ddb9f2d485dabe49ca6e938bf26, type: 3}
+  - {fileID: 8300000, guid: 7e4f9b1c0a6d42e8b53f8c2a91d604f7, type: 3}
   explosionPower: 1

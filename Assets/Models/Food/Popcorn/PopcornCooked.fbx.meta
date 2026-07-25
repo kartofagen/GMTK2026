@@ -1,14 +1,9 @@
 fileFormatVersion: 2
-guid: ab393d3b7777f1da5add20021235e846
+guid: 1606fd919f761724d9f1c2446351013c
 ModelImporter:
   serializedVersion: 24200
   internalIDToNameTable: []
-  externalObjects:
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: PopcornMaterial
-    second: {fileID: 2100000, guid: e8b1f588719a1019db89a5102060ee7c, type: 2}
+  externalObjects: {}
   materials:
     materialImportMode: 2
     materialName: 0

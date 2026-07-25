@@ -49,6 +49,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: NewAssembly::Dish
   dishName: Just Potato
+  level: {fileID: 0}
   components:
   - {fileID: 5369766259191102012}
 --- !u!114 &1312500588052952057

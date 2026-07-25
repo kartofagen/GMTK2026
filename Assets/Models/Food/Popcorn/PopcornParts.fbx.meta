@@ -3,22 +3,7 @@ guid: 5a3037fb7408b55d9b83a5c22b3ea10e
 ModelImporter:
   serializedVersion: 24200
   internalIDToNameTable: []
-  externalObjects:
-  - first:
-      type: UnityEngine:Texture2D
-      assembly: UnityEngine.CoreModule
-      name: ButterPopcorn
-    second: {fileID: 2800000, guid: 4f4aa3e37958cf9cfa1da9c0bff0a72d, type: 3}
-  - first:
-      type: UnityEngine:Texture2D
-      assembly: UnityEngine.CoreModule
-      name: CaramelPopcorn
-    second: {fileID: 2800000, guid: 44c0c893fd6e174179c5abecc679dbcc, type: 3}
-  - first:
-      type: UnityEngine:Texture2D
-      assembly: UnityEngine.CoreModule
-      name: PlainPopcorn
-    second: {fileID: 2800000, guid: 39c4a0593f706de0a9cb492139f42b23, type: 3}
+  externalObjects: {}
   materials:
     materialImportMode: 2
     materialName: 0
