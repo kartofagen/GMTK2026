@@ -1,4 +1,5 @@
 using DG.Tweening;
+using R3;
 using UnityEngine;
 
 public class MovingInsideSystem : MonoBehaviour
@@ -11,6 +12,17 @@ public class MovingInsideSystem : MonoBehaviour
     
     [SerializeField] private DoorRotation door;
     
+    [SerializeField] private DishesServingManager dishesServingManager;
+    
+    [Header("Finish")]
+    [SerializeField] private Transform mouthPoint;
+    [SerializeField] private Ease easeToMouth = Ease.InOutBack;
+    
+    [SerializeField] private Transform trashPoint;
+    [SerializeField] private Ease easeToTrash = Ease.InOutBack;
+    
+    [SerializeField] private float finishedDuration = 1f;
+    
     public Transform EntryPoint => entryPoint;
     public Transform TargetPoint => targetPoint;
     
@@ -19,6 +31,10 @@ public class MovingInsideSystem : MonoBehaviour
     private Transform _dish;
     private Sequence _movingInsideSeq;
     private Tween _floatingTween;
+    
+    private Sequence _movingOutsideSeq;
+    
+    public readonly Subject<Unit> onMovingOutside = new();
     
     private void Awake()
     {
@@ -61,7 +77,32 @@ public class MovingInsideSystem : MonoBehaviour
         
         _dish.parent = transform;
         _heatingSystem.Dish = _dish.GetComponent<Dish>();
+        _dish.GetComponent<DishMovement>().MovementState = DishMovementState.Inside;
         
         door.DoorOpened -= MoveInside;
+    }
+
+    public void MoveOutside()
+    {
+        onMovingOutside.OnNext(Unit.Default);
+
+        _dish.parent = dishesServingManager.transform;
+        
+        _movingOutsideSeq = DOTween.Sequence();
+        _movingOutsideSeq.Append(_dish.DOMoveY(_dish.position.y + 0.1f, 0.5f));
+        _movingOutsideSeq.Append(_dish.DOMove(EntryPoint.position, duration));
+        
+        if (_heatingSystem.Dish.DishStatus == DishStatus.Success)
+        {
+            _movingOutsideSeq.Append(_dish.DOMove(mouthPoint.position, finishedDuration).SetEase(easeToMouth));
+        }
+        else
+        {
+            _movingOutsideSeq.Append(_dish.DOMove(trashPoint.position, finishedDuration).SetEase(easeToTrash));
+        }
+        _heatingSystem.Dish = null;
+        
+        _movingOutsideSeq.SetEase(easeMove).Play().OnComplete(() =>
+            dishesServingManager.RemoveDish(_dish));
     }
 }
