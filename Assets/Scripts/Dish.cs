@@ -6,7 +6,7 @@ public enum DishStatus
 {
     InProgress,
     Success,
-    Underheated,
+    BadHeating,
     Exploded
 }
 
@@ -24,6 +24,8 @@ public class Dish : MonoBehaviour
     // По флагу на продукт: взрыв — разовое событие, но рвануть может каждый.
     private bool[] _exploded;
 
+    private DishMovement _dishMovement;
+
     public DishStatus DishStatus { get; private set; } = DishStatus.InProgress;
 
     public string DishName => dishName;
@@ -33,10 +35,14 @@ public class Dish : MonoBehaviour
     /// <summary>Каналы температуры по компонентам — по одному на серию графика.</summary>
     public IReadOnlyList<ITemperatureChannel> Channels => components;
 
+    public int Index { get; set; }
+
     public event Action OnExplosion;
 
     void Awake()
     {
+        _dishMovement = GetComponent<DishMovement>();
+
         if (!level)
         {
             Debug.LogError($"{name}: не задан LevelConfig — блюдо не будет греться", this);
@@ -51,9 +57,8 @@ public class Dish : MonoBehaviour
             return;
         }
 
-        _solver = new ThermalSolver(level);
         _exploded = new bool[components.Length];
-        PushTemperatures();
+        BuildSolver();
     }
 
     /// <summary>
@@ -84,15 +89,41 @@ public class Dish : MonoBehaviour
     /// Итог на момент остановки («открыли дверцу»): успех, если все компоненты
     /// одновременно попали в свои целевые окна.
     /// </summary>
-    public DishStatus EvaluateResult()
+    public DishStatus GetFinalStatus()
     {
-        if (DishStatus == DishStatus.Exploded) return DishStatus;
-
-        DishStatus = _solver != null && _solver.AllInTargetWindow()
-            ? DishStatus.Success
-            : DishStatus.Underheated;
+        if (DishStatus != DishStatus.Exploded)
+        {
+            DishStatus = _solver != null && _solver.AllInTargetWindow()
+                ? DishStatus.Success
+                : DishStatus.BadHeating;
+        }
 
         return DishStatus;
+    }
+
+    /// <summary>Блюдо вернулось на стол непрожаренным — начинаем с ним заново.</summary>
+    public void Reset()
+    {
+        DishStatus = DishStatus.InProgress;
+        _dishMovement.MovementState = DishMovementState.Idle;
+
+        if (_exploded != null) Array.Clear(_exploded, 0, _exploded.Length);
+
+        foreach (var component in components)
+        {
+            component.Reset();
+        }
+
+        // Солвер держит температуры внутри себя, так что сброс — это новый солвер.
+        BuildSolver();
+    }
+
+    private void BuildSolver()
+    {
+        if (!level || level.ComponentCount != components.Length) return;
+
+        _solver = new ThermalSolver(level);
+        PushTemperatures();
     }
 
     private void PushTemperatures()

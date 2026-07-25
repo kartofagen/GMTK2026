@@ -4,8 +4,8 @@ using Zenject;
 
 /// <summary>
 /// Гоняет тепловую модель загруженного блюда с фиксированным шагом и связывает её
-/// с микроволновкой: таймер даёт управление u, взрыв останавливает печь, открытие
-/// дверцы (оно же FinishHeating) фиксирует результат.
+/// с микроволновкой: таймер даёт управление u, а остановка печи (таймер вышел, нажали
+/// стоп или открыли дверцу) фиксирует результат блюда.
 /// </summary>
 public class HeatingSystem : MonoBehaviour
 {
@@ -22,10 +22,15 @@ public class HeatingSystem : MonoBehaviour
     private MicrowaveTimer _microwaveTimer;
     private float _accumulator;
 
+    public readonly Subject<DishStatus> onHeatingFinished = new();
+
     public Dish Dish
     {
+        get => dish;
         set
         {
+            if (dish) dish.OnExplosion -= OnExplosion;
+
             dish = value;
             Bind();
         }
@@ -34,14 +39,14 @@ public class HeatingSystem : MonoBehaviour
     void Awake()
     {
         _microwaveTimer = GetComponent<MicrowaveTimer>();
+
+        _microwaveTimer.onFinished
+            .Subscribe(OnFinished)
+            .AddTo(this);
     }
 
     void Start()
     {
-        _microwaveTimer.onFinished
-            .Subscribe(_ => OnHeatingFinished())
-            .AddTo(this);
-
         // Блюдо могло быть задано в инспекторе, а не через сеттер.
         if (dish) Bind();
     }
@@ -97,12 +102,11 @@ public class HeatingSystem : MonoBehaviour
     }
 
     /// <summary>Печь остановилась — таймер вышел, нажали стоп или открыли дверцу.</summary>
-    private void OnHeatingFinished()
+    private void OnFinished(Unit unit)
     {
         if (!dish) return;
 
-        var result = dish.EvaluateResult();
-        Debug.Log($"Блюдо «{dish.DishName}»: {result}");
+        onHeatingFinished.OnNext(dish.GetFinalStatus());
     }
 
     private void OnDestroy()

@@ -63,7 +63,20 @@ public class DishComponent : MonoBehaviour, ITemperatureChannel
             }
         }
 
-        GetComponentInChildren<MeshRenderer>().enabled = false;
+        SetVisible(false);
+    }
+
+    /// <summary>Блюдо пошло на второй заход: собираем продукт обратно.</summary>
+    public void Reset()
+    {
+        _exploded = false;
+        SetVisible(true);
+    }
+
+    private void SetVisible(bool visible)
+    {
+        var meshRenderer = GetComponentInChildren<MeshRenderer>(true);
+        if (meshRenderer) meshRenderer.enabled = visible;
     }
 
     private void OnDrawGizmos()

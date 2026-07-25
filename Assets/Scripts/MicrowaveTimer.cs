@@ -1,4 +1,5 @@
 using System;
+using Codice.Utils;
 using R3;
 using UnityEngine;
 
@@ -15,6 +16,7 @@ public class MicrowaveTimer : MonoBehaviour
     private float _timer;
     
     [SerializeField] private Light lightInside;
+    [SerializeField] private DoorRotation door;
     
     public MicrowaveState State { get; private set; } = MicrowaveState.Idle;
 
@@ -55,6 +57,8 @@ public class MicrowaveTimer : MonoBehaviour
 
     public void AddTime(float time)
     {
+        if (door.IsOpened) return;
+        
         if (State != MicrowaveState.Paused)
         {
             _timer += time;
@@ -67,6 +71,8 @@ public class MicrowaveTimer : MonoBehaviour
 
     public void PauseHeating()
     {
+        if (door.IsOpened) return;
+        
         StopTicks();
         State = MicrowaveState.Paused;
     }
@@ -78,7 +84,7 @@ public class MicrowaveTimer : MonoBehaviour
         _timer = 0f;
         onTimerChanged.OnNext(0f);
         onFinished.OnNext(Unit.Default);
-            
+        
         State = MicrowaveState.Finished;
     }
     
