@@ -9,6 +9,7 @@ public class HeatingSystem : MonoBehaviour
     [SerializeField] private MeshRenderer microwaveBodyRenderer;
     [SerializeField] private Texture2D dirtyTexture;
     [SerializeField] private float dishRotationSpeed = 5f;
+    [SerializeField] private GameObject smokeEffect;
 
     [Inject] private MicrowaveContext _context;
 

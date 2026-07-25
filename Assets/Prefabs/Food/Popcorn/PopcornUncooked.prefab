@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 7415455834441344647}
   - component: {fileID: 1841148477846151728}
   - component: {fileID: 557757872107058695}
+  - component: {fileID: 144570563349008554}
   - component: {fileID: 1724555842327639144}
   m_Layer: 0
   m_Name: PopcornUncooked
@@ -28,9 +29,9 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5016269720157180699}
   serializedVersion: 2
-  m_LocalRotation: {x: -4.2786873e-17, y: 0.70812625, z: -0.70608586, w: 4.3810298e-17}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 2.54, y: 2.5399923, z: 1.1803472}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -1.7492114e-11, y: -0.000000020489082, z: 0}
+  m_LocalScale: {x: 100, y: 100, z: 100}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -189,6 +190,28 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &144570563349008554
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5016269720157180699}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2d39f21be7ec78fe8b96cb398ec3a2a0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: NewAssembly::PopcornAnimation
+  meshSequence:
+  - {fileID: 2179904390463489302, guid: 068f870a4ae540e7c8ab0d08f5c85cae, type: 3}
+  - {fileID: 256486796509924301, guid: 9425feb4c803d1d1fb924cb2d7065cd3, type: 3}
+  - {fileID: 564355307252362244, guid: 690098c0bd8c4e8f9a98162f0d9d1b4e, type: 3}
+  - {fileID: 1022419336559002455, guid: ab393d3b7777f1da5add20021235e846, type: 3}
+  tempSequence:
+  - 20
+  - 30
+  - 40
+  - 60
 --- !u!114 &1724555842327639144
 MonoBehaviour:
   m_ObjectHideFlags: 0
