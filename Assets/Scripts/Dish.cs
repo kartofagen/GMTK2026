@@ -21,6 +21,9 @@ public class Dish : MonoBehaviour
 
     private ThermalSolver _solver;
 
+    // По флагу на продукт: взрыв — разовое событие, но рвануть может каждый.
+    private bool[] _exploded;
+
     public DishStatus DishStatus { get; private set; } = DishStatus.InProgress;
 
     public string DishName => dishName;
@@ -49,24 +52,30 @@ public class Dish : MonoBehaviour
         }
 
         _solver = new ThermalSolver(level);
+        _exploded = new bool[components.Length];
         PushTemperatures();
     }
 
     /// <summary>
     /// Один шаг симуляции. u = 1, когда печь включена; остывание — это тот же шаг при u = 0.
+    /// Взрыв одного продукта не останавливает симуляцию: остальные продолжают греться
+    /// и тоже могут рвануть, каждый по своему потолку.
     /// </summary>
     public void Tick(float u, float dt)
     {
-        if (_solver == null || DishStatus == DishStatus.Exploded) return;
+        if (_solver == null) return;
 
         _solver.Step(u, dt);
         PushTemperatures();
 
         // Потолок tMax нельзя пробивать НИ В ОДИН момент времени — проверяем на каждом шаге.
-        if (_solver.TryGetViolation(out int index))
+        for (int i = 0; i < components.Length; i++)
         {
+            if (_exploded[i] || !_solver.IsOverCeiling(i)) continue;
+
+            _exploded[i] = true;
             DishStatus = DishStatus.Exploded;
-            components[index].Explode();
+            components[i].Explode();
             OnExplosion?.Invoke();
         }
     }

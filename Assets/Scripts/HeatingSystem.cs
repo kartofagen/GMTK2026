@@ -49,7 +49,6 @@ public class HeatingSystem : MonoBehaviour
     void Update()
     {
         if (!dish || !dish.Level) return;
-        if (dish.DishStatus == DishStatus.Exploded) return;
 
         // Шаг фиксированный: траектория температур не должна зависеть от FPS.
         float dt = 1f / dish.Level.simRate;
@@ -63,8 +62,6 @@ public class HeatingSystem : MonoBehaviour
             _accumulator -= dt;
             steps++;
             dish.Tick(u, dt);
-
-            if (dish.DishStatus == DishStatus.Exploded) break;
         }
 
         // При долгой просадке не копим неоплатный долг по времени.
@@ -90,13 +87,9 @@ public class HeatingSystem : MonoBehaviour
         _accumulator = 0f;
     }
 
-    private void OnExplosion()
-    {
-        PlayExplosionEffects();
-
-        // Печь с рванувшим блюдом дальше не работает.
-        if (_microwaveTimer.State != MicrowaveState.Finished) _microwaveTimer.FinishHeating();
-    }
+    // Печь после взрыва не выключается: блюдо уже проиграно, но игрок волен догреть
+    // остальные продукты и разнести их тоже.
+    private void OnExplosion() => PlayExplosionEffects();
 
     private void PlayExplosionEffects()
     {

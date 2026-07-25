@@ -109,21 +109,8 @@ public class ThermalSolver
         for (int i = 0; i < _n; i++) _t[i] += dt * _dt[i];
     }
 
-    /// <summary>Первый компонент, пробивший свой потолок tMax, если такой есть.</summary>
-    public bool TryGetViolation(out int index)
-    {
-        for (int i = 0; i < _n; i++)
-        {
-            if (_t[i] > _level.Components[i].tMax)
-            {
-                index = i;
-                return true;
-            }
-        }
-
-        index = -1;
-        return false;
-    }
+    /// <summary>Пробил ли компонент свой потолок tMax.</summary>
+    public bool IsOverCeiling(int i) => _t[i] > _level.Components[i].tMax;
 
     /// <summary>Все ли компоненты сейчас внутри своих целевых окон.</summary>
     public bool AllInTargetWindow()
