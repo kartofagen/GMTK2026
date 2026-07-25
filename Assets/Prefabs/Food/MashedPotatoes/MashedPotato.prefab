@@ -211,7 +211,7 @@ MonoBehaviour:
   - {fileID: 3177915072146194097, guid: f7a34504638cf69bdafaeb75b765bbb1, type: 3}
   - {fileID: 447191932760144762, guid: 6bbc3696a8ef313f7b5494fac06587a9, type: 3}
   - {fileID: 6903959808069243548, guid: 72fbc1786a7b7d9649ac5cb4a863d4b5, type: 3}
-  explodePointOffset: 0.2
+  explodePointOffset: 0.02
   explosionParticles: 10
   explosionSounds: []
   explosionPower: 1

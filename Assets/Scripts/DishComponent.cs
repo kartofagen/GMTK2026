@@ -148,7 +148,11 @@ public class DishComponent : MonoBehaviour, ITemperatureChannel
 
     private void Explode()
     {
-        _source.PlayOneShot(explosionSounds[Random.Range(0, explosionSounds.Length)], 1f);
+        if (explosionSounds.Length > 0)
+        {
+            _source.PlayOneShot(explosionSounds[Random.Range(0, explosionSounds.Length)], 1f);
+        }
+
         var explosionPoint = transform.position + new Vector3(0, explodePointOffset, 0);
 
         for (int i = 0; i < explosionParticles; ++i)
@@ -165,12 +169,14 @@ public class DishComponent : MonoBehaviour, ITemperatureChannel
                 if (Physics.Raycast(ray, out hit, 1))
                 {
                     hit.point -= particleDirection * 0.05f;
-                    Instantiate(explosionParts[Random.Range(0, explosionParts.Length)], hit.point, Random.rotation);
+                    var particle = Instantiate(explosionParts[Random.Range(0, explosionParts.Length)], hit.point, Random.rotation);
+                    particle.transform.rotation = Quaternion.LookRotation(hit.normal);
                 }
             }
             else
-            {   
-                var particle = Instantiate(explosionParts[Random.Range(0, explosionParts.Length)], explosionPoint, Random.rotation);
+            {
+                var particle = Instantiate(explosionParts[Random.Range(0, explosionParts.Length)], explosionPoint,
+                    Random.rotation);
                 var rb = particle.AddComponent<Rigidbody>();
                 rb.AddForce(particleDirection * explosionPower, ForceMode.Impulse);
             }
