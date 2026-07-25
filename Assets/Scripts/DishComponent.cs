@@ -3,6 +3,18 @@ using UnityEngine;
 using Random = UnityEngine.Random;
 
 /// <summary>
+/// Как разлетается продукт при взрыве.
+/// </summary>
+public enum ExplodeMethod
+{
+    /// <summary>Куски липнут к стенкам камеры по лучу.</summary>
+    StickToWalls,
+
+    /// <summary>Куски разлетаются физикой: Rigidbody + импульс.</summary>
+    Simulation
+}
+
+/// <summary>
 /// Продукт на тарелке: подача его температуры на график и эффекты взрыва.
 /// Саму температуру считает ThermalSolver по параметрам из LevelConfig — здесь
 /// только представление, поэтому числовые параметры продукта живут в ассете уровня.
@@ -12,10 +24,14 @@ public class DishComponent : MonoBehaviour, ITemperatureChannel
 {
     public string componentName;
 
+    [SerializeField] private ExplodeMethod explodeMethod;
     [SerializeField] private GameObject[] explosionParts;
     [SerializeField] private float explodePointOffset = 0.1f;
     [SerializeField] private int explosionParticles = 10;
     [SerializeField] private AudioClip[] explosionSounds;
+
+    [SerializeField, Tooltip("Импульс, с которым разлетаются куски в режиме Simulation")]
+    private float explosionPower = 1f;
 
     private bool _exploded;
     private AudioSource _source;
@@ -48,18 +64,33 @@ public class DishComponent : MonoBehaviour, ITemperatureChannel
         }
 
         var explosionPoint = transform.position + new Vector3(0, explodePointOffset, 0);
+
         for (int i = 0; i < explosionParticles; ++i)
         {
             var particleDirection = Vector3.forward;
             particleDirection = Quaternion.AngleAxis(Random.Range(30f, -90f), Vector3.right) * particleDirection;
             particleDirection = Quaternion.AngleAxis(Random.Range(0f, 360f), Vector3.up) * particleDirection;
 
-            var ray = new Ray(explosionPoint, particleDirection);
-
-            if (Physics.Raycast(ray, out var hit, 1))
+            if (explodeMethod == ExplodeMethod.StickToWalls)
             {
-                hit.point -= particleDirection * 0.05f;
-                Instantiate(explosionParts[Random.Range(0, explosionParts.Length)], hit.point, Random.rotation);
+                var ray = new Ray(explosionPoint, particleDirection);
+
+                if (Physics.Raycast(ray, out var hit, 1))
+                {
+                    // Чуть утапливаем в стенку, иначе кусок висит в воздухе,
+                    // и разворачиваем по нормали — тогда он выглядит прилипшим.
+                    hit.point -= particleDirection * 0.05f;
+                    var particle = Instantiate(explosionParts[Random.Range(0, explosionParts.Length)],
+                        hit.point, Random.rotation);
+                    particle.transform.rotation = Quaternion.LookRotation(hit.normal);
+                }
+            }
+            else
+            {
+                var particle = Instantiate(explosionParts[Random.Range(0, explosionParts.Length)],
+                    explosionPoint, Random.rotation);
+                var rb = particle.AddComponent<Rigidbody>();
+                rb.AddForce(particleDirection * explosionPower, ForceMode.Impulse);
             }
         }
 

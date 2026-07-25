@@ -17,6 +17,9 @@ public class HeatingSystem : MonoBehaviour
      Tooltip("Предохранитель: сколько шагов симуляции максимум за кадр при просадке FPS")]
     private int maxStepsPerFrame = 8;
 
+    [SerializeField, Tooltip("Скорость вращения тарелки во время нагрева, град/с")]
+    private float dishRotationSpeed = 5f;
+
     [Inject] private MicrowaveContext _context;
 
     private MicrowaveTimer _microwaveTimer;
@@ -71,6 +74,14 @@ public class HeatingSystem : MonoBehaviour
 
         // При долгой просадке не копим неоплатный долг по времени.
         if (_accumulator > dt * maxStepsPerFrame) _accumulator = 0f;
+
+        // Тарелка крутится, пока идёт нагрев. Это чистая визуалка, поэтому шаг
+        // здесь кадровый, а не фиксированный шаг симуляции: на неё не должно
+        // влиять, сколько раз за кадр провернулась физика.
+        if (u != 0f)
+        {
+            dish.transform.Rotate(Vector3.up, dishRotationSpeed * Time.deltaTime);
+        }
     }
 
     private void Bind()

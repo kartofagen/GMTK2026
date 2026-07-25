@@ -75,6 +75,7 @@ public class MicrowaveTimer : MonoBehaviour
         
         StopTicks();
         State = MicrowaveState.Paused;
+        lightInside.enabled = false;
     }
 
     public void FinishHeating()
