@@ -1,0 +1,54 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8b6ebfcb1b7a4e7ead48196482a77c76, type: 3}
+  m_Name: Level00 Single Sausage
+  m_EditorClassIdentifier: NewAssembly::LevelConfig
+  components:
+  - name: Sausage
+    color: {r: 0.90980392, g: 0.38039216, b: 0.23529412, a: 1}
+    C: 1
+    w: 1
+    mu: 0.03
+    tMax: 90
+    tOptLow: 65
+    tOptHigh: 75
+    t0: 20
+    heatCurve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 20
+        value: 0.25
+        inSlope: 0.0125
+        outSlope: 0.0125
+        tangentMode: 34
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 80
+        value: 1
+        inSlope: 0.0125
+        outSlope: 0.0125
+        tangentMode: 34
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+  h:
+  - 0
+  P: 5.5
+  tEnv: 20
+  cooldown: 2
+  simRate: 60

@@ -14,13 +14,16 @@ public class TemperatureChart : MonoBehaviour
     [SerializeField] private float sampleInterval = 0.5f;
     [SerializeField] private int maxPoints = 20; // ширина окна прокрутки (кол-во точек)
 
+    [SerializeField, Tooltip("Верх оси Y, пока блюдо не загружено и потолки компонентов неизвестны")]
+    private float fallbackMaxTemp = 110f;
+
     [Inject] private MicrowaveContext _context;
-    [Inject] private GameConfig _gameConfig;
 
     private IReadOnlyList<ITemperatureChannel> _channels;
     private int _sampleIndex;
 
-    // Яркая палитра линий (Material A200/A400), циклится по каналам.
+    // Запасная палитра линий (Material A200/A400) — на случай, если цвет в LevelConfig
+    // не задан (прозрачный) или уровня нет вовсе, как в тестовом источнике каналов.
     private static readonly Color32[] Palette =
     {
         new Color32(0xFF, 0x52, 0x52, 0xFF), // красный
@@ -80,10 +83,11 @@ public class TemperatureChart : MonoBehaviour
         StyleText(yAxis.axisName.labelStyle.textStyle);
         StyleText(yAxis.axisLabel.textStyle);
 
-        // Фиксация оси Y
+        // Фиксация оси Y. Верх уточняется в RebuildSeries по потолкам компонентов уровня —
+        // здесь только значение по умолчанию, пока блюдо не загружено.
         yAxis.minMaxType = Axis.AxisMinMaxType.Custom;
         yAxis.min = 0f;
-        yAxis.max = _gameConfig.explosionThreshold + 10f;
+        yAxis.max = fallbackMaxTemp;
 
         // Нижнее поле сетки — место под подпись оси X и легенду.
         chart.EnsureChartComponent<GridCoord>().bottom = 70f;
@@ -142,31 +146,64 @@ public class TemperatureChart : MonoBehaviour
     {
         _channels = channels;
 
+        var level = _context.Level.CurrentValue;
+        // Уровень может не совпасть с набором каналов (тестовый источник) — тогда работаем
+        // без порогов, на одной палитре.
+        bool hasLevel = level != null && level.ComponentCount == channels.Count;
+
         chart.RemoveData();
         for (int i = 0; i < channels.Count; i++)
         {
             var serie = chart.AddSerie<Line>(channels[i].Name);
             serie.maxCache = maxPoints;
 
-            
+
             //serie.symbol.show = false; // Нет точек
             serie.symbol.size = 3f; // Размер точек
 
-            var color = Palette[i % Palette.Length];
+            Color color = Palette[i % Palette.Length];
+            if (hasLevel && level.Components[i].color.a > 0f) color = level.Components[i].color;
+
             serie.lineStyle.color = color;   // цвет самой линии
             serie.itemStyle.color = color;   // точки/маркеры/легенда
         }
-        
-        DrawHorizontalArea(0, chart.series.ToList()[0],
-            _gameConfig.targetTempRange.x, _gameConfig.targetTempRange.y,
-            Color.green);
-        DrawHorizontalArea(1, chart.series.ToList()[0],
-            _gameConfig.explosionThreshold, _gameConfig.explosionThreshold + 20f,
-            Color.red);
+
+        var series = chart.series.ToList();
+        var yAxis = chart.EnsureChartComponent<YAxis>();
+        yAxis.max = fallbackMaxTemp;
+
+        if (!hasLevel || series.Count == 0)
+        {
+            _sampleIndex = 0;
+            return;
+        }
+
+        // Пороги пер-компонентные: у каждого продукта своё окно готовности и свой потолок,
+        // поэтому полос столько же, сколько серий.
+        int areaIndex = 0;
+        float maxCeiling = 0f;
+        for (int i = 0; i < series.Count; i++)
+        {
+            var comp = level.Components[i];
+
+            DrawHorizontalArea(areaIndex++, series[i], comp.tOptLow, comp.tOptHigh, Color.green);
+            DrawHorizontalArea(areaIndex++, series[i], comp.tMax, comp.tMax + 20f, Color.red);
+
+            maxCeiling = Mathf.Max(maxCeiling, comp.tMax);
+        }
+
+        yAxis.max = maxCeiling + 10f;
+
+        // Полосы от предыдущего блюда переиспользуются по индексу; лишние прячем,
+        // иначе на менее «многолюдном» блюде останутся висеть чужие пороги.
+        for (int i = areaIndex; i < chart.GetChartComponentNum<MarkArea>(); i++)
+        {
+            chart.GetChartComponent<MarkArea>(i).show = false;
+        }
 
         _sampleIndex = 0;
     }
-    
+
     private void DrawHorizontalArea(int areaIndex, Serie targetSerie, float low, float high, Color color)
     {
         var markArea = chart.GetChartComponentNum<MarkArea>() > areaIndex

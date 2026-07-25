@@ -1,0 +1,63 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8b6ebfcb1b7a4e7ead48196482a77c76, type: 3}
+  m_Name: Level05 Pizza
+  m_EditorClassIdentifier: NewAssembly::LevelConfig
+  components:
+  - name: Pizza
+    color: {r: 0.88627451, g: 0.50196078, b: 0.23529412, a: 1}
+    C: 0.5
+    w: 1
+    mu: 0.05
+    tMax: 95
+    tOptLow: 70
+    tOptHigh: 85
+    t0: 20
+    heatCurve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 20
+        value: 1
+        inSlope: 0.0
+        outSlope: 0.0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 50
+        value: 1
+        inSlope: 0.0
+        outSlope: 0.0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 95
+        value: 0.3
+        inSlope: -0.0155
+        outSlope: -0.0155
+        tangentMode: 34
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+  h:
+  - 0
+  P: 12
+  tEnv: 20
+  cooldown: 0.5
+  simRate: 60

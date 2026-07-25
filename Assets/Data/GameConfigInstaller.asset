@@ -12,4 +12,3 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 341ac3e0d39aae044ae193172b20137b, type: 3}
   m_Name: GameConfigInstaller
   m_EditorClassIdentifier: NewAssembly::GameConfigInstaller
-  gameConfig: {fileID: 11400000, guid: c9cbbd49f7cb5654683c79ea4237d014, type: 2}

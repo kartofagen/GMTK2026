@@ -1,49 +1,37 @@
-using System;
 using R3;
 using UnityEngine;
-using Zenject;
 using Random = UnityEngine.Random;
 
-public enum DishComponentStatus
-{
-    Ready,
-    NotReady,
-    Explodes
-}
-
+/// <summary>
+/// Как разлетается продукт при взрыве.
+/// </summary>
 public enum ExplodeMethod
 {
+    /// <summary>Куски липнут к стенкам камеры по лучу.</summary>
     StickToWalls,
+
+    /// <summary>Куски разлетаются физикой: Rigidbody + импульс.</summary>
     Simulation
 }
 
+/// <summary>
+/// Продукт на тарелке: подача его температуры на график и эффекты взрыва.
+/// Саму температуру считает ThermalSolver по параметрам из LevelConfig — здесь
+/// только представление, поэтому числовые параметры продукта живут в ассете уровня.
+/// </summary>
 [RequireComponent(typeof(AudioSource))]
 public class DishComponent : MonoBehaviour, ITemperatureChannel
 {
     public string componentName;
-    [SerializeField] private AnimationCurve heatingCurve;
-
-    [SerializeField,
-     Tooltip("Время, за которое еда готова (по нижней границе)")]
-    private float readyTime;
 
     [SerializeField] private ExplodeMethod explodeMethod;
     [SerializeField] private GameObject[] explosionParts;
     [SerializeField] private float explodePointOffset = 0.1f;
     [SerializeField] private int explosionParticles = 10;
     [SerializeField] private AudioClip[] explosionSounds;
-    [SerializeField] private float explosionPower = 1f;
 
-    [Inject] private GameConfig _gameConfig;
-
-    private float _heatingTime;
-    private float _currentTempDelta;
-    private float _readyTempDelta;
-    private float _readyTempCoeff;
-
-    private bool _isCooling;
-    private float _coolingTime;
-    private float _coolingStartTemp;
+    [SerializeField, Tooltip("Импульс, с которым разлетаются куски в режиме Simulation")]
+    private float explosionPower = 1f;
 
     private bool _exploded;
     private AudioSource _source;
@@ -54,98 +42,22 @@ public class DishComponent : MonoBehaviour, ITemperatureChannel
     public string Name => componentName;
     public ReadOnlyReactiveProperty<float> Temperature => _temperature;
 
-    private DishComponentStatus DishComponentStatus { get; set; } = DishComponentStatus.NotReady;
-
     public float CurrentTemp => _temperature.Value;
 
     void Awake()
     {
-        _readyTempDelta = (_gameConfig.targetTempRange.x + _gameConfig.targetTempRange.y) * 0.5f - _gameConfig.startTemp;
-        _readyTempCoeff = _readyTempDelta / heatingCurve.Evaluate(_gameConfig.readyCoeff);
-        _temperature.Value = _gameConfig.startTemp;
-
         _source = GetComponent<AudioSource>();
         _source.playOnAwake = false;
     }
 
-    public void Heat(float deltaTime)
+    public void SetTemperature(float value) => _temperature.Value = value;
+
+    /// <summary>Взрыв: разлёт кусков и звук. Повторные вызовы игнорируются.</summary>
+    public void Explode()
     {
-        if (DishComponentStatus == DishComponentStatus.Explodes)
-        {
-            _temperature.Value = 1000f;
-            if (!_exploded)
-            {
-                _exploded = true;
-                Explode();
-            }
+        if (_exploded) return;
+        _exploded = true;
 
-            return;
-        }
-
-        if (_isCooling)
-        {
-            _isCooling = false;
-
-            var targetCurveValue = _currentTempDelta / (_readyTempCoeff * _gameConfig.power);
-            var xToContinue = InverseEvaluateCurve(heatingCurve, targetCurveValue);
-            _heatingTime = xToContinue * (readyTime / _gameConfig.readyCoeff);
-        }
-
-        _heatingTime += deltaTime;
-        var x = _heatingTime / (readyTime / _gameConfig.readyCoeff);
-        _currentTempDelta = heatingCurve.Evaluate(x) * _readyTempCoeff * _gameConfig.power;
-        _temperature.Value = _gameConfig.startTemp + _currentTempDelta;
-
-        Debug.Log($"Температура: {CurrentTemp}, Взрыв: {_gameConfig.explosionThreshold}");
-    }
-
-    public void Cool(float deltaTime, float averageTemp)
-    {
-        if (DishComponentStatus == DishComponentStatus.Explodes)
-        {
-            return;
-        }
-
-        var temp = Mathf.MoveTowards(CurrentTemp, averageTemp,
-            _gameConfig.coolingToAverageSpeed * deltaTime);
-
-        if (!_isCooling)
-        {
-            _isCooling = true;
-            _coolingTime = 0f;
-            _coolingStartTemp = temp;
-        }
-
-        _coolingTime += deltaTime;
-
-        var curveValue = _gameConfig.coolingCurve.Evaluate(_coolingTime / _gameConfig.fullCoolingTime);
-        temp = Mathf.Lerp(_coolingStartTemp, _gameConfig.roomTemp, 1 - curveValue);
-        temp = Mathf.Max(temp, _gameConfig.roomTemp);
-
-        _currentTempDelta = temp - _gameConfig.startTemp;
-        _temperature.Value = _gameConfig.startTemp + _currentTempDelta;
-    }
-
-    public DishComponentStatus GetStatus()
-    {
-        if (_gameConfig.targetTempRange.x <= CurrentTemp && CurrentTemp <= _gameConfig.targetTempRange.y)
-        {
-            DishComponentStatus = DishComponentStatus.Ready;
-        }
-        else if (CurrentTemp > _gameConfig.explosionThreshold)
-        {
-            DishComponentStatus = DishComponentStatus.Explodes;
-        }
-        else
-        {
-            DishComponentStatus = DishComponentStatus.NotReady;
-        }
-
-        return DishComponentStatus;
-    }
-
-    private void Explode()
-    {
         if (explosionSounds.Length > 0)
         {
             _source.PlayOneShot(explosionSounds[Random.Range(0, explosionSounds.Length)], 1f);
@@ -162,66 +74,42 @@ public class DishComponent : MonoBehaviour, ITemperatureChannel
             if (explodeMethod == ExplodeMethod.StickToWalls)
             {
                 var ray = new Ray(explosionPoint, particleDirection);
-                RaycastHit hit;
 
-                if (Physics.Raycast(ray, out hit, 1))
+                if (Physics.Raycast(ray, out var hit, 1))
                 {
+                    // Чуть утапливаем в стенку, иначе кусок висит в воздухе,
+                    // и разворачиваем по нормали — тогда он выглядит прилипшим.
                     hit.point -= particleDirection * 0.05f;
-                    var particle = Instantiate(explosionParts[Random.Range(0, explosionParts.Length)], hit.point, Random.rotation);
+                    var particle = Instantiate(explosionParts[Random.Range(0, explosionParts.Length)],
+                        hit.point, Random.rotation);
                     particle.transform.rotation = Quaternion.LookRotation(hit.normal);
                 }
             }
             else
             {
-                var particle = Instantiate(explosionParts[Random.Range(0, explosionParts.Length)], explosionPoint,
-                    Random.rotation);
+                var particle = Instantiate(explosionParts[Random.Range(0, explosionParts.Length)],
+                    explosionPoint, Random.rotation);
                 var rb = particle.AddComponent<Rigidbody>();
                 rb.AddForce(particleDirection * explosionPower, ForceMode.Impulse);
             }
         }
 
-        var meshRenderer = GetComponentInChildren<MeshRenderer>();
-        if (meshRenderer != null)
-            meshRenderer.enabled = false;
+        SetVisible(false);
     }
 
-    private static float InverseEvaluateCurve(AnimationCurve curve, float targetValue)
-    {
-        var left = 0f;
-        var right = 1f;
-
-        for (var i = 0; i < 32; ++i)
-        {
-            var middle = (left + right) * 0.5f;
-            if (curve.Evaluate(middle) < targetValue)
-            {
-                left = middle;
-            }
-            else
-            {
-                right = middle;
-            }
-        }
-
-        return (left + right) * 0.5f;
-    }
-
+    /// <summary>Блюдо пошло на второй заход: собираем продукт обратно.</summary>
     public void Reset()
     {
-        DishComponentStatus = DishComponentStatus.NotReady;
-        
-        _temperature.Value = _gameConfig.startTemp;
-        _heatingTime = 0f;
-        _currentTempDelta = 0f;
-        
-        _isCooling = false;
         _exploded = false;
-        
-        var meshRenderer = GetComponentInChildren<MeshRenderer>();
-        if (meshRenderer != null)
-            meshRenderer.enabled = true;
+        SetVisible(true);
     }
-    
+
+    private void SetVisible(bool visible)
+    {
+        var meshRenderer = GetComponentInChildren<MeshRenderer>(true);
+        if (meshRenderer) meshRenderer.enabled = visible;
+    }
+
     private void OnDrawGizmos()
     {
         Gizmos.DrawLine(transform.position, transform.position + new Vector3(0, explodePointOffset, 0));
