@@ -10,6 +10,8 @@ public class DoorRotation : MonoBehaviour
     [SerializeField] private float duration;
     [SerializeField] private Ease easeRotate = Ease.InOutBack;
     
+    [SerializeField] private Collider frontWallCollider;
+    
     private bool isOpened = false;
     
     public bool IsOpened => isOpened;
@@ -34,5 +36,6 @@ public class DoorRotation : MonoBehaviour
         }
 
         isOpened = !isOpened;
+        frontWallCollider.enabled = !isOpened;
     }
 }

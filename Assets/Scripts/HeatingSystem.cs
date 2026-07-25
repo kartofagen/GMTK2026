@@ -22,7 +22,7 @@ public class HeatingSystem : MonoBehaviour
         {
             dish = value;
             _context.Channels.Value = dish ? dish.Channels : null;
-            dish.OnExplosion += PlayExplosionEffects;
+            if (dish) dish.OnExplosion += PlayExplosionEffects;
         }
     }
 

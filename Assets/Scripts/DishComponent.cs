@@ -46,7 +46,7 @@ public class DishComponent : MonoBehaviour, ITemperatureChannel
     public string Name => componentName;
     public ReadOnlyReactiveProperty<float> Temperature => _temperature;
 
-    public DishComponentStatus DishComponentStatus { get; private set; } = DishComponentStatus.NotReady;
+    private DishComponentStatus DishComponentStatus { get; set; } = DishComponentStatus.NotReady;
 
     public float CurrentTemp => _temperature.Value;
 
@@ -159,7 +159,9 @@ public class DishComponent : MonoBehaviour, ITemperatureChannel
             Debug.Log($"Spawned part {i}");
         }
 
-        GetComponentInChildren<MeshRenderer>().enabled = false;
+        var meshRenderer = GetComponentInChildren<MeshRenderer>();
+        if (meshRenderer != null)
+            meshRenderer.enabled = false;
     }
 
     private static float InverseEvaluateCurve(AnimationCurve curve, float targetValue)
