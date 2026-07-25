@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -29,6 +30,8 @@ public class Dish : MonoBehaviour
     {
         _dishMovement = GetComponent<DishMovement>();
     }
+
+    public event Action OnExplosion;
 
     public void HeatComponents(float deltaTime)
     {
@@ -62,6 +65,7 @@ public class Dish : MonoBehaviour
             if (status == DishComponentStatus.Explodes)
             {
                 DishStatus = DishStatus.Exploded;
+                OnExplosion?.Invoke();
                 Debug.Log("Explode!!!");
                 return;
             }
