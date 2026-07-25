@@ -98,6 +98,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Sausage
       objectReference: {fileID: 0}
+    - target: {fileID: 173381731037557681, guid: 17f8e777c24837e479f03cd8336f0db6, type: 3}
+      propertyPath: readyTime
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 2119410162876616454, guid: 17f8e777c24837e479f03cd8336f0db6, type: 3}
       propertyPath: m_LocalScale.x
       value: 3.3958898
@@ -150,8 +154,7 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 3375785263855624447, guid: 17f8e777c24837e479f03cd8336f0db6, type: 3}
+    m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []

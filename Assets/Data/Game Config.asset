@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Game Config
   m_EditorClassIdentifier: NewAssembly::GameConfig
   power: 1
-  targetTempRange: {x: 70, y: 80}
+  targetTempRange: {x: 60, y: 80}
   startTemp: 20
   explosionThreshold: 100
   readyCoeff: 0.5
@@ -41,6 +41,6 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  coolingToAverageSpeed: 1
+  coolingToAverageSpeed: 2
   roomTemp: 20
   fullCoolingTime: 20
