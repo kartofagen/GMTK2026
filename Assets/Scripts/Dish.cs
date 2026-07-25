@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -20,6 +21,8 @@ public class Dish : MonoBehaviour
 
     /// <summary>Каналы температуры по компонентам — по одному на серию графика.</summary>
     public IReadOnlyList<ITemperatureChannel> Channels => components;
+
+    public event Action OnExplosion;
 
     public void HeatComponents(float deltaTime)
     {
@@ -53,6 +56,7 @@ public class Dish : MonoBehaviour
             if (status == DishComponentStatus.Explodes)
             {
                 DishStatus = DishStatus.Exploded;
+                OnExplosion?.Invoke();
                 Debug.Log("Explode!!!");
                 return;
             }

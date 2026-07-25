@@ -3,7 +3,17 @@ guid: 0c8cd2e6fb65b2fd68a32354af151ea6
 ModelImporter:
   serializedVersion: 24200
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: PlateCleanPSX
+    second: {fileID: 2100000, guid: bad3a72d168835d2b85e7a55951ff9ba, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: PlateDirtyPSX
+    second: {fileID: 2100000, guid: e69fe19af72dec06db2e68e6843fd8e0, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
