@@ -54,13 +54,13 @@ public class DishComponent : MonoBehaviour, ITemperatureChannel
     public string Name => componentName;
     public ReadOnlyReactiveProperty<float> Temperature => _temperature;
 
-    public DishComponentStatus DishComponentStatus { get; private set; } = DishComponentStatus.NotReady;
+    private DishComponentStatus DishComponentStatus { get; set; } = DishComponentStatus.NotReady;
 
     public float CurrentTemp => _temperature.Value;
 
     void Awake()
     {
-        _readyTempDelta = _gameConfig.targetTempRange.x - _gameConfig.startTemp;
+        _readyTempDelta = (_gameConfig.targetTempRange.x + _gameConfig.targetTempRange.y) * 0.5f - _gameConfig.startTemp;
         _readyTempCoeff = _readyTempDelta / heatingCurve.Evaluate(_gameConfig.readyCoeff);
         _temperature.Value = _gameConfig.startTemp;
 
@@ -124,8 +124,6 @@ public class DishComponent : MonoBehaviour, ITemperatureChannel
 
         _currentTempDelta = temp - _gameConfig.startTemp;
         _temperature.Value = _gameConfig.startTemp + _currentTempDelta;
-
-        Debug.Log($"Охлаждение: {CurrentTemp}");
     }
 
     public DishComponentStatus GetStatus()
@@ -182,7 +180,9 @@ public class DishComponent : MonoBehaviour, ITemperatureChannel
             }
         }
 
-        GetComponentInChildren<MeshRenderer>().enabled = false;
+        var meshRenderer = GetComponentInChildren<MeshRenderer>();
+        if (meshRenderer != null)
+            meshRenderer.enabled = false;
     }
 
     private static float InverseEvaluateCurve(AnimationCurve curve, float targetValue)
@@ -192,7 +192,7 @@ public class DishComponent : MonoBehaviour, ITemperatureChannel
 
         for (var i = 0; i < 32; ++i)
         {
-            var middle = (left + right) / 2;
+            var middle = (left + right) * 0.5f;
             if (curve.Evaluate(middle) < targetValue)
             {
                 left = middle;
@@ -203,9 +203,25 @@ public class DishComponent : MonoBehaviour, ITemperatureChannel
             }
         }
 
-        return (left + right) / 2;
+        return (left + right) * 0.5f;
     }
 
+    public void Reset()
+    {
+        DishComponentStatus = DishComponentStatus.NotReady;
+        
+        _temperature.Value = _gameConfig.startTemp;
+        _heatingTime = 0f;
+        _currentTempDelta = 0f;
+        
+        _isCooling = false;
+        _exploded = false;
+        
+        var meshRenderer = GetComponentInChildren<MeshRenderer>();
+        if (meshRenderer != null)
+            meshRenderer.enabled = true;
+    }
+    
     private void OnDrawGizmos()
     {
         Gizmos.DrawLine(transform.position, transform.position + new Vector3(0, explodePointOffset, 0));

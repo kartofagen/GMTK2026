@@ -1,3 +1,5 @@
+using System;
+using R3;
 using UnityEngine;
 using Zenject;
 
@@ -11,20 +13,28 @@ public class HeatingSystem : MonoBehaviour
     [Inject] private MicrowaveContext _context;
 
     private MicrowaveTimer _microwaveTimer;
+    
+    public readonly Subject<DishStatus> onHeatingFinished = new();
 
     public Dish Dish
     {
+        get => dish;
         set
         {
             dish = value;
             _context.Channels.Value = dish ? dish.Channels : null;
-            dish.OnExplosion += PlayExplosionEffects;
+            if (dish) dish.OnExplosion += PlayExplosionEffects;
         }
     }
 
     void Awake()
     {
         _microwaveTimer = GetComponent<MicrowaveTimer>();
+        
+        _microwaveTimer
+            .onFinished
+            .Subscribe(OnFinished)
+            .AddTo(this);
     }
 
     void Start()
@@ -57,18 +67,23 @@ public class HeatingSystem : MonoBehaviour
 
     private void CalculateHeating()
     {
-        // if (dish.DishStatus != DishStatus.InProgress) return;
-        
-        dish.HeatComponents(Time.deltaTime);
-        
         /*if (dish.DishStatus == DishStatus.Exploded)
         {
             _microwaveTimer.FinishHeating();
         }*/
+        
+        dish.HeatComponents(Time.deltaTime);
     }
 
     private void CalculateCooling()
     {
         dish.CoolComponents(Time.deltaTime);
+    }
+
+    private void OnFinished(Unit unit)
+    {
+        if (!dish) return;
+        
+        onHeatingFinished.OnNext(dish.GetFinalStatus());
     }
 }

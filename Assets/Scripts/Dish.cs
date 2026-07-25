@@ -6,7 +6,7 @@ public enum DishStatus
 {
     InProgress,
     Success,
-    Underheated,
+    BadHeating,
     Exploded
 }
 
@@ -21,6 +21,15 @@ public class Dish : MonoBehaviour
 
     /// <summary>Каналы температуры по компонентам — по одному на серию графика.</summary>
     public IReadOnlyList<ITemperatureChannel> Channels => components;
+    
+    public int Index { get; set; }
+
+    private DishMovement _dishMovement;
+
+    void Awake()
+    {
+        _dishMovement = GetComponent<DishMovement>();
+    }
 
     public event Action OnExplosion;
 
@@ -60,6 +69,34 @@ public class Dish : MonoBehaviour
                 Debug.Log("Explode!!!");
                 return;
             }
+        }
+    }
+
+    public DishStatus GetFinalStatus()
+    {
+        if (DishStatus != DishStatus.Exploded)
+        {
+            foreach (var component in components)
+            {
+                var status = component.GetStatus();
+                if (status != DishComponentStatus.Ready)
+                {
+                    DishStatus = DishStatus.BadHeating;
+                    break;
+                }
+            }
+            if (DishStatus != DishStatus.BadHeating) DishStatus = DishStatus.Success;
+        }
+        return DishStatus;
+    }
+
+    public void Reset()
+    {
+        DishStatus = DishStatus.InProgress;
+        _dishMovement.MovementState = DishMovementState.Idle;
+        foreach (var component in components)
+        {
+            component.Reset();
         }
     }
 }

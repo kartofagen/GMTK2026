@@ -11,12 +11,14 @@ public class DishesServingManager : MonoBehaviour
     [SerializeField] private Ease easeRotate = Ease.InOutBack;
 
     private MovingInsideSystem _movingInsideSystem;
+    private LevelManager _levelManager;
     
     private bool _dishChosen = false;
     
     private void Awake()
     {
         _movingInsideSystem = microwave.GetComponent<MovingInsideSystem>();
+        _levelManager = GetComponent<LevelManager>();
     }
 
     public void Serve(Transform dish)
@@ -29,6 +31,16 @@ public class DishesServingManager : MonoBehaviour
         dish.DOMove(_movingInsideSystem.EntryPoint.position, duration).SetEase(easeMove)
             .OnComplete(() => _movingInsideSystem.Register(dish));
         
-        Camera.main.transform.GetComponent<Animator>().SetTrigger("Turn");
+        Camera.main?.transform.GetComponent<Animator>().SetTrigger("Turn");
+    }
+
+    public void RemoveDish(Transform dishTransform)
+    {
+        _dishChosen = false;
+        
+        Dish dish = dishTransform.GetComponent<Dish>();
+        _levelManager.ManageLevel(dish);
+        
+        Camera.main?.transform.GetComponent<Animator>().SetTrigger("Turn");
     }
 }

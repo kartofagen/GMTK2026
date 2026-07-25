@@ -11,7 +11,7 @@ public class MicrowaveButton : MonoBehaviour
     private Tween _pressTween;
     private Tween _actionCallTween;
     private Vector3 _startPosition;
-    private bool _calledAction = false;
+    // private bool _calledAction = false;
 
     private void Awake()
     {
