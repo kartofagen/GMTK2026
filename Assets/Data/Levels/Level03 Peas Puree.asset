@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: NewAssembly::LevelConfig
   components:
   - name: Peas
-    color: {r: 0.29803922, g: 0.62352941, b: 0.43921569, a: 1}
+    color: {r: 0.29803923, g: 0.62352943, b: 0.4392157, a: 1}
     C: 0.6111111
     w: 1
     mu: 0.1
@@ -28,8 +28,8 @@ MonoBehaviour:
       - serializedVersion: 3
         time: 0
         value: 1
-        inSlope: 0.0
-        outSlope: 0.0
+        inSlope: 0
+        outSlope: 0
         tangentMode: 0
         weightedMode: 0
         inWeight: 0
@@ -37,8 +37,8 @@ MonoBehaviour:
       - serializedVersion: 3
         time: 200
         value: 1
-        inSlope: 0.0
-        outSlope: 0.0
+        inSlope: 0
+        outSlope: 0
         tangentMode: 0
         weightedMode: 0
         inWeight: 0
@@ -47,11 +47,11 @@ MonoBehaviour:
       m_PostInfinity: 2
       m_RotationOrder: 4
   - name: Puree
-    color: {r: 0.94117647, g: 0.70588235, b: 0.16078431, a: 1}
+    color: {r: 0.9411765, g: 0.7058824, b: 0.1607843, a: 1}
     C: 2.75
     w: 1
     mu: 0
-    tMax: 80
+    tMax: 85
     tOptLow: 60
     tOptHigh: 72
     t0: 20
@@ -61,8 +61,8 @@ MonoBehaviour:
       - serializedVersion: 3
         time: 0
         value: 1
-        inSlope: 0.0
-        outSlope: 0.0
+        inSlope: 0
+        outSlope: 0
         tangentMode: 0
         weightedMode: 0
         inWeight: 0
@@ -70,8 +70,8 @@ MonoBehaviour:
       - serializedVersion: 3
         time: 200
         value: 1
-        inSlope: 0.0
-        outSlope: 0.0
+        inSlope: 0
+        outSlope: 0
         tangentMode: 0
         weightedMode: 0
         inWeight: 0

@@ -35,9 +35,9 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 6007250521509968083}
-  - {fileID: 1200830361546210871}
   - {fileID: 792570925601606150}
   - {fileID: 27461831163746229}
+  - {fileID: 1200830361546210871}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 162.139, z: 0}
 --- !u!114 &7577498495940459374
@@ -55,9 +55,9 @@ MonoBehaviour:
   dishName: Full Dinner
   level: {fileID: 11400000, guid: f44e32d8f5944c2f8474e2b1709b309c, type: 2}
   components:
-  - {fileID: 4536950983458226761}
   - {fileID: 1581210535932556977}
   - {fileID: 6923430751637469674}
+  - {fileID: 4536950983458226761}
 --- !u!114 &1312500588052952057
 MonoBehaviour:
   m_ObjectHideFlags: 0
