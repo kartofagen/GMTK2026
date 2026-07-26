@@ -2155,7 +2155,7 @@ MonoBehaviour:
   tickClip: {fileID: 8300000, guid: 317d8851f193475bac452ccc17a25f71, type: 3}
   plateClip: {fileID: 8300000, guid: 89ee67edbe58430282411f23fbf58712, type: 3}
   humVolume: 1
-  endVolume: 1
+  endVolume: 0.7943282
   dishVolume: 1
   tickVolume: 1
   plateVolume: 1
