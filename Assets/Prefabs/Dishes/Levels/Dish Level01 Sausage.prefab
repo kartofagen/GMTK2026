@@ -274,6 +274,18 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 1.621994
       objectReference: {fileID: 0}
+    - target: {fileID: 2393623569526967133, guid: 17f8e777c24837e479f03cd8336f0db6, type: 3}
+      propertyPath: volume
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2393623569526967133, guid: 17f8e777c24837e479f03cd8336f0db6, type: 3}
+      propertyPath: smoothFadeout
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2393623569526967133, guid: 17f8e777c24837e479f03cd8336f0db6, type: 3}
+      propertyPath: stopAfterIdle
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -366,6 +378,14 @@ PrefabInstance:
     - target: {fileID: 2119410162876616454, guid: 17f8e777c24837e479f03cd8336f0db6, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 3.4900055
+      objectReference: {fileID: 0}
+    - target: {fileID: 2393623569526967133, guid: 17f8e777c24837e479f03cd8336f0db6, type: 3}
+      propertyPath: volume
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2393623569526967133, guid: 17f8e777c24837e479f03cd8336f0db6, type: 3}
+      propertyPath: smoothFadeout
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -521,6 +541,18 @@ PrefabInstance:
     - target: {fileID: 2119410162876616454, guid: 17f8e777c24837e479f03cd8336f0db6, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 6.4680023
+      objectReference: {fileID: 0}
+    - target: {fileID: 2393623569526967133, guid: 17f8e777c24837e479f03cd8336f0db6, type: 3}
+      propertyPath: volume
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2393623569526967133, guid: 17f8e777c24837e479f03cd8336f0db6, type: 3}
+      propertyPath: smoothFadeout
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2393623569526967133, guid: 17f8e777c24837e479f03cd8336f0db6, type: 3}
+      propertyPath: stopAfterIdle
+      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

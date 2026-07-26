@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: NewAssembly::LevelConfig
   components:
   - name: Sausage
-    color: {r: 0.90980392, g: 0.38039216, b: 0.23529412, a: 1}
+    color: {r: 0.9098039, g: 0.38039216, b: 0.23529412, a: 1}
     C: 1
     w: 1
     mu: 0.03

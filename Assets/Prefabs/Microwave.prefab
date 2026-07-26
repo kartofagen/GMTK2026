@@ -878,31 +878,31 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: 2b1cf68ebe03ce2cc9a3d143f3d9e4df, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.02977
+      value: -10.580646
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 2b1cf68ebe03ce2cc9a3d143f3d9e4df, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0
+      value: 1.267
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 2b1cf68ebe03ce2cc9a3d143f3d9e4df, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0.83753
+      value: 0.05577442
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 2b1cf68ebe03ce2cc9a3d143f3d9e4df, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 1
+      value: 0.6141677
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 2b1cf68ebe03ce2cc9a3d143f3d9e4df, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 2b1cf68ebe03ce2cc9a3d143f3d9e4df, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0
+      value: 0.78917557
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 2b1cf68ebe03ce2cc9a3d143f3d9e4df, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 2b1cf68ebe03ce2cc9a3d143f3d9e4df, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -910,7 +910,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 2b1cf68ebe03ce2cc9a3d143f3d9e4df, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
+      value: 104.217
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 2b1cf68ebe03ce2cc9a3d143f3d9e4df, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
@@ -1037,6 +1037,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: -8068073526183931155, guid: 2b1cf68ebe03ce2cc9a3d143f3d9e4df, type: 3}
       insertIndex: -1
       addedObject: {fileID: 7100000000000000017}
+    - targetCorrespondingSourceObject: {fileID: -8068073526183931155, guid: 2b1cf68ebe03ce2cc9a3d143f3d9e4df, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 4469179583351604551}
     - targetCorrespondingSourceObject: {fileID: -8536812581196974080, guid: 2b1cf68ebe03ce2cc9a3d143f3d9e4df, type: 3}
       insertIndex: -1
       addedObject: {fileID: 6296297657876641864}
@@ -2012,6 +2015,59 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 0
+--- !u!114 &4469179583351604551
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8062501621141653064}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 180ecf9b41d478f468eb3e9083753217, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.Cinemachine::Unity.Cinemachine.CinemachineImpulseSource
+  ImpulseDefinition:
+    ImpulseChannel: 1
+    ImpulseShape: 2
+    CustomImpulseShape:
+      serializedVersion: 2
+      m_Curve: []
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    ImpulseDuration: 0.2
+    ImpulseType: 0
+    DissipationRate: 0.25
+    RawSignal: {fileID: 0}
+    AmplitudeGain: 1
+    FrequencyGain: 1
+    RepeatMode: 0
+    Randomize: 1
+    TimeEnvelope:
+      AttackShape:
+        serializedVersion: 2
+        m_Curve: []
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+      DecayShape:
+        serializedVersion: 2
+        m_Curve: []
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+      AttackTime: 0
+      SustainTime: 0.2
+      DecayTime: 0.7
+      ScaleWithImpact: 1
+      HoldForever: 0
+    ImpactRadius: 100
+    DirectionMode: 0
+    DissipationMode: 2
+    DissipationDistance: 100
+    PropagationSpeed: 343
+  DefaultVelocity: {x: 0, y: 0, z: -0.1}
 --- !u!1 &8298685574709455348 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 2b1cf68ebe03ce2cc9a3d143f3d9e4df, type: 3}
@@ -2071,6 +2127,10 @@ MonoBehaviour:
   easeToMouth: 23
   trashPoint: {fileID: 0}
   easeToTrash: 27
+  hotPoint: {fileID: 0}
+  easeHot: 27
+  veryHotPoint: {fileID: 0}
+  easeVeryHot: 26
   finishedDuration: 1
 --- !u!114 &7100000000000000010
 MonoBehaviour:
@@ -2091,7 +2151,7 @@ MonoBehaviour:
   plateSource: {fileID: 7100000000000000015}
   humClip: {fileID: 8300000, guid: 13148ac0ae24494599dcb18c85a35df0, type: 3}
   endClip: {fileID: 8300000, guid: 1e1ea77ad0e54dbfacc29399080e5a22, type: 3}
-  dishClip: {fileID: 8300000, guid: 419bff4088854ad8b0f721510ac01455, type: 3}
+  dishClip: {fileID: 0}
   tickClip: {fileID: 8300000, guid: 317d8851f193475bac452ccc17a25f71, type: 3}
   plateClip: {fileID: 8300000, guid: 89ee67edbe58430282411f23fbf58712, type: 3}
   humVolume: 1

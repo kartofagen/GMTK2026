@@ -1,4 +1,5 @@
 using R3;
+using Unity.Cinemachine;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -20,6 +21,7 @@ public enum ExplodeMethod
 /// только представление, поэтому числовые параметры продукта живут в ассете уровня.
 /// </summary>
 [RequireComponent(typeof(AudioSource))]
+[RequireComponent(typeof(CinemachineImpulseSource))]
 public class DishComponent : MonoBehaviour, ITemperatureChannel
 {
     public string componentName;
@@ -33,15 +35,17 @@ public class DishComponent : MonoBehaviour, ITemperatureChannel
     [SerializeField, Tooltip("Импульс, с которым разлетаются куски в режиме Simulation")]
     private float explosionPower = 1f;
 
-    private bool _exploded;
+    private CinemachineImpulseSource _impulseSource;
     private AudioSource _source;
 
     private readonly ReactiveProperty<float> _temperature = new();
+    private readonly ReactiveProperty<bool> _exploded = new();
     private LevelComponentConfig _config;
 
     // ITemperatureChannel
     public string Name => componentName;
     public ReadOnlyReactiveProperty<float> Temperature => _temperature;
+    public ReadOnlyReactiveProperty<bool> Stopped => _exploded;
 
     public float CurrentTemp => _temperature.Value;
     
@@ -50,6 +54,7 @@ public class DishComponent : MonoBehaviour, ITemperatureChannel
     void Awake()
     {
         _source = GetComponent<AudioSource>();
+        _impulseSource = GetComponent<CinemachineImpulseSource>();
         _source.playOnAwake = false;
     }
 
@@ -59,9 +64,9 @@ public class DishComponent : MonoBehaviour, ITemperatureChannel
     /// <summary>Взрыв: разлёт кусков и звук. Повторные вызовы игнорируются.</summary>
     public void Explode()
     {
-        if (_exploded) return;
-        _exploded = true;
-
+        if (_exploded.Value) return;
+        _exploded.Value = true;
+        _impulseSource.GenerateImpulse();
         if (explosionSounds.Length > 0)
         {
             _source.PlayOneShot(explosionSounds[Random.Range(0, explosionSounds.Length)], 1f);
@@ -104,7 +109,7 @@ public class DishComponent : MonoBehaviour, ITemperatureChannel
     /// <summary>Блюдо пошло на второй заход: собираем продукт обратно.</summary>
     public void Reset()
     {
-        _exploded = false;
+        _exploded.Value = false;
         SetVisible(true);
     }
 
