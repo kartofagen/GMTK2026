@@ -60,9 +60,13 @@ public class DummyTemperatureSource : MonoBehaviour
     {
         private readonly ReactiveProperty<float> _temperature = new();
 
+        // Тестовый канал не взрывается — линия идёт всегда.
+        private static readonly ReactiveProperty<bool> NeverStopped = new(false);
+
         public string Name { get; }
         public float Phase { get; }
         public ReadOnlyReactiveProperty<float> Temperature => _temperature;
+        public ReadOnlyReactiveProperty<bool> Stopped => NeverStopped;
 
         public DummyChannel(string name, float phase)
         {

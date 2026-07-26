@@ -33,14 +33,15 @@ public class DishComponent : MonoBehaviour, ITemperatureChannel
     [SerializeField, Tooltip("Импульс, с которым разлетаются куски в режиме Simulation")]
     private float explosionPower = 1f;
 
-    private bool _exploded;
     private AudioSource _source;
 
     private readonly ReactiveProperty<float> _temperature = new();
+    private readonly ReactiveProperty<bool> _exploded = new();
 
     // ITemperatureChannel
     public string Name => componentName;
     public ReadOnlyReactiveProperty<float> Temperature => _temperature;
+    public ReadOnlyReactiveProperty<bool> Stopped => _exploded;
 
     public float CurrentTemp => _temperature.Value;
 
@@ -55,8 +56,8 @@ public class DishComponent : MonoBehaviour, ITemperatureChannel
     /// <summary>Взрыв: разлёт кусков и звук. Повторные вызовы игнорируются.</summary>
     public void Explode()
     {
-        if (_exploded) return;
-        _exploded = true;
+        if (_exploded.Value) return;
+        _exploded.Value = true;
 
         if (explosionSounds.Length > 0)
         {
@@ -100,7 +101,7 @@ public class DishComponent : MonoBehaviour, ITemperatureChannel
     /// <summary>Блюдо пошло на второй заход: собираем продукт обратно.</summary>
     public void Reset()
     {
-        _exploded = false;
+        _exploded.Value = false;
         SetVisible(true);
     }
 
