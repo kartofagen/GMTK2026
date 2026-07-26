@@ -21,6 +21,7 @@ public class MicrowaveTimer : MonoBehaviour
 
     public readonly Subject<float> onTimerChanged = new();
     public readonly Subject<Unit> onFinished = new();
+    public readonly Subject<Unit> onStarted = new();
     private CompositeDisposable _tickSubscription = new();
 
     public float Timer => _timer;
@@ -35,6 +36,7 @@ public class MicrowaveTimer : MonoBehaviour
             .AddTo(_tickSubscription);
         
         lightInside.enabled = true;
+        onStarted.OnNext(Unit.Default);
         
         State = MicrowaveState.Heating;
     }

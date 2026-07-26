@@ -18,6 +18,7 @@ public class ResultText : MonoBehaviour
     
     private HeatingSystem _heatingSystem;
     private MovingInsideSystem _movingInsideSystem;
+    private MicrowaveTimer _timer;
     
     private void Awake()
     {
@@ -25,6 +26,7 @@ public class ResultText : MonoBehaviour
         
         _heatingSystem = microwave.GetComponent<HeatingSystem>();
         _movingInsideSystem = microwave.GetComponent<MovingInsideSystem>();
+        _timer = microwave.GetComponent<MicrowaveTimer>();
         
         _heatingSystem
             .onHeatingFinished
@@ -33,6 +35,11 @@ public class ResultText : MonoBehaviour
         
         _movingInsideSystem
             .onMovingOutside
+            .Subscribe(HideResult)
+            .AddTo(this);
+        
+        _timer
+            .onStarted
             .Subscribe(HideResult)
             .AddTo(this);
     }

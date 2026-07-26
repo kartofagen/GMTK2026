@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 1312500588052952057}
   - component: {fileID: 3030897437620266674}
   m_Layer: 0
-  m_Name: PopcornDish
+  m_Name: Dish Level06 Popcorn
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
