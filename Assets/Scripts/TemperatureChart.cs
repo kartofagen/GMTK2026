@@ -24,6 +24,10 @@ public class TemperatureChart : MonoBehaviour
     [SerializeField, Tooltip("Толщина пунктира максимальной температуры компонента")]
     private float ceilingLineWidth = 3f;
 
+    [SerializeField, Range(0f, 1f), Tooltip("Прозрачность заливки окна оптимума. Домножается " +
+    "на альфу цвета компонента из LevelConfig")]
+    private float optimumAreaOpacity = 0.12f;
+
     [Inject] private MicrowaveContext _context;
 
     private IReadOnlyList<ITemperatureChannel> _channels;
@@ -252,7 +256,7 @@ public class TemperatureChart : MonoBehaviour
         markArea.end.type = MarkAreaType.None;
         markArea.end.yValue = high;
         markArea.itemStyle.color = color;
-        markArea.itemStyle.opacity = 0.12f;
+        markArea.itemStyle.opacity = optimumAreaOpacity;
     }
 
     // Потолок компонента — жирный пунктир поперёк всей сетки, в цвете самого компонента.
