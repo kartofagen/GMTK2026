@@ -1,4 +1,5 @@
 using R3;
+using Unity.Cinemachine;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -20,6 +21,7 @@ public enum ExplodeMethod
 /// только представление, поэтому числовые параметры продукта живут в ассете уровня.
 /// </summary>
 [RequireComponent(typeof(AudioSource))]
+[RequireComponent(typeof(CinemachineImpulseSource))]
 public class DishComponent : MonoBehaviour, ITemperatureChannel
 {
     public string componentName;
@@ -32,6 +34,8 @@ public class DishComponent : MonoBehaviour, ITemperatureChannel
 
     [SerializeField, Tooltip("Импульс, с которым разлетаются куски в режиме Simulation")]
     private float explosionPower = 1f;
+
+    private CinemachineImpulseSource _impulseSource;
 
     private bool _exploded;
     private AudioSource _source;
@@ -50,6 +54,7 @@ public class DishComponent : MonoBehaviour, ITemperatureChannel
     void Awake()
     {
         _source = GetComponent<AudioSource>();
+        _impulseSource = GetComponent<CinemachineImpulseSource>();
         _source.playOnAwake = false;
     }
 
@@ -61,6 +66,8 @@ public class DishComponent : MonoBehaviour, ITemperatureChannel
     {
         if (_exploded) return;
         _exploded = true;
+        
+        _impulseSource.GenerateImpulse();
 
         if (explosionSounds.Length > 0)
         {

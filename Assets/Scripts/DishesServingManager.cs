@@ -1,6 +1,7 @@
 using System;
 using DG.Tweening;
 using UnityEngine;
+using Unity.Cinemachine;
 
 public class DishesServingManager : MonoBehaviour
 {
@@ -30,8 +31,9 @@ public class DishesServingManager : MonoBehaviour
         dish.DORotate(_movingInsideSystem.EntryPoint.eulerAngles, duration).SetEase(easeRotate);
         dish.DOMove(_movingInsideSystem.EntryPoint.position, duration).SetEase(easeMove)
             .OnComplete(() => _movingInsideSystem.Register(dish));
-        
-        Camera.main?.transform.GetComponent<Animator>().SetTrigger("Turn");
+
+        FindFirstObjectByType<CinemachineCamera>().GetComponent<Animator>().SetTrigger("Turn");
+        // Camera.main?.transform.GetComponent<Animator>().SetTrigger("Turn");
     }
 
     public void RemoveDish(Transform dishTransform)
@@ -41,6 +43,7 @@ public class DishesServingManager : MonoBehaviour
         Dish dish = dishTransform.GetComponent<Dish>();
         _levelManager.ManageLevel(dish);
         
-        Camera.main?.transform.GetComponent<Animator>().SetTrigger("Turn");
+        FindFirstObjectByType<CinemachineCamera>().GetComponent<Animator>().SetTrigger("Turn");
+        // Camera.main?.transform.GetComponent<Animator>().SetTrigger("Turn");
     }
 }
