@@ -602,7 +602,7 @@ Transform:
   m_GameObject: {fileID: 7093826997119781347}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: 0.7071068, z: -0, w: 0.7071067}
-  m_LocalPosition: {x: 0.353, y: 0.213, z: 0.048}
+  m_LocalPosition: {x: 0.3604, y: 0.213, z: 0.048}
   m_LocalScale: {x: 0.46318904, y: 0.36990735, z: 0.044875875}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -770,7 +770,7 @@ Transform:
   m_GameObject: {fileID: 8931490171333463306}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: 0.7071068, z: -0, w: 0.7071067}
-  m_LocalPosition: {x: -0.3138, y: 0.213, z: 0.048}
+  m_LocalPosition: {x: -0.3468, y: 0.213, z: 0.048}
   m_LocalScale: {x: 0.46318904, y: 0.36990735, z: 0.044875875}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -915,6 +915,10 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: 2b1cf68ebe03ce2cc9a3d143f3d9e4df, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8068073526183931155, guid: 2b1cf68ebe03ce2cc9a3d143f3d9e4df, type: 3}
+      propertyPath: m_TagString
+      value: MicrowaveDoor
       objectReference: {fileID: 0}
     - target: {fileID: -305091885687274788, guid: 2b1cf68ebe03ce2cc9a3d143f3d9e4df, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
@@ -2110,7 +2114,7 @@ MonoBehaviour:
   dirtyTexture: {fileID: 2800000, guid: 333a7b1f1d859943d96b3ff7c4505e35, type: 3}
   smokeEffect: {fileID: 8434877915255248062}
   maxStepsPerFrame: 8
-  dishRotationSpeed: 5
+  dishRotationSpeed: 30
 --- !u!114 &107431851416530436
 MonoBehaviour:
   m_ObjectHideFlags: 0

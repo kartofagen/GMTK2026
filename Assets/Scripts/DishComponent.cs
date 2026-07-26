@@ -88,10 +88,17 @@ public class DishComponent : MonoBehaviour, ITemperatureChannel
                 {
                     // Чуть утапливаем в стенку, иначе кусок висит в воздухе,
                     // и разворачиваем по нормали — тогда он выглядит прилипшим.
-                    hit.point -= particleDirection * 0.05f;
+                    hit.point -= particleDirection * 0.01f;
                     var particle = Instantiate(explosionParts[Random.Range(0, explosionParts.Length)],
                         hit.point, Random.rotation);
                     particle.transform.rotation = Quaternion.LookRotation(hit.normal);
+
+                    if (hit.transform.gameObject.name == "Front")
+                    {
+                        var door = GameObject.FindGameObjectWithTag("MicrowaveDoor");
+                        particle.transform.SetParent(door.transform);
+                    }
+                    
                 }
             }
             else
