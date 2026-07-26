@@ -5126,7 +5126,7 @@ MonoBehaviour:
     - {fileID: 6696455414488572932, guid: 6f6f508daf820414abfa4b2c186d8e4e, type: 3}
     spawnOffset: {x: 0, y: 0, z: 0}
     spawnRadius: 0
-  levelIndex: 3
+  levelIndex: 0
 --- !u!1 &1182627350
 GameObject:
   m_ObjectHideFlags: 1
