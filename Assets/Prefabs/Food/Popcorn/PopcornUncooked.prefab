@@ -212,9 +212,9 @@ MonoBehaviour:
   - {fileID: 1022419336559002455, guid: 1606fd919f761724d9f1c2446351013c, type: 3}
   tempSequence:
   - 20
-  - 30
-  - 40
   - 60
+  - 100
+  - 140
 --- !u!114 &1724555842327639144
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -261,6 +261,7 @@ MonoBehaviour:
   cookingClip: {fileID: 8300000, guid: 0fcf0eb9115d45999f8c0c5cd029d0ed, type: 3}
   volume: 0.6
   stopAfterIdle: 0.3
+  smoothFadeout: 0
 --- !u!82 &7300000000000000002
 AudioSource:
   m_ObjectHideFlags: 0

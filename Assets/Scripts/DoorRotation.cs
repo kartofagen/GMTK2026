@@ -28,10 +28,10 @@ public class DoorRotation : MonoBehaviour
     private void OnMouseDown()
     {
         if (microwave.State is MicrowaveState.Heating or MicrowaveState.Paused)
-        {
-            microwave.FinishHeating();
-        }
-        
+            _impulseSource.DefaultVelocity.z = -0.1f;
+        else
+            _impulseSource.DefaultVelocity.z = -0.025f;
+            
         if (_isOpened)
         {
             _impulseSource.GenerateImpulse();
@@ -46,5 +46,10 @@ public class DoorRotation : MonoBehaviour
 
         _isOpened = !_isOpened;
         frontWallCollider.enabled = !_isOpened;
+        
+        if (microwave.State is MicrowaveState.Heating or MicrowaveState.Paused)
+        {
+            microwave.FinishHeating();
+        }
     }
 }
