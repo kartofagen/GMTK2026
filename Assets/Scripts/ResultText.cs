@@ -12,8 +12,8 @@ public class ResultText : MonoBehaviour
     {
         {DishStatus.Success, new KeyValuePair<string, Color>("SUCCESS!", Color.green)},
         {DishStatus.Exploded, new KeyValuePair<string, Color>("EXPLODED!", Color.red)},
-        {DishStatus.BadHeating, new KeyValuePair<string, Color>("THIS HEATING SUCKS!", Color.orange)},
-        
+        {DishStatus.Overheating, new KeyValuePair<string, Color>("THIS HEATING SUCKS!", Color.orange)},
+        {DishStatus.Underheating, new KeyValuePair<string, Color>("THIS HEATING SUCKS!", Color.orange)}
     };
     
     private HeatingSystem _heatingSystem;

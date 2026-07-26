@@ -1838,8 +1838,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5c9a1f4b7e284d0e9b3a6c8d2f014a67, type: 3}
   m_Name: 
   m_EditorClassIdentifier: NewAssembly::MicrowaveDoorSound
-  openClip: {fileID: 8300000, guid: 2eab97afc2fbfb1e2a8d2f722031d4da, type: 3}
-  closeClip: {fileID: 8300000, guid: 8bd30f5d8bb6603f3bbdbc2598dd1b01, type: 3}
+  microwave: {fileID: 6087110578803017910}
+  openClip: {fileID: 8300000, guid: 634f6db37cf345ce89af929267883468, type: 3}
+  closeClip: {fileID: 8300000, guid: ed5518a0c3774deeb02c9817c9b9a8a9, type: 3}
+  openClipWithPlate: {fileID: 8300000, guid: 2eab97afc2fbfb1e2a8d2f722031d4da, type: 3}
+  closeClipWithPlate: {fileID: 8300000, guid: 8bd30f5d8bb6603f3bbdbc2598dd1b01, type: 3}
   volume: 1
 --- !u!82 &7100000000000000017
 AudioSource:
@@ -1972,6 +1975,7 @@ MonoBehaviour:
   dish: {fileID: 0}
   microwaveBodyRenderer: {fileID: 6649413368976106371}
   dirtyTexture: {fileID: 2800000, guid: 333a7b1f1d859943d96b3ff7c4505e35, type: 3}
+  maxStepsPerFrame: 8
   dishRotationSpeed: 5
 --- !u!114 &107431851416530436
 MonoBehaviour:
@@ -1995,6 +1999,10 @@ MonoBehaviour:
   easeToMouth: 23
   trashPoint: {fileID: 0}
   easeToTrash: 27
+  hotPoint: {fileID: 0}
+  easeHot: 28
+  veryHotPoint: {fileID: 0}
+  easeVeryHot: 28
   finishedDuration: 1
 --- !u!114 &7100000000000000010
 MonoBehaviour:

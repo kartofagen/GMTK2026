@@ -12,9 +12,9 @@ public class DoorRotation : MonoBehaviour
     
     [SerializeField] private Collider frontWallCollider;
     
-    private bool isOpened = false;
+    private bool _isOpened = false;
     
-    public bool IsOpened => isOpened;
+    public bool IsOpened => _isOpened;
 
     public event Action DoorOpened;
     
@@ -25,7 +25,7 @@ public class DoorRotation : MonoBehaviour
             microwave.FinishHeating();
         }
         
-        if (isOpened)
+        if (_isOpened)
         {
             transform.DOLocalRotate(new Vector3(0f, 0, 0f), duration).SetEase(easeRotate);
         }
@@ -35,7 +35,7 @@ public class DoorRotation : MonoBehaviour
             DoorOpened?.Invoke();
         }
 
-        isOpened = !isOpened;
-        frontWallCollider.enabled = !isOpened;
+        _isOpened = !_isOpened;
+        frontWallCollider.enabled = !_isOpened;
     }
 }

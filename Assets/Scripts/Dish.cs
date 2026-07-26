@@ -5,8 +5,9 @@ using UnityEngine;
 public enum DishStatus
 {
     InProgress,
+    Underheating,
     Success,
-    BadHeating,
+    Overheating,
     Exploded
 }
 
@@ -91,11 +92,19 @@ public class Dish : MonoBehaviour
     /// </summary>
     public DishStatus GetFinalStatus()
     {
-        if (DishStatus != DishStatus.Exploded)
+        if (DishStatus == DishStatus.Exploded || _solver == null) return DishStatus;
+            
+        if (_solver.AllInTargetWindow())
         {
-            DishStatus = _solver != null && _solver.AllInTargetWindow()
-                ? DishStatus.Success
-                : DishStatus.BadHeating;
+            DishStatus = DishStatus.Success;
+        }
+        else if (_solver.AnyOverTargetWindow())
+        {
+            DishStatus = DishStatus.Overheating;
+        }
+        else
+        {
+            DishStatus = DishStatus.Underheating;
         }
 
         return DishStatus;

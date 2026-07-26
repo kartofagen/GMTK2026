@@ -123,4 +123,16 @@ public class ThermalSolver
 
         return _n > 0;
     }
+    
+    /// <summary>Существует ли перегретый компонент.</summary>
+    public bool AnyOverTargetWindow()
+    {
+        for (int i = 0; i < _n; i++)
+        {
+            var comp = _level.Components[i];
+            if (_t[i] > comp.tOptHigh) return true;
+        }
+
+        return false;
+    }
 }
