@@ -607,7 +607,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 9968bcccc610486db0ec519cf739c2d3, type: 3}
   - {fileID: 8300000, guid: c7027d9b9b8a4c919ddfab38dbe9ab9b, type: 3}
   volume: 0.6
-  filterName: Sausage
+  filterName: 
   stopAfterIdle: 0.3
 --- !u!82 &7400000000000000002
 AudioSource:
