@@ -46,6 +46,19 @@ public class CookingSound : MonoBehaviour
     {
         if (cookingSource == null || cookingClip == null || _component == null) return;
 
+        // Once the food has exploded it must go silent, even though the solver
+        // keeps pushing its temperature up (an exploded product still "heats"),
+        // which would otherwise read as cooking and keep the loop going.
+        if (_component.Stopped.CurrentValue)
+        {
+            if (cookingSource.isPlaying)
+            {
+                cookingSource.Stop();
+                cookingSource.volume = volume;
+            }
+            return;
+        }
+
         var temp = _component.CurrentTemp;
         if (temp > _lastTemp + 0.0001f)
         {

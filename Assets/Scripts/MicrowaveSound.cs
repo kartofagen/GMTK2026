@@ -108,19 +108,30 @@ public class MicrowaveSound : MonoBehaviour
     }
 
     /// <summary>
-    /// MovingInsideSystem reparents the dish under the microwave once it goes in,
-    /// and nothing ever takes it back out, so a child Dish means one is loaded.
+    /// Tracks the dish currently inside the cavity. MovingInsideSystem reparents
+    /// the dish under the microwave when it goes in and back out again when it
+    /// leaves, so a child Dish appearing means one was just loaded. Re-arming on
+    /// every entry (not just the first) makes the plate-landing sound play each
+    /// time a dish goes in - including re-inserting the same dish after it exploded.
     /// </summary>
     private void TrackDish()
     {
-        if (_dish != null) return;
+        var current = GetComponentInChildren<Dish>();
+        if (current == _dish) return;
 
-        _dish = GetComponentInChildren<Dish>();
-        if (_dish == null) return;
+        _dish = current;
 
-        // The dish is reparented as its travel starts, so wait for it to settle
-        // before the plate lands.
-        _plateDueAt = Time.time + plateSettleDelay;
+        if (_dish != null)
+        {
+            // The dish is reparented as its travel starts, so wait for it to
+            // settle before the plate lands.
+            _platePlayed = false;
+            _plateDueAt = Time.time + plateSettleDelay;
+        }
+        else
+        {
+            _plateDueAt = -1f;
+        }
     }
 
     private void UpdateDishLayer(MicrowaveState state)
