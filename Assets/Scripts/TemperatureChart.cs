@@ -14,13 +14,30 @@ public class TemperatureChart : MonoBehaviour
     [SerializeField] private float sampleInterval = 0.5f;
     [SerializeField] private int maxPoints = 20; // ширина окна прокрутки (кол-во точек)
 
+    [SerializeField, Range(0f, 0.9f), Tooltip("Доля ширины справа, которую график оставляет пустой " +
+    "(график сдвинут влево на эту долю)")]
+    private float rightPadFraction = 0.25f;
+
     [SerializeField, Tooltip("Верх оси Y, пока блюдо не загружено и потолки компонентов неизвестны")]
     private float fallbackMaxTemp = 110f;
+
+    [SerializeField, Tooltip("Толщина пунктира максимальной температуры компонента")]
+    private float ceilingLineWidth = 3f;
+
+    [SerializeField, Range(0f, 1f), Tooltip("Прозрачность заливки окна оптимума. Домножается " +
+    "на альфу цвета компонента из LevelConfig")]
+    private float optimumAreaOpacity = 0.2f;
 
     [Inject] private MicrowaveContext _context;
 
     private IReadOnlyList<ITemperatureChannel> _channels;
     private int _sampleIndex;
+
+    // Сколько крайних правых слотов оси X остаются без точек. Ось всегда держит maxPoints
+    // категорий, серии — на PadPoints меньше, поэтому линия упирается не в правый край,
+    // а заканчивается за PadPoints делений до него.
+    private int PadPoints => Mathf.Clamp(Mathf.RoundToInt(maxPoints * rightPadFraction), 0, maxPoints - 1);
+    private int SeriePoints => maxPoints - PadPoints;
 
     // Запасная палитра линий (Material A200/A400) — на случай, если цвет в LevelConfig
     // не задан (прозрачный) или уровня нет вовсе, как в тестовом источнике каналов.
@@ -152,10 +169,15 @@ public class TemperatureChart : MonoBehaviour
         bool hasLevel = level != null && level.ComponentCount == channels.Count;
 
         chart.RemoveData();
+        ResetSampling();
+
+        // Цвет компонента общий для всей его графики: линия температуры, окно оптимума
+        // и пунктир потолка — чтобы взглядом связывать пороги с их продуктом.
+        var colors = new Color[channels.Count];
         for (int i = 0; i < channels.Count; i++)
         {
             var serie = chart.AddSerie<Line>(channels[i].Name);
-            serie.maxCache = maxPoints;
+            serie.maxCache = SeriePoints;
 
 
             //serie.symbol.show = false; // Нет точек
@@ -163,6 +185,7 @@ public class TemperatureChart : MonoBehaviour
 
             Color color = Palette[i % Palette.Length];
             if (hasLevel && level.Components[i].color.a > 0f) color = level.Components[i].color;
+            colors[i] = color;
 
             serie.lineStyle.color = color;   // цвет самой линии
             serie.itemStyle.color = color;   // точки/маркеры/легенда
@@ -172,36 +195,52 @@ public class TemperatureChart : MonoBehaviour
         var yAxis = chart.EnsureChartComponent<YAxis>();
         yAxis.max = fallbackMaxTemp;
 
-        if (!hasLevel || series.Count == 0)
-        {
-            _sampleIndex = 0;
-            return;
-        }
+        if (!hasLevel || series.Count == 0) return;
 
         // Пороги пер-компонентные: у каждого продукта своё окно готовности и свой потолок,
-        // поэтому полос столько же, сколько серий.
-        int areaIndex = 0;
+        // поэтому и полос, и пунктиров ровно столько же, сколько серий.
         float maxCeiling = 0f;
         for (int i = 0; i < series.Count; i++)
         {
             var comp = level.Components[i];
 
-            DrawHorizontalArea(areaIndex++, series[i], comp.tOptLow, comp.tOptHigh, Color.green);
-            DrawHorizontalArea(areaIndex++, series[i], comp.tMax, comp.tMax + 20f, Color.red);
+            DrawHorizontalArea(i, series[i], comp.tOptLow, comp.tOptHigh, colors[i]);
+            DrawHorizontalLine(i, series[i], comp.tMax, colors[i]);
 
             maxCeiling = Mathf.Max(maxCeiling, comp.tMax);
         }
 
         yAxis.max = maxCeiling + 10f;
 
-        // Полосы от предыдущего блюда переиспользуются по индексу; лишние прячем,
-        // иначе на менее «многолюдном» блюде останутся висеть чужие пороги.
-        for (int i = areaIndex; i < chart.GetChartComponentNum<MarkArea>(); i++)
+        // Пороги от предыдущего блюда переиспользуются по индексу; лишние прячем,
+        // иначе на менее «многолюдном» блюде останутся висеть чужие.
+        for (int i = series.Count; i < chart.GetChartComponentNum<MarkArea>(); i++)
         {
             chart.GetChartComponent<MarkArea>(i).show = false;
         }
+        for (int i = series.Count; i < chart.GetChartComponentNum<MarkLine>(); i++)
+        {
+            chart.GetChartComponent<MarkLine>(i).show = false;
+        }
+    }
 
+    // Ось X стартует уже заполненной PadPoints метками будущего времени: серий на них нет,
+    // поэтому пустая область справа есть с первого же сэмпла, а не только после того,
+    // как окно прокрутки наберётся целиком.
+    private void ResetSampling()
+    {
         _sampleIndex = 0;
+        for (int i = 1; i <= PadPoints; i++)
+        {
+            chart.AddXAxisData(FormatSeconds(i * sampleInterval));
+        }
+    }
+
+    private static string FormatSeconds(float seconds)
+    {
+        // Всегда один знак после запятой (0.5, 1.0, 1.5, 2.0 ...), чтобы метки
+        // выглядели единообразно — иначе "0.#" ронял нули у целых.
+        return seconds.ToString("0.0");
     }
 
     private void DrawHorizontalArea(int areaIndex, Serie targetSerie, float low, float high, Color color)
@@ -217,7 +256,36 @@ public class TemperatureChart : MonoBehaviour
         markArea.end.type = MarkAreaType.None;
         markArea.end.yValue = high;
         markArea.itemStyle.color = color;
-        markArea.itemStyle.opacity = 0.12f;
+        markArea.itemStyle.opacity = optimumAreaOpacity;
+    }
+
+    // Потолок компонента — жирный пунктир поперёк всей сетки, в цвете самого компонента.
+    private void DrawHorizontalLine(int lineIndex, Serie targetSerie, float value, Color color)
+    {
+        var markLine = chart.GetChartComponentNum<MarkLine>() > lineIndex
+            ? chart.GetChartComponent<MarkLine>(lineIndex)
+            : chart.AddChartComponent<MarkLine>();
+
+        markLine.show = true;
+        markLine.serieIndex = targetSerie.index;
+
+        // AddChartComponent кладёт в новый MarkLine дефолтную линию "average" — вычищаем
+        // и держим ровно один элемент, чтобы переиспользование по индексу не копило мусор.
+        if (markLine.data.Count != 1)
+        {
+            markLine.data.Clear();
+            markLine.data.Add(new MarkLineData());
+        }
+
+        var data = markLine.data[0];
+        data.type = MarkLineType.Custom;
+        data.yValue = value;                 // горизонталь на уровне потолка
+        data.lineStyle.type = LineStyle.Type.Dashed;
+        data.lineStyle.width = ceilingLineWidth;
+        data.lineStyle.color = color;
+        data.startSymbol.show = false;
+        data.endSymbol.show = false;
+        data.label.show = false;
     }
 
     private void Sample()
@@ -227,14 +295,21 @@ public class TemperatureChart : MonoBehaviour
         // Метка = номер сэмпла * шаг. Детерминированно, без дрейфа Time.time:
         // при 0.5с -> 0.5, 1, 1.5, 2 ... (без дублей и пропусков).
         _sampleIndex++;
-        // Всегда один знак после запятой (0.5, 1.0, 1.5, 2.0 ...), чтобы метки
-        // выглядели единообразно — иначе "0.#" ронял нули у целых.
-        float seconds = _sampleIndex * sampleInterval;
-        chart.AddXAxisData(seconds.ToString("0.0"));
+        // Ось опережает серии на PadPoints, поэтому и метку добавляем на PadPoints шагов
+        // вперёд — иначе подпись под точкой отставала бы от её реального времени.
+        float seconds = (_sampleIndex + PadPoints) * sampleInterval;
+        chart.AddXAxisData(FormatSeconds(seconds));
 
         for (int i = 0; i < _channels.Count; i++)
         {
-            chart.AddData(i, _channels[i].Temperature.CurrentValue);
+            var point = chart.AddData(i, _channels[i].Temperature.CurrentValue);
+
+            // Взорвавшийся продукт: точку всё равно добавляем, но помечаем ignore.
+            // Пропускать её нельзя — точка серии жёстко ложится в слот категории по своему
+            // индексу, и отставшая серия «прилипла» бы к сетке, пока остальные едут влево.
+            // Помеченная точка не рисуется и рвёт линию: график компонента замирает на
+            // моменте взрыва и уезжает влево вместе со всеми.
+            if (point != null && _channels[i].Stopped.CurrentValue) point.ignore = true;
         }
     }
 }
