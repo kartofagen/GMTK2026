@@ -205,10 +205,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: NewAssembly::PopcornAnimation
   meshSequence:
-  - {fileID: 2179904390463489302, guid: 068f870a4ae540e7c8ab0d08f5c85cae, type: 3}
-  - {fileID: 256486796509924301, guid: 9425feb4c803d1d1fb924cb2d7065cd3, type: 3}
-  - {fileID: 564355307252362244, guid: 690098c0bd8c4e8f9a98162f0d9d1b4e, type: 3}
-  - {fileID: 1022419336559002455, guid: ab393d3b7777f1da5add20021235e846, type: 3}
+  - {fileID: 2179904390463489302, guid: ff8412e09a24a5f47b08efd83791dde5, type: 3}
+  - {fileID: 256486796509924301, guid: 881c26022add26b4389ba249954e6d4f, type: 3}
+  - {fileID: 564355307252362244, guid: 486721e916fd6a940a21169c1337bacd, type: 3}
+  - {fileID: 1022419336559002455, guid: 1606fd919f761724d9f1c2446351013c, type: 3}
   tempSequence:
   - 20
   - 30

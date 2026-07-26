@@ -16,15 +16,39 @@ public class PopcornAnimation : MonoBehaviour
     {
         _meshFilter = GetComponent<MeshFilter>();
         _dishComponent = GetComponent<DishComponent>();
+
+        var c = _dishComponent.Config;
+        
         _dishComponent.Temperature.Subscribe(curTemp =>
         {
-            if (_curStage + 1 < tempSequence.Length  && curTemp >= tempSequence[_curStage + 1])
+            switch (_curStage)
             {
-                Debug.Log($"Updating mesh, stage:  {_curStage + 1}");
-                _meshFilter.sharedMesh =  meshSequence[_curStage + 1];
-                _curStage++;
+                case 0:
+                    if (curTemp >= (c.t0 + c.tOptLow) / 2)
+                    {
+                        UpdateMesh();
+                    }
+                    break;
+                case 1:
+                    if (curTemp >= c.tOptLow)
+                    {
+                        UpdateMesh();
+                    }
+                    break;
+                case 2:
+                    if (curTemp >= (c.tOptLow + c.tOptHigh) / 2)
+                    {
+                        UpdateMesh();
+                    }
+                    break;
             }
         }).AddTo(this);
+    }
+
+    private void UpdateMesh()
+    {
+        _curStage++;
+        _meshFilter.sharedMesh = meshSequence[_curStage];
     }
 
     private void Start()

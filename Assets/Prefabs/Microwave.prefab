@@ -797,6 +797,77 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!1001 &2337758769239930208
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 8674225504033141582}
+    m_Modifications:
+    - target: {fileID: 64723727586890242, guid: de7e9bc2777cf88beb87cb01791554d0, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0.018
+      objectReference: {fileID: 0}
+    - target: {fileID: 64723727586890242, guid: de7e9bc2777cf88beb87cb01791554d0, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.152
+      objectReference: {fileID: 0}
+    - target: {fileID: 64723727586890242, guid: de7e9bc2777cf88beb87cb01791554d0, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0.012
+      objectReference: {fileID: 0}
+    - target: {fileID: 64723727586890242, guid: de7e9bc2777cf88beb87cb01791554d0, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 64723727586890242, guid: de7e9bc2777cf88beb87cb01791554d0, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 64723727586890242, guid: de7e9bc2777cf88beb87cb01791554d0, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 64723727586890242, guid: de7e9bc2777cf88beb87cb01791554d0, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 64723727586890242, guid: de7e9bc2777cf88beb87cb01791554d0, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: -90
+      objectReference: {fileID: 0}
+    - target: {fileID: 64723727586890242, guid: de7e9bc2777cf88beb87cb01791554d0, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 64723727586890242, guid: de7e9bc2777cf88beb87cb01791554d0, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4746546658748459712, guid: de7e9bc2777cf88beb87cb01791554d0, type: 3}
+      propertyPath: m_Name
+      value: SmokeParticles
+      objectReference: {fileID: 0}
+    - target: {fileID: 4746546658748459712, guid: de7e9bc2777cf88beb87cb01791554d0, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: de7e9bc2777cf88beb87cb01791554d0, type: 3}
+--- !u!4 &2347662752853698402 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 64723727586890242, guid: de7e9bc2777cf88beb87cb01791554d0, type: 3}
+  m_PrefabInstance: {fileID: 2337758769239930208}
+  m_PrefabAsset: {fileID: 0}
+--- !u!198 &8434877915255248062 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 6160880244640850398, guid: de7e9bc2777cf88beb87cb01791554d0, type: 3}
+  m_PrefabInstance: {fileID: 2337758769239930208}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &9217658279511594149
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -872,6 +943,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: -8679921383154817045, guid: 2b1cf68ebe03ce2cc9a3d143f3d9e4df, type: 3}
       insertIndex: -1
       addedObject: {fileID: 7635954709310929699}
+    - targetCorrespondingSourceObject: {fileID: -8679921383154817045, guid: 2b1cf68ebe03ce2cc9a3d143f3d9e4df, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2347662752853698402}
     - targetCorrespondingSourceObject: {fileID: 4167280743394806330, guid: 2b1cf68ebe03ce2cc9a3d143f3d9e4df, type: 3}
       insertIndex: -1
       addedObject: {fileID: 2581482642556887120}
@@ -1972,6 +2046,8 @@ MonoBehaviour:
   dish: {fileID: 0}
   microwaveBodyRenderer: {fileID: 6649413368976106371}
   dirtyTexture: {fileID: 2800000, guid: 333a7b1f1d859943d96b3ff7c4505e35, type: 3}
+  smokeEffect: {fileID: 8434877915255248062}
+  maxStepsPerFrame: 8
   dishRotationSpeed: 5
 --- !u!114 &107431851416530436
 MonoBehaviour:
