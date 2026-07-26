@@ -286,6 +286,10 @@ PrefabInstance:
       propertyPath: stopAfterIdle
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 2393623569526967133, guid: 17f8e777c24837e479f03cd8336f0db6, type: 3}
+      propertyPath: cookingClip
+      value: 
+      objectReference: {fileID: 8300000, guid: c7027d9b9b8a4c919ddfab38dbe9ab9b, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -386,6 +390,10 @@ PrefabInstance:
     - target: {fileID: 2393623569526967133, guid: 17f8e777c24837e479f03cd8336f0db6, type: 3}
       propertyPath: smoothFadeout
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2393623569526967133, guid: 17f8e777c24837e479f03cd8336f0db6, type: 3}
+      propertyPath: cookingClip
+      value: 
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -553,6 +561,10 @@ PrefabInstance:
     - target: {fileID: 2393623569526967133, guid: 17f8e777c24837e479f03cd8336f0db6, type: 3}
       propertyPath: stopAfterIdle
       value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 2393623569526967133, guid: 17f8e777c24837e479f03cd8336f0db6, type: 3}
+      propertyPath: cookingClip
+      value: 
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
