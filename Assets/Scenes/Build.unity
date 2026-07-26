@@ -215,11 +215,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7100000000000000010, guid: 121f7e6d61bd9c87a90e3f5844ff2bca, type: 3}
       propertyPath: humVolume
-      value: 1
+      value: 0.7
       objectReference: {fileID: 0}
     - target: {fileID: 7500000000000000001, guid: 121f7e6d61bd9c87a90e3f5844ff2bca, type: 3}
       propertyPath: m_Enabled
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7500000000000000001, guid: 121f7e6d61bd9c87a90e3f5844ff2bca, type: 3}
       propertyPath: 'clips.Array.data[0]'
@@ -229,6 +229,14 @@ PrefabInstance:
       propertyPath: 'clips.Array.data[1]'
       value: 
       objectReference: {fileID: 8300000, guid: f9b819e48d779ec4799c7b006229210d, type: 3}
+    - target: {fileID: 7500000000000000001, guid: 121f7e6d61bd9c87a90e3f5844ff2bca, type: 3}
+      propertyPath: successClips.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 7500000000000000001, guid: 121f7e6d61bd9c87a90e3f5844ff2bca, type: 3}
+      propertyPath: 'successClips.Array.data[3]'
+      value: 
+      objectReference: {fileID: 8300000, guid: b2a5a41b904546718a60ed8d107042e2, type: 3}
     - target: {fileID: 8298685574709455348, guid: 121f7e6d61bd9c87a90e3f5844ff2bca, type: 3}
       propertyPath: m_Name
       value: Microwave

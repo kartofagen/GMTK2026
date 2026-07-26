@@ -3,16 +3,25 @@ using R3;
 using UnityEngine;
 
 /// <summary>
-/// Plays a plate-break sound when a failed dish is taken out to be thrown away -
-/// overheated, underheated or exploded, i.e. anything but a clean success. The
-/// final result is captured when heating finishes and the sound fires when the
-/// dish actually leaves the cavity. Pitch is jittered so repeats sound different.
-/// Observes the microwave's public events, so nothing else has to change.
+/// Plays a reaction sound when a dish is taken out of the microwave, chosen by
+/// the final result:
+///  - overheated: an "ouch" as the hot plate is grabbed, then a plate break as
+///    it is thrown away;
+///  - underheated / exploded: a plate break (thrown away);
+///  - success: a "tasty" reaction.
+/// The result is captured when heating finishes and the sound fires when the
+/// dish actually leaves the cavity. Pitch is jittered so repeats sound
+/// different. Observes the microwave's public events, so nothing else changes.
 /// </summary>
 public class PlateBreakSound : MonoBehaviour
 {
     [SerializeField] private AudioSource source;
-    [SerializeField] private AudioClip[] clips;
+    [SerializeField, Tooltip("Thrown-away dishes (underheated, exploded)")]
+    private AudioClip[] clips;
+    [SerializeField, Tooltip("Overheated: the ouch when the hot plate is grabbed")]
+    private AudioClip[] overheatClips;
+    [SerializeField, Tooltip("Successful dishes - tasty!")]
+    private AudioClip[] successClips;
     [SerializeField, Range(0f, 1f)] private float volume = 1f;
     [SerializeField] private Vector2 pitchRange = new Vector2(0.92f, 1.08f);
 
@@ -40,13 +49,34 @@ public class PlateBreakSound : MonoBehaviour
             .Subscribe(_ => OnMovingOutside())
             .AddTo(this);
     }
-
+    
     private void OnMovingOutside()
     {
-        var thrownAway = _lastStatus == DishStatus.Underheating
-                         || _lastStatus == DishStatus.Overheating
-                         || _lastStatus == DishStatus.Exploded
-                         || _lastStatus == DishStatus.InProgress;
+        switch (_lastStatus)
+        {
+            case DishStatus.Overheating:
+                _delayTween = DOVirtual.DelayedCall(0.5f + 1f + 1f, () =>
+                {
+                    Play(overheatClips);
+                });
+                break;
+            case DishStatus.Success:
+                _delayTween = DOVirtual.DelayedCall(0.5f + 1f + 1f, () =>
+                {
+                    Play(successClips);
+                });
+                break;
+            case DishStatus.Exploded:
+                _delayTween = DOVirtual.DelayedCall(0.5f + 1f, () =>
+                {
+                    Play(overheatClips);
+                });
+                break;
+        }
+        
+        var thrownAway = _lastStatus != DishStatus.Success;
+
+        if (!thrownAway) return;
 
         var delay = 1f;
         if (_lastStatus == DishStatus.Overheating)
@@ -57,15 +87,8 @@ public class PlateBreakSound : MonoBehaviour
         {
             delay = 0.5f;
         }
-
+        
         delay += 1.5f;
-
-        // Reset so a later exit without a fresh result can't replay the sound.
-        _lastStatus = DishStatus.InProgress;
-
-        if (!thrownAway || source == null || clips == null || clips.Length == 0) return;
-
-        source.pitch = Random.Range(pitchRange.x, pitchRange.y);
         
         _delayTween?.Kill();
         _delayTween = DOVirtual.DelayedCall(delay, () =>
@@ -73,10 +96,19 @@ public class PlateBreakSound : MonoBehaviour
             source.pitch = Random.Range(pitchRange.x, pitchRange.y);
             source.PlayOneShot(clips[Random.Range(0, clips.Length)], volume);
         });
+
+        _lastStatus = DishStatus.InProgress;
     }
 
-    private void OnDestroy()
+    private void PlayBreakDelayed() => Play(clips);
+
+    private static bool HasClips(AudioClip[] set) => set != null && set.Length > 0;
+
+    private void Play(AudioClip[] set)
     {
-        _delayTween?.Kill();
+        if (source == null || !HasClips(set)) return;
+
+        source.pitch = Random.Range(pitchRange.x, pitchRange.y);
+        source.PlayOneShot(set[Random.Range(0, set.Length)], volume);
     }
 }
