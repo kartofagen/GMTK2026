@@ -203,6 +203,12 @@ public class TemperatureChart : MonoBehaviour
         var yAxis = chart.EnsureChartComponent<YAxis>();
         yAxis.max = fallbackMaxTemp;
 
+        // Пороги от предыдущего блюда переиспользуются по индексу; лишние гасим — иначе
+        // на блюде с меньшим числом компонентов останутся висеть чужие. Делать это надо
+        // до любого выхода из метода: MarkLineHandler разыменовывает серию раньше, чем
+        // проверяет show, поэтому «висячий» serieIndex роняет отрисовку графика с NRE.
+        HideExtraMarks(series.Count);
+
         if (!hasLevel || series.Count == 0) return;
 
         // Пороги пер-компонентные: у каждого продукта своё окно готовности и свой потолок,
@@ -219,16 +225,25 @@ public class TemperatureChart : MonoBehaviour
         }
 
         yAxis.max = maxCeiling + 10f;
+    }
 
-        // Пороги от предыдущего блюда переиспользуются по индексу; лишние прячем,
-        // иначе на менее «многолюдном» блюде останутся висеть чужие.
-        for (int i = series.Count; i < chart.GetChartComponentNum<MarkArea>(); i++)
+    // Гасим пороги, которым уже не соответствует ни одна серия. Кроме show=false
+    // обязательно переводим serieIndex на существующую серию: XCharts берёт серию по
+    // индексу и обращается к ней до проверки show, так что индекс удалённой серии
+    // означает NullReferenceException каждый кадр.
+    private void HideExtraMarks(int serieCount)
+    {
+        for (int i = serieCount; i < chart.GetChartComponentNum<MarkArea>(); i++)
         {
-            chart.GetChartComponent<MarkArea>(i).show = false;
+            var markArea = chart.GetChartComponent<MarkArea>(i);
+            markArea.show = false;
+            markArea.serieIndex = 0;
         }
-        for (int i = series.Count; i < chart.GetChartComponentNum<MarkLine>(); i++)
+        for (int i = serieCount; i < chart.GetChartComponentNum<MarkLine>(); i++)
         {
-            chart.GetChartComponent<MarkLine>(i).show = false;
+            var markLine = chart.GetChartComponent<MarkLine>(i);
+            markLine.show = false;
+            markLine.serieIndex = 0;
         }
     }
 
