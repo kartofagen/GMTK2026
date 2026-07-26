@@ -1,3 +1,4 @@
+using DG.Tweening;
 using R3;
 using UnityEngine;
 
@@ -23,12 +24,12 @@ public class PlateBreakSound : MonoBehaviour
     private AudioClip[] successClips;
     [SerializeField, Range(0f, 1f)] private float volume = 1f;
     [SerializeField] private Vector2 pitchRange = new Vector2(0.92f, 1.08f);
-    [SerializeField, Tooltip("Delay before the plate break, after the ouch, on overheated dishes")]
-    private float breakDelayAfterOuch = 0.6f;
 
     private HeatingSystem _heating;
     private MovingInsideSystem _moving;
     private DishStatus _lastStatus = DishStatus.InProgress;
+    
+    private Tween _delayTween;
 
     private void Awake()
     {
@@ -48,32 +49,55 @@ public class PlateBreakSound : MonoBehaviour
             .Subscribe(_ => OnMovingOutside())
             .AddTo(this);
     }
-
+    
     private void OnMovingOutside()
     {
-        var status = _lastStatus;
-
-        // Reset so a later exit without a fresh result can't replay the sound.
-        _lastStatus = DishStatus.InProgress;
-
-        switch (status)
+        switch (_lastStatus)
         {
             case DishStatus.Overheating:
-                // Grabbing the hot plate hurts first, then it gets thrown away.
-                Play(overheatClips);
-                if (HasClips(clips))
+                _delayTween = DOVirtual.DelayedCall(0.5f + 1f + 1f, () =>
                 {
-                    Invoke(nameof(PlayBreakDelayed), breakDelayAfterOuch);
-                }
-                break;
-            case DishStatus.Underheating:
-            case DishStatus.Exploded:
-                Play(clips);
+                    Play(overheatClips);
+                });
                 break;
             case DishStatus.Success:
-                Play(successClips);
+                _delayTween = DOVirtual.DelayedCall(0.5f + 1f + 1f, () =>
+                {
+                    Play(successClips);
+                });
+                break;
+            case DishStatus.Exploded:
+                _delayTween = DOVirtual.DelayedCall(0.5f + 1f, () =>
+                {
+                    Play(overheatClips);
+                });
                 break;
         }
+        
+        var thrownAway = _lastStatus != DishStatus.Success;
+
+        if (!thrownAway) return;
+
+        var delay = 1f;
+        if (_lastStatus == DishStatus.Overheating)
+        {
+            delay = 2f;
+        }
+        else if (_lastStatus == DishStatus.Exploded)
+        {
+            delay = 0.5f;
+        }
+        
+        delay += 1.5f;
+        
+        _delayTween?.Kill();
+        _delayTween = DOVirtual.DelayedCall(delay, () =>
+        {
+            source.pitch = Random.Range(pitchRange.x, pitchRange.y);
+            source.PlayOneShot(clips[Random.Range(0, clips.Length)], volume);
+        });
+
+        _lastStatus = DishStatus.InProgress;
     }
 
     private void PlayBreakDelayed() => Play(clips);

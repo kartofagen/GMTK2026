@@ -97,8 +97,7 @@ public class MovingInsideSystem : MonoBehaviour
         _movingOutsideSeq = DOTween.Sequence();
         _movingOutsideSeq.Append(_dish.DOMoveY(_dish.position.y + 0.1f, 0.5f));
         _movingOutsideSeq.Append(_dish.DOMove(EntryPoint.position, duration));
-
-
+        
         switch (_heatingSystem.Dish.DishStatus)
         {
             default:

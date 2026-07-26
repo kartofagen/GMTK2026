@@ -19,8 +19,8 @@ MonoBehaviour:
     w: 1
     mu: 0.03
     tMax: 90
-    tOptLow: 65
-    tOptHigh: 75
+    tOptLow: 70
+    tOptHigh: 80
     t0: 20
     heatCurve:
       serializedVersion: 2

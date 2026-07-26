@@ -930,7 +930,7 @@ PrefabInstance:
       objectReference: {fileID: 2100000, guid: 48915ee8513bc2591b57b8ca095a743b, type: 2}
     - target: {fileID: 919132149155446097, guid: 2b1cf68ebe03ce2cc9a3d143f3d9e4df, type: 3}
       propertyPath: m_Name
-      value: Microwave
+      value: Microwave(2)
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1055,6 +1055,9 @@ PrefabInstance:
       addedObject: {fileID: 6296297657876641864}
     - targetCorrespondingSourceObject: {fileID: -96448645733258978, guid: 2b1cf68ebe03ce2cc9a3d143f3d9e4df, type: 3}
       insertIndex: -1
+      addedObject: {fileID: 199674460584997975}
+    - targetCorrespondingSourceObject: {fileID: -96448645733258978, guid: 2b1cf68ebe03ce2cc9a3d143f3d9e4df, type: 3}
+      insertIndex: -1
       addedObject: {fileID: 3804602419719541550}
     - targetCorrespondingSourceObject: {fileID: -96448645733258978, guid: 2b1cf68ebe03ce2cc9a3d143f3d9e4df, type: 3}
       insertIndex: -1
@@ -1062,15 +1065,33 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: -96448645733258978, guid: 2b1cf68ebe03ce2cc9a3d143f3d9e4df, type: 3}
       insertIndex: -1
       addedObject: {fileID: 7100000000000000001}
-    - targetCorrespondingSourceObject: {fileID: -96448645733258978, guid: 2b1cf68ebe03ce2cc9a3d143f3d9e4df, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 7608493433277462305}
   m_SourcePrefab: {fileID: 100100000, guid: 2b1cf68ebe03ce2cc9a3d143f3d9e4df, type: 3}
 --- !u!1 &90893506229992891 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -96448645733258978, guid: 2b1cf68ebe03ce2cc9a3d143f3d9e4df, type: 3}
   m_PrefabInstance: {fileID: 9217658279511594149}
   m_PrefabAsset: {fileID: 0}
+--- !u!65 &199674460584997975
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 90893506229992891}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.0009343854, y: 0.00017332615, z: 0.0005030661}
+  m_Center: {x: 2.3283064e-10, y: 0, z: 0}
 --- !u!114 &3804602419719541550
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1203,27 +1224,6 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 0
---- !u!65 &7608493433277462305
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 90893506229992891}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 0.00093438494, y: 0.00050306594, z: 0.000173326}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &2950301565842183004 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -2947006744834390023, guid: 2b1cf68ebe03ce2cc9a3d143f3d9e4df, type: 3}
@@ -2680,10 +2680,11 @@ MonoBehaviour:
   successClips:
   - {fileID: 8300000, guid: d42842d78df14e559acb8ebf9fdf3945, type: 3}
   - {fileID: 8300000, guid: 878fa6e6f2574b2a8adeef8a210c2ec6, type: 3}
-  - {fileID: 8300000, guid: da3fd6946f644ed9a80a7b12c85a57b1, type: 3}
+  - {fileID: 8300000, guid: 878fa6e6f2574b2a8adeef8a210c2ec6, type: 3}
   - {fileID: 8300000, guid: b2a5a41b904546718a60ed8d107042e2, type: 3}
   volume: 1
   pitchRange: {x: 0.92, y: 1.08}
+  breakDelayAfterOuch: 0.6
 --- !u!82 &7500000000000000002
 AudioSource:
   m_ObjectHideFlags: 0
