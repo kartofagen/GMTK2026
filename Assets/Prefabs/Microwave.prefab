@@ -2104,7 +2104,7 @@ MonoBehaviour:
   dirtyTexture: {fileID: 2800000, guid: 333a7b1f1d859943d96b3ff7c4505e35, type: 3}
   smokeEffect: {fileID: 8434877915255248062}
   maxStepsPerFrame: 8
-  dishRotationSpeed: 5
+  dishRotationSpeed: 30
 --- !u!114 &107431851416530436
 MonoBehaviour:
   m_ObjectHideFlags: 0
