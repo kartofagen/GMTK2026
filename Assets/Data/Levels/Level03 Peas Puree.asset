@@ -13,14 +13,14 @@ MonoBehaviour:
   m_Name: Level03 Peas Puree
   m_EditorClassIdentifier: NewAssembly::LevelConfig
   components:
-  - name: Peas
-    color: {r: 0.29803923, g: 0.62352943, b: 0.4392157, a: 1}
-    C: 0.6111111
+  - name: Puree
+    color: {r: 0.9411765, g: 0.7058824, b: 0.1607843, a: 1}
+    C: 2.75
     w: 1
-    mu: 0.1
-    tMax: 80
+    mu: 0
+    tMax: 85
     tOptLow: 60
-    tOptHigh: 70
+    tOptHigh: 72
     t0: 20
     heatCurve:
       serializedVersion: 2
@@ -46,14 +46,14 @@ MonoBehaviour:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-  - name: Puree
-    color: {r: 0.9411765, g: 0.7058824, b: 0.1607843, a: 1}
-    C: 2.75
+  - name: Peas
+    color: {r: 0.29803923, g: 0.62352943, b: 0.4392157, a: 1}
+    C: 0.6111111
     w: 1
-    mu: 0
-    tMax: 85
+    mu: 0.1
+    tMax: 80
     tOptLow: 60
-    tOptHigh: 72
+    tOptHigh: 70
     t0: 20
     heatCurve:
       serializedVersion: 2
