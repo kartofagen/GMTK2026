@@ -131,6 +131,14 @@ public class TemperatureChart : MonoBehaviour
         background.show = true;
         background.autoColor = false;
         background.imageColor = new Color(0f, 0f, 0f, 0f);
+        
+        // Точность значений в подсказке. itemFormatter — строковый шаблон XCharts,
+        // а не делегат: {.} — точка цвета серии, {a} — имя серии, {c} — значение Y,
+        // которое numericFormatter печатает с одним знаком после запятой.
+        var tooltip = chart.EnsureChartComponent<Tooltip>();
+        tooltip.show = true;
+        tooltip.itemFormatter = "{.}|{a}|{c}";
+        tooltip.numericFormatter = "F1";
     }
 
     // Белый жирный текст. autoColor=false, иначе XCharts подставит свой контрастный цвет.
