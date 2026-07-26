@@ -1265,12 +1265,9 @@ MonoBehaviour:
     spawnRadius: 0
   - dishes:
     - {fileID: 1468668238647002992, guid: 447d95eb6ab504f42b35b1ff5128bd00, type: 3}
-    spawnOffset: {x: 0, y: 0, z: 0}
-    spawnRadius: 0
-  - dishes:
     - {fileID: 1468668238647002992, guid: 15e92be578d5a5c4aa2f9116bd2b05b0, type: 3}
     spawnOffset: {x: 0, y: 0, z: 0}
-    spawnRadius: 0
+    spawnRadius: 0.2
   - dishes:
     - {fileID: 1468668238647002992, guid: 66a74144d20ac084086bfe11f6be01ec, type: 3}
     spawnOffset: {x: 0, y: 0, z: 0}
@@ -1289,9 +1286,9 @@ MonoBehaviour:
     spawnOffset: {x: 0, y: 0, z: 0}
     spawnRadius: 0
   levelIndex: 4
---- !u!1 &1148064143 stripped
+--- !u!1 &1260043015 stripped
 GameObject:
-  m_CorrespondingSourceObject: {fileID: 2361970291132168184, guid: 864cb1a104aa3a4a0bee3061e867a4a6, type: 3}
+  m_CorrespondingSourceObject: {fileID: 4298467791342374658, guid: 864cb1a104aa3a4a0bee3061e867a4a6, type: 3}
   m_PrefabInstance: {fileID: 879156930980739225}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &1283432202
@@ -1328,7 +1325,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -14, y: 12}
+  m_AnchoredPosition: {x: -29, y: 12}
   m_SizeDelta: {x: 1920, y: 1080}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1283432204
@@ -1662,6 +1659,17 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!114 &1785319670 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4379070409703157795, guid: 864cb1a104aa3a4a0bee3061e867a4a6, type: 3}
+  m_PrefabInstance: {fileID: 879156930980739225}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b4f38bd00b4648c448cabfc167538f7c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: XCharts.Runtime::XCharts.Runtime.LineChart
 --- !u!1 &1843225736
 GameObject:
   m_ObjectHideFlags: 0
@@ -1837,17 +1845,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1949431654 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 7644780910752362699, guid: 864cb1a104aa3a4a0bee3061e867a4a6, type: 3}
-  m_PrefabInstance: {fileID: 879156930980739225}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b4f38bd00b4648c448cabfc167538f7c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: XCharts.Runtime::XCharts.Runtime.LineChart
 --- !u!1 &2037796585
 GameObject:
   m_ObjectHideFlags: 0
@@ -1892,11 +1889,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a03121aeee5737faf97592a7b4097a5c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: NewAssembly::TemperatureChart
-  chart: {fileID: 1949431654}
-  placeholder: {fileID: 1148064143}
+  chart: {fileID: 1785319670}
+  placeholder: {fileID: 1260043015}
   sampleInterval: 0.5
   maxPoints: 16
+  rightPadFraction: 0.25
   fallbackMaxTemp: 110
+  ceilingLineWidth: 3
+  optimumAreaOpacity: 0.2
 --- !u!1 &2140115766
 GameObject:
   m_ObjectHideFlags: 0
@@ -2088,6 +2088,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1358326608602115427, guid: 864cb1a104aa3a4a0bee3061e867a4a6, type: 3}
+      propertyPath: m_Camera
+      value: 
+      objectReference: {fileID: 330585545}
     - target: {fileID: 4267314949745707248, guid: 864cb1a104aa3a4a0bee3061e867a4a6, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -2238,6 +2242,7 @@ SceneRoots:
   - {fileID: 410087041}
   - {fileID: 832575519}
   - {fileID: 1920100114}
+  - {fileID: 1570000043}
   - {fileID: 299296215}
   - {fileID: 1114796263}
   - {fileID: 879156930980739225}
@@ -2250,4 +2255,3 @@ SceneRoots:
   - {fileID: 1755914463}
   - {fileID: 1140396472}
   - {fileID: 846027525}
-  - {fileID: 1570000043}
