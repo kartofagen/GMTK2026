@@ -2702,6 +2702,12 @@ MonoBehaviour:
   clips:
   - {fileID: 8300000, guid: 25788db3fd484948b83cbfae16c51351, type: 3}
   - {fileID: 8300000, guid: 8fe1a779cbad4098a4b8b4e4c1126254, type: 3}
+  overheatClips:
+  - {fileID: 8300000, guid: 52e491a1a62e4581a8f74f9a9e75f6ad, type: 3}
+  - {fileID: 8300000, guid: 91e3a11188ba46a4b283433fe85103be, type: 3}
+  - {fileID: 8300000, guid: 10e1af34f3ed41b19644e33b11d97d67, type: 3}
+  - {fileID: 8300000, guid: 4676480a826b45988e73c9af72755076, type: 3}
+  - {fileID: 8300000, guid: edd022ef6873409f96aba923ddd46f69, type: 3}
   volume: 1
   pitchRange: {x: 0.92, y: 1.08}
 --- !u!82 &7500000000000000002
