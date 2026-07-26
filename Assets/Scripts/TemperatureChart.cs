@@ -14,6 +14,10 @@ public class TemperatureChart : MonoBehaviour
     [SerializeField] private float sampleInterval = 0.5f;
     [SerializeField] private int maxPoints = 20; // ширина окна прокрутки (кол-во точек)
 
+    [SerializeField, Range(0f, 0.9f), Tooltip("Доля ширины справа, которую график оставляет пустой " +
+    "(график сдвинут влево на эту долю)")]
+    private float rightPadFraction = 0.25f;
+
     [SerializeField, Tooltip("Верх оси Y, пока блюдо не загружено и потолки компонентов неизвестны")]
     private float fallbackMaxTemp = 110f;
 
@@ -21,6 +25,12 @@ public class TemperatureChart : MonoBehaviour
 
     private IReadOnlyList<ITemperatureChannel> _channels;
     private int _sampleIndex;
+
+    // Сколько крайних правых слотов оси X остаются без точек. Ось всегда держит maxPoints
+    // категорий, серии — на PadPoints меньше, поэтому линия упирается не в правый край,
+    // а заканчивается за PadPoints делений до него.
+    private int PadPoints => Mathf.Clamp(Mathf.RoundToInt(maxPoints * rightPadFraction), 0, maxPoints - 1);
+    private int SeriePoints => maxPoints - PadPoints;
 
     // Запасная палитра линий (Material A200/A400) — на случай, если цвет в LevelConfig
     // не задан (прозрачный) или уровня нет вовсе, как в тестовом источнике каналов.
@@ -152,10 +162,12 @@ public class TemperatureChart : MonoBehaviour
         bool hasLevel = level != null && level.ComponentCount == channels.Count;
 
         chart.RemoveData();
+        ResetSampling();
+
         for (int i = 0; i < channels.Count; i++)
         {
             var serie = chart.AddSerie<Line>(channels[i].Name);
-            serie.maxCache = maxPoints;
+            serie.maxCache = SeriePoints;
 
 
             //serie.symbol.show = false; // Нет точек
@@ -172,11 +184,7 @@ public class TemperatureChart : MonoBehaviour
         var yAxis = chart.EnsureChartComponent<YAxis>();
         yAxis.max = fallbackMaxTemp;
 
-        if (!hasLevel || series.Count == 0)
-        {
-            _sampleIndex = 0;
-            return;
-        }
+        if (!hasLevel || series.Count == 0) return;
 
         // Пороги пер-компонентные: у каждого продукта своё окно готовности и свой потолок,
         // поэтому полос столько же, сколько серий.
@@ -200,8 +208,25 @@ public class TemperatureChart : MonoBehaviour
         {
             chart.GetChartComponent<MarkArea>(i).show = false;
         }
+    }
 
+    // Ось X стартует уже заполненной PadPoints метками будущего времени: серий на них нет,
+    // поэтому пустая область справа есть с первого же сэмпла, а не только после того,
+    // как окно прокрутки наберётся целиком.
+    private void ResetSampling()
+    {
         _sampleIndex = 0;
+        for (int i = 1; i <= PadPoints; i++)
+        {
+            chart.AddXAxisData(FormatSeconds(i * sampleInterval));
+        }
+    }
+
+    private static string FormatSeconds(float seconds)
+    {
+        // Всегда один знак после запятой (0.5, 1.0, 1.5, 2.0 ...), чтобы метки
+        // выглядели единообразно — иначе "0.#" ронял нули у целых.
+        return seconds.ToString("0.0");
     }
 
     private void DrawHorizontalArea(int areaIndex, Serie targetSerie, float low, float high, Color color)
@@ -227,10 +252,10 @@ public class TemperatureChart : MonoBehaviour
         // Метка = номер сэмпла * шаг. Детерминированно, без дрейфа Time.time:
         // при 0.5с -> 0.5, 1, 1.5, 2 ... (без дублей и пропусков).
         _sampleIndex++;
-        // Всегда один знак после запятой (0.5, 1.0, 1.5, 2.0 ...), чтобы метки
-        // выглядели единообразно — иначе "0.#" ронял нули у целых.
-        float seconds = _sampleIndex * sampleInterval;
-        chart.AddXAxisData(seconds.ToString("0.0"));
+        // Ось опережает серии на PadPoints, поэтому и метку добавляем на PadPoints шагов
+        // вперёд — иначе подпись под точкой отставала бы от её реального времени.
+        float seconds = (_sampleIndex + PadPoints) * sampleInterval;
+        chart.AddXAxisData(FormatSeconds(seconds));
 
         for (int i = 0; i < _channels.Count; i++)
         {
