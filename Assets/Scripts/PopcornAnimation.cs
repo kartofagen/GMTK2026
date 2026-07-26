@@ -48,7 +48,7 @@ public class PopcornAnimation : MonoBehaviour
     private void UpdateMesh()
     {
         _curStage++;
-        _meshFilter.sharedMesh = meshSequence[_curStage];
+        _meshFilter.mesh = meshSequence[_curStage];
     }
 
     private void Start()
