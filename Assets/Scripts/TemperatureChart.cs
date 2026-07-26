@@ -21,6 +21,9 @@ public class TemperatureChart : MonoBehaviour
     [SerializeField, Tooltip("Верх оси Y, пока блюдо не загружено и потолки компонентов неизвестны")]
     private float fallbackMaxTemp = 110f;
 
+    [SerializeField, Tooltip("Толщина пунктира максимальной температуры компонента")]
+    private float ceilingLineWidth = 3f;
+
     [Inject] private MicrowaveContext _context;
 
     private IReadOnlyList<ITemperatureChannel> _channels;
@@ -164,6 +167,9 @@ public class TemperatureChart : MonoBehaviour
         chart.RemoveData();
         ResetSampling();
 
+        // Цвет компонента общий для всей его графики: линия температуры, окно оптимума
+        // и пунктир потолка — чтобы взглядом связывать пороги с их продуктом.
+        var colors = new Color[channels.Count];
         for (int i = 0; i < channels.Count; i++)
         {
             var serie = chart.AddSerie<Line>(channels[i].Name);
@@ -175,6 +181,7 @@ public class TemperatureChart : MonoBehaviour
 
             Color color = Palette[i % Palette.Length];
             if (hasLevel && level.Components[i].color.a > 0f) color = level.Components[i].color;
+            colors[i] = color;
 
             serie.lineStyle.color = color;   // цвет самой линии
             serie.itemStyle.color = color;   // точки/маркеры/легенда
@@ -187,26 +194,29 @@ public class TemperatureChart : MonoBehaviour
         if (!hasLevel || series.Count == 0) return;
 
         // Пороги пер-компонентные: у каждого продукта своё окно готовности и свой потолок,
-        // поэтому полос столько же, сколько серий.
-        int areaIndex = 0;
+        // поэтому и полос, и пунктиров ровно столько же, сколько серий.
         float maxCeiling = 0f;
         for (int i = 0; i < series.Count; i++)
         {
             var comp = level.Components[i];
 
-            DrawHorizontalArea(areaIndex++, series[i], comp.tOptLow, comp.tOptHigh, Color.green);
-            DrawHorizontalArea(areaIndex++, series[i], comp.tMax, comp.tMax + 20f, Color.red);
+            DrawHorizontalArea(i, series[i], comp.tOptLow, comp.tOptHigh, colors[i]);
+            DrawHorizontalLine(i, series[i], comp.tMax, colors[i]);
 
             maxCeiling = Mathf.Max(maxCeiling, comp.tMax);
         }
 
         yAxis.max = maxCeiling + 10f;
 
-        // Полосы от предыдущего блюда переиспользуются по индексу; лишние прячем,
-        // иначе на менее «многолюдном» блюде останутся висеть чужие пороги.
-        for (int i = areaIndex; i < chart.GetChartComponentNum<MarkArea>(); i++)
+        // Пороги от предыдущего блюда переиспользуются по индексу; лишние прячем,
+        // иначе на менее «многолюдном» блюде останутся висеть чужие.
+        for (int i = series.Count; i < chart.GetChartComponentNum<MarkArea>(); i++)
         {
             chart.GetChartComponent<MarkArea>(i).show = false;
+        }
+        for (int i = series.Count; i < chart.GetChartComponentNum<MarkLine>(); i++)
+        {
+            chart.GetChartComponent<MarkLine>(i).show = false;
         }
     }
 
@@ -243,6 +253,35 @@ public class TemperatureChart : MonoBehaviour
         markArea.end.yValue = high;
         markArea.itemStyle.color = color;
         markArea.itemStyle.opacity = 0.12f;
+    }
+
+    // Потолок компонента — жирный пунктир поперёк всей сетки, в цвете самого компонента.
+    private void DrawHorizontalLine(int lineIndex, Serie targetSerie, float value, Color color)
+    {
+        var markLine = chart.GetChartComponentNum<MarkLine>() > lineIndex
+            ? chart.GetChartComponent<MarkLine>(lineIndex)
+            : chart.AddChartComponent<MarkLine>();
+
+        markLine.show = true;
+        markLine.serieIndex = targetSerie.index;
+
+        // AddChartComponent кладёт в новый MarkLine дефолтную линию "average" — вычищаем
+        // и держим ровно один элемент, чтобы переиспользование по индексу не копило мусор.
+        if (markLine.data.Count != 1)
+        {
+            markLine.data.Clear();
+            markLine.data.Add(new MarkLineData());
+        }
+
+        var data = markLine.data[0];
+        data.type = MarkLineType.Custom;
+        data.yValue = value;                 // горизонталь на уровне потолка
+        data.lineStyle.type = LineStyle.Type.Dashed;
+        data.lineStyle.width = ceilingLineWidth;
+        data.lineStyle.color = color;
+        data.startSymbol.show = false;
+        data.endSymbol.show = false;
+        data.label.show = false;
     }
 
     private void Sample()
