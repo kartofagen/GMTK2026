@@ -302,7 +302,14 @@ public class TemperatureChart : MonoBehaviour
 
         for (int i = 0; i < _channels.Count; i++)
         {
-            chart.AddData(i, _channels[i].Temperature.CurrentValue);
+            var point = chart.AddData(i, _channels[i].Temperature.CurrentValue);
+
+            // Взорвавшийся продукт: точку всё равно добавляем, но помечаем ignore.
+            // Пропускать её нельзя — точка серии жёстко ложится в слот категории по своему
+            // индексу, и отставшая серия «прилипла» бы к сетке, пока остальные едут влево.
+            // Помеченная точка не рисуется и рвёт линию: график компонента замирает на
+            // моменте взрыва и уезжает влево вместе со всеми.
+            if (point != null && _channels[i].Stopped.CurrentValue) point.ignore = true;
         }
     }
 }
