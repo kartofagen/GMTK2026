@@ -54,8 +54,8 @@ MonoBehaviour:
   dishName: Peas Puree
   level: {fileID: 11400000, guid: 0d176c0083274cc797cbfef35d3751d4, type: 2}
   components:
-  - {fileID: 1025599711665805956}
   - {fileID: 6923430751637469674}
+  - {fileID: 1025599711665805956}
 --- !u!114 &1312500588052952057
 MonoBehaviour:
   m_ObjectHideFlags: 0
