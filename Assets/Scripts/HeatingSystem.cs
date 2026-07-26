@@ -12,6 +12,7 @@ public class HeatingSystem : MonoBehaviour
     [SerializeField] private Dish dish;
     [SerializeField] private MeshRenderer microwaveBodyRenderer;
     [SerializeField] private Texture2D dirtyTexture;
+    [SerializeField] private ParticleSystem smokeEffect;
 
     [SerializeField,
      Tooltip("Предохранитель: сколько шагов симуляции максимум за кадр при просадке FPS")]
@@ -46,6 +47,8 @@ public class HeatingSystem : MonoBehaviour
         _microwaveTimer.onFinished
             .Subscribe(OnFinished)
             .AddTo(this);
+
+        smokeEffect.gameObject.SetActive(false);
     }
 
     void Start()
@@ -81,6 +84,21 @@ public class HeatingSystem : MonoBehaviour
         if (u != 0f)
         {
             dish.transform.Rotate(Vector3.up, dishRotationSpeed * Time.deltaTime);
+        }
+
+        UpdateSmoke();
+    }
+
+    private void UpdateSmoke()
+    {
+        if (dish.IsOverheating && !smokeEffect.gameObject.activeSelf)
+        {
+            smokeEffect.gameObject.SetActive(true);
+            smokeEffect.Play();
+        } else if (!dish.IsOverheating && smokeEffect.gameObject.activeSelf)
+        {
+            smokeEffect.Stop();
+            smokeEffect.gameObject.SetActive(false);
         }
     }
 
