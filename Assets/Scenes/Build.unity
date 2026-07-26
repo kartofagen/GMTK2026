@@ -1276,6 +1276,7 @@ MonoBehaviour:
   - dishes:
     - {fileID: 1468668238647002992, guid: b5fb4dad895c76642a862257edc19f5f, type: 3}
     - {fileID: 1468668238647002992, guid: ad907176f703ed24588b80050f616517, type: 3}
+    - {fileID: 1468668238647002992, guid: 7d57f5cbe94448149ba435c41e10e973, type: 3}
     spawnOffset: {x: 0, y: 0, z: 0}
     spawnRadius: 0.2
   - dishes:
@@ -1286,7 +1287,7 @@ MonoBehaviour:
     - {fileID: 6696455414488572932, guid: 6f6f508daf820414abfa4b2c186d8e4e, type: 3}
     spawnOffset: {x: 0, y: 0, z: 0}
     spawnRadius: 0
-  levelIndex: 4
+  levelIndex: 3
 --- !u!1 &1260043015 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 4298467791342374658, guid: 864cb1a104aa3a4a0bee3061e867a4a6, type: 3}
