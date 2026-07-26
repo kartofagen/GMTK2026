@@ -72,7 +72,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: NewAssembly::PopcornCookingSound
   cookingSource: {fileID: 1514359343134500062}
-  cookingClip: {fileID: 8300000, guid: 419bff4088854ad8b0f721510ac01455, type: 3}
+  cookingClip: {fileID: 8300000, guid: d0711951c8cc48fe82f249eedff4669d, type: 3}
   volume: 0.6
   stopAfterIdle: 2
   smoothFadeout: 1
