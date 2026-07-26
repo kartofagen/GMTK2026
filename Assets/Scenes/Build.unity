@@ -218,6 +218,10 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7500000000000000001, guid: 121f7e6d61bd9c87a90e3f5844ff2bca, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7500000000000000001, guid: 121f7e6d61bd9c87a90e3f5844ff2bca, type: 3}
       propertyPath: 'clips.Array.data[0]'
       value: 
       objectReference: {fileID: 8300000, guid: 598e1267d275b7d4a942b7910873b161, type: 3}

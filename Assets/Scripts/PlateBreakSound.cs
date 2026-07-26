@@ -58,6 +58,8 @@ public class PlateBreakSound : MonoBehaviour
             delay = 0.5f;
         }
 
+        delay += 1.5f;
+
         // Reset so a later exit without a fresh result can't replay the sound.
         _lastStatus = DishStatus.InProgress;
 
