@@ -1,3 +1,4 @@
+using DG.Tweening;
 using R3;
 using UnityEngine;
 
@@ -18,6 +19,8 @@ public class PlateBreakSound : MonoBehaviour
     private HeatingSystem _heating;
     private MovingInsideSystem _moving;
     private DishStatus _lastStatus = DishStatus.InProgress;
+    
+    private Tween _delayTween;
 
     private void Awake()
     {
@@ -42,7 +45,18 @@ public class PlateBreakSound : MonoBehaviour
     {
         var thrownAway = _lastStatus == DishStatus.Underheating
                          || _lastStatus == DishStatus.Overheating
-                         || _lastStatus == DishStatus.Exploded;
+                         || _lastStatus == DishStatus.Exploded
+                         || _lastStatus == DishStatus.InProgress;
+
+        var delay = 1f;
+        if (_lastStatus == DishStatus.Overheating)
+        {
+            delay = 2f;
+        }
+        else if (_lastStatus == DishStatus.Exploded)
+        {
+            delay = 0.5f;
+        }
 
         // Reset so a later exit without a fresh result can't replay the sound.
         _lastStatus = DishStatus.InProgress;
@@ -50,6 +64,17 @@ public class PlateBreakSound : MonoBehaviour
         if (!thrownAway || source == null || clips == null || clips.Length == 0) return;
 
         source.pitch = Random.Range(pitchRange.x, pitchRange.y);
-        source.PlayOneShot(clips[Random.Range(0, clips.Length)], volume);
+        
+        _delayTween?.Kill();
+        _delayTween = DOVirtual.DelayedCall(delay, () =>
+        {
+            source.pitch = Random.Range(pitchRange.x, pitchRange.y);
+            source.PlayOneShot(clips[Random.Range(0, clips.Length)], volume);
+        });
+    }
+
+    private void OnDestroy()
+    {
+        _delayTween?.Kill();
     }
 }
