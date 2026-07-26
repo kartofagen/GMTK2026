@@ -26,7 +26,7 @@ public class TemperatureChart : MonoBehaviour
 
     [SerializeField, Range(0f, 1f), Tooltip("Прозрачность заливки окна оптимума. Домножается " +
     "на альфу цвета компонента из LevelConfig")]
-    private float optimumAreaOpacity = 0.12f;
+    private float optimumAreaOpacity = 0.2f;
 
     [Inject] private MicrowaveContext _context;
 
