@@ -27,6 +27,22 @@ public class Dish : MonoBehaviour
     private DishMovement _dishMovement;
 
     public DishStatus DishStatus { get; private set; } = DishStatus.InProgress;
+    
+    public bool IsOverheating
+    {
+        get
+        {
+            for (int i = 0; i < components.Length; i++)
+            {
+                if (_solver.IsOverheated(i))
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+    }
 
     public string DishName => dishName;
 
@@ -71,7 +87,7 @@ public class Dish : MonoBehaviour
         if (_solver == null) return;
 
         _solver.Step(u, dt);
-        PushTemperatures();
+        PushInfo();
 
         // Потолок tMax нельзя пробивать НИ В ОДИН момент времени — проверяем на каждом шаге.
         for (int i = 0; i < components.Length; i++)
@@ -123,14 +139,15 @@ public class Dish : MonoBehaviour
         if (!level || level.ComponentCount != components.Length) return;
 
         _solver = new ThermalSolver(level);
-        PushTemperatures();
+        PushInfo();
     }
 
-    private void PushTemperatures()
+    private void PushInfo()
     {
         for (int i = 0; i < components.Length; i++)
         {
             components[i].SetTemperature(_solver[i]);
+            components[i].SetConfig(level.Components[i]);
         }
     }
 }

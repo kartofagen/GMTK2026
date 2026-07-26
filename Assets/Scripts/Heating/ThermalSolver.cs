@@ -112,6 +112,8 @@ public class ThermalSolver
     /// <summary>Пробил ли компонент свой потолок tMax.</summary>
     public bool IsOverCeiling(int i) => _t[i] > _level.Components[i].tMax;
 
+    public bool IsOverheated(int i) => _t[i] > _level.Components[i].tOptHigh;
+
     /// <summary>Все ли компоненты сейчас внутри своих целевых окон.</summary>
     public bool AllInTargetWindow()
     {
