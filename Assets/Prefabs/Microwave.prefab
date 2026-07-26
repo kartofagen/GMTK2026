@@ -2708,8 +2708,14 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 10e1af34f3ed41b19644e33b11d97d67, type: 3}
   - {fileID: 8300000, guid: 4676480a826b45988e73c9af72755076, type: 3}
   - {fileID: 8300000, guid: edd022ef6873409f96aba923ddd46f69, type: 3}
+  successClips:
+  - {fileID: 8300000, guid: d42842d78df14e559acb8ebf9fdf3945, type: 3}
+  - {fileID: 8300000, guid: 878fa6e6f2574b2a8adeef8a210c2ec6, type: 3}
+  - {fileID: 8300000, guid: da3fd6946f644ed9a80a7b12c85a57b1, type: 3}
+  - {fileID: 8300000, guid: b2a5a41b904546718a60ed8d107042e2, type: 3}
   volume: 1
   pitchRange: {x: 0.92, y: 1.08}
+  breakDelayAfterOuch: 0.6
 --- !u!82 &7500000000000000002
 AudioSource:
   m_ObjectHideFlags: 0
