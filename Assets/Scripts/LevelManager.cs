@@ -92,7 +92,6 @@ public class LevelManager : MonoBehaviour
         {
             if (_currentSpawned[i]) return;
         }
-        Debug.Log("NEXT LEVEL");
 
         if (levelIndex + 1 < dishesSequence.Length)
         {

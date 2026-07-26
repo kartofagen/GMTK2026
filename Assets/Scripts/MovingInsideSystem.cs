@@ -21,6 +21,12 @@ public class MovingInsideSystem : MonoBehaviour
     [SerializeField] private Transform trashPoint;
     [SerializeField] private Ease easeToTrash = Ease.InOutBack;
     
+    [SerializeField] private Transform hotPoint;
+    [SerializeField] private Ease easeHot = Ease.InOutBack;
+    
+    [SerializeField] private Transform veryHotPoint;
+    [SerializeField] private Ease easeVeryHot = Ease.InOutBack;
+    
     [SerializeField] private float finishedDuration = 1f;
     
     public Transform EntryPoint => entryPoint;
@@ -91,15 +97,26 @@ public class MovingInsideSystem : MonoBehaviour
         _movingOutsideSeq = DOTween.Sequence();
         _movingOutsideSeq.Append(_dish.DOMoveY(_dish.position.y + 0.1f, 0.5f));
         _movingOutsideSeq.Append(_dish.DOMove(EntryPoint.position, duration));
+
+
+        switch (_heatingSystem.Dish.DishStatus)
+        {
+            default:
+                _movingOutsideSeq.Append(_dish.DOMove(trashPoint.position, finishedDuration).SetEase(easeToTrash));
+                break;
+            case DishStatus.Success:
+                _movingOutsideSeq.Append(_dish.DOMove(mouthPoint.position, finishedDuration).SetEase(easeToMouth));
+                break;
+            case DishStatus.Overheating:
+                _movingOutsideSeq.Append(_dish.DOMove(mouthPoint.position, finishedDuration).SetEase(easeToMouth));
+                _movingOutsideSeq.Append(_dish.DOMove(hotPoint.position, finishedDuration).SetEase(easeHot));
+                _movingOutsideSeq.Join(_dish.DOLocalRotate(hotPoint.localEulerAngles, finishedDuration).SetEase(Ease.InOutBack));
+                break;
+            case DishStatus.Exploded:
+                _movingOutsideSeq.Append(_dish.DOMove(veryHotPoint.position, finishedDuration / 2).SetEase(easeVeryHot));
+                break;
+        }
         
-        if (_heatingSystem.Dish.DishStatus == DishStatus.Success)
-        {
-            _movingOutsideSeq.Append(_dish.DOMove(mouthPoint.position, finishedDuration).SetEase(easeToMouth));
-        }
-        else
-        {
-            _movingOutsideSeq.Append(_dish.DOMove(trashPoint.position, finishedDuration).SetEase(easeToTrash));
-        }
         _heatingSystem.Dish = null;
         
         _movingOutsideSeq.SetEase(easeMove).Play().OnComplete(() =>

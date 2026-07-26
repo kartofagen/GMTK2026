@@ -7,7 +7,7 @@ using UnityEngine;
 /// means the component is being heated right now, so the popping plays; when the
 /// temperature stops climbing (idle, paused/cooling, or done) the popping stops.
 /// </summary>
-public class PopcornCookingSound : MonoBehaviour
+public class CookingSound : MonoBehaviour
 {
     [SerializeField] private AudioSource cookingSource;
     [SerializeField] private AudioClip cookingClip;
@@ -15,6 +15,10 @@ public class PopcornCookingSound : MonoBehaviour
     [SerializeField,
      Tooltip("Seconds without a temperature rise before the popping stops")]
     private float stopAfterIdle = 0.3f;
+    [SerializeField,
+     Tooltip("If true, volume smoothly fades to 0 over the stopAfterIdle window instead of cutting off abruptly")]
+    private bool smoothFadeout = false;
+
 
     private DishComponent _component;
     private float _lastTemp;
@@ -49,15 +53,24 @@ public class PopcornCookingSound : MonoBehaviour
         }
         _lastTemp = temp;
 
-        var cooking = Time.time - _lastRiseTime <= stopAfterIdle;
+        var idleTime = Time.time - _lastRiseTime;
+        var cooking = idleTime <= stopAfterIdle;
 
-        if (cooking && !cookingSource.isPlaying)
+        if (cooking)
         {
-            cookingSource.Play();
+            if (!cookingSource.isPlaying)
+            {
+                cookingSource.Play();
+            }
+
+            cookingSource.volume = smoothFadeout && stopAfterIdle > 0f
+                ? volume * (1f - Mathf.Clamp01(idleTime / stopAfterIdle))
+                : volume;
         }
-        else if (!cooking && cookingSource.isPlaying)
+        else if (cookingSource.isPlaying)
         {
             cookingSource.Stop();
+            cookingSource.volume = volume;
         }
     }
 }

@@ -878,31 +878,31 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: 2b1cf68ebe03ce2cc9a3d143f3d9e4df, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.02977
+      value: -10.580646
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 2b1cf68ebe03ce2cc9a3d143f3d9e4df, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0
+      value: 1.267
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 2b1cf68ebe03ce2cc9a3d143f3d9e4df, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0.83753
+      value: 0.05577442
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 2b1cf68ebe03ce2cc9a3d143f3d9e4df, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 1
+      value: 0.6141677
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 2b1cf68ebe03ce2cc9a3d143f3d9e4df, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 2b1cf68ebe03ce2cc9a3d143f3d9e4df, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0
+      value: 0.78917557
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 2b1cf68ebe03ce2cc9a3d143f3d9e4df, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 2b1cf68ebe03ce2cc9a3d143f3d9e4df, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -910,7 +910,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 2b1cf68ebe03ce2cc9a3d143f3d9e4df, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
+      value: 104.217
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 2b1cf68ebe03ce2cc9a3d143f3d9e4df, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
@@ -1915,8 +1915,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5c9a1f4b7e284d0e9b3a6c8d2f014a67, type: 3}
   m_Name: 
   m_EditorClassIdentifier: NewAssembly::MicrowaveDoorSound
-  openClip: {fileID: 8300000, guid: 2eab97afc2fbfb1e2a8d2f722031d4da, type: 3}
-  closeClip: {fileID: 8300000, guid: 8bd30f5d8bb6603f3bbdbc2598dd1b01, type: 3}
+  openClip: {fileID: 8300000, guid: 634f6db37cf345ce89af929267883468, type: 3}
+  closeClip: {fileID: 8300000, guid: ed5518a0c3774deeb02c9817c9b9a8a9, type: 3}
   volume: 1
 --- !u!82 &7100000000000000017
 AudioSource:
@@ -2127,6 +2127,10 @@ MonoBehaviour:
   easeToMouth: 23
   trashPoint: {fileID: 0}
   easeToTrash: 27
+  hotPoint: {fileID: 0}
+  easeHot: 27
+  veryHotPoint: {fileID: 0}
+  easeVeryHot: 26
   finishedDuration: 1
 --- !u!114 &7100000000000000010
 MonoBehaviour:
@@ -2147,7 +2151,7 @@ MonoBehaviour:
   plateSource: {fileID: 7100000000000000015}
   humClip: {fileID: 8300000, guid: 13148ac0ae24494599dcb18c85a35df0, type: 3}
   endClip: {fileID: 8300000, guid: 1e1ea77ad0e54dbfacc29399080e5a22, type: 3}
-  dishClip: {fileID: 8300000, guid: 419bff4088854ad8b0f721510ac01455, type: 3}
+  dishClip: {fileID: 0}
   tickClip: {fileID: 8300000, guid: 317d8851f193475bac452ccc17a25f71, type: 3}
   plateClip: {fileID: 8300000, guid: 89ee67edbe58430282411f23fbf58712, type: 3}
   humVolume: 1
