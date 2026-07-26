@@ -49,6 +49,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: NewAssembly::Dish
   dishName: Single Popcorn Package
+  level: {fileID: 11400000, guid: fde97d51bd144b028cb1a510477ecb73, type: 2}
   components:
   - {fileID: 6667267506361812426}
 --- !u!114 &1312500588052952057
@@ -94,15 +95,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1368002807917910722, guid: a5c0336cfc9b2d8b1a6840eae3fc46f6, type: 3}
       propertyPath: m_LocalScale.x
-      value: 2.5399997
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 1368002807917910722, guid: a5c0336cfc9b2d8b1a6840eae3fc46f6, type: 3}
       propertyPath: m_LocalScale.y
-      value: 2.5399919
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 1368002807917910722, guid: a5c0336cfc9b2d8b1a6840eae3fc46f6, type: 3}
       propertyPath: m_LocalScale.z
-      value: 1.1803471
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 1368002807917910722, guid: a5c0336cfc9b2d8b1a6840eae3fc46f6, type: 3}
       propertyPath: m_LocalPosition.x
@@ -118,19 +119,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1368002807917910722, guid: a5c0336cfc9b2d8b1a6840eae3fc46f6, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.6995419
+      value: 0.98787737
       objectReference: {fileID: 0}
     - target: {fileID: 1368002807917910722, guid: a5c0336cfc9b2d8b1a6840eae3fc46f6, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0.6975263
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1368002807917910722, guid: a5c0336cfc9b2d8b1a6840eae3fc46f6, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0.1099269
+      value: 0.15523629
       objectReference: {fileID: 0}
     - target: {fileID: 1368002807917910722, guid: a5c0336cfc9b2d8b1a6840eae3fc46f6, type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0.109610155
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1368002807917910722, guid: a5c0336cfc9b2d8b1a6840eae3fc46f6, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -138,7 +139,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1368002807917910722, guid: a5c0336cfc9b2d8b1a6840eae3fc46f6, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
+      value: 17.861
       objectReference: {fileID: 0}
     - target: {fileID: 1368002807917910722, guid: a5c0336cfc9b2d8b1a6840eae3fc46f6, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z

@@ -37,6 +37,7 @@ public class DishComponent : MonoBehaviour, ITemperatureChannel
 
     private readonly ReactiveProperty<float> _temperature = new();
     private readonly ReactiveProperty<bool> _exploded = new();
+    private LevelComponentConfig _config;
 
     // ITemperatureChannel
     public string Name => componentName;
@@ -44,6 +45,8 @@ public class DishComponent : MonoBehaviour, ITemperatureChannel
     public ReadOnlyReactiveProperty<bool> Stopped => _exploded;
 
     public float CurrentTemp => _temperature.Value;
+    
+    public LevelComponentConfig Config => _config;
 
     void Awake()
     {
@@ -52,7 +55,8 @@ public class DishComponent : MonoBehaviour, ITemperatureChannel
     }
 
     public void SetTemperature(float value) => _temperature.Value = value;
-
+    public void SetConfig(LevelComponentConfig config) => _config = config;
+    
     /// <summary>Взрыв: разлёт кусков и звук. Повторные вызовы игнорируются.</summary>
     public void Explode()
     {
