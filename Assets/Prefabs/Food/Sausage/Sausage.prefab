@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2119410162876616454}
   - component: {fileID: 173381731037557681}
+  - component: {fileID: 2393623569526967133}
   - component: {fileID: 1514359343134500062}
   m_Layer: 0
   m_Name: Sausage
@@ -57,6 +58,23 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 855a2ddb9f2d485dabe49ca6e938bf26, type: 3}
   - {fileID: 8300000, guid: 7e4f9b1c0a6d42e8b53f8c2a91d604f7, type: 3}
   explosionPower: 1
+--- !u!114 &2393623569526967133
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 56761197165139605}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9ba6a25c3c524f29b19073c850d950b5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: NewAssembly::PopcornCookingSound
+  cookingSource: {fileID: 1514359343134500062}
+  cookingClip: {fileID: 8300000, guid: 419bff4088854ad8b0f721510ac01455, type: 3}
+  volume: 0.6
+  stopAfterIdle: 2
+  smoothFadeout: 1
 --- !u!82 &1514359343134500062
 AudioSource:
   m_ObjectHideFlags: 0
