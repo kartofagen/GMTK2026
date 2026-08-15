@@ -48,7 +48,7 @@ MonoBehaviour:
       m_RotationOrder: 4
   h:
   - 0
-  P: 11
+  P: 5.5
   tEnv: 20
   cooldown: 2
   simRate: 60
