@@ -24,19 +24,19 @@ public class PopcornAnimation : MonoBehaviour
             switch (_curStage)
             {
                 case 0:
-                    if (curTemp >= (c.t0 + c.tOptLow) / 2)
+                    if (curTemp >= (c.t0 + c.tOptLow) * 1 / 4) // (c.t0 + c.tOptLow) / 2
                     {
                         UpdateMesh();
                     }
                     break;
                 case 1:
-                    if (curTemp >= c.tOptLow)
+                    if (curTemp >= (c.t0 + c.tOptLow) * 2 / 4) // c.tOptLow
                     {
                         UpdateMesh();
                     }
                     break;
                 case 2:
-                    if (curTemp >= (c.tOptLow + c.tOptHigh) / 2)
+                    if (curTemp >= (c.t0 + c.tOptLow) * 3 / 4) // (c.tOptLow + c.tOptHigh) / 2
                     {
                         UpdateMesh();
                     }

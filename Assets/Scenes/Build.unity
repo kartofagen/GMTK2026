@@ -2025,7 +2025,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: b6cbd8e0724ce574197b4b0ae8a5c6bd, type: 3}
       propertyPath: m_Name
-      value: Smoking
+      value: Man
       objectReference: {fileID: 0}
     - target: {fileID: 1852576806548013000, guid: b6cbd8e0724ce574197b4b0ae8a5c6bd, type: 3}
       propertyPath: m_LocalRotation.w
