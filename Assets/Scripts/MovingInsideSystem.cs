@@ -94,13 +94,13 @@ public class MovingInsideSystem : MonoBehaviour
         _dish.parent = dishesServingManager.transform;
         
         _movingOutsideSeq = DOTween.Sequence();
-        _movingOutsideSeq.Append(_dish.DOMoveY(_dish.position.y + 0.1f, 0.5f));
 
         if (_heatingSystem.Dish.DishStatus == DishStatus.Exploded)
         {
             _movingOutsideSeq.AppendCallback(() => onDishTouched.OnNext(Unit.Default));
         }
         
+        _movingOutsideSeq.Append(_dish.DOMoveY(_dish.position.y + 0.1f, 0.5f));
         _movingOutsideSeq.Append(_dish.DOMove(EntryPoint.position, duration));
         
         switch (_heatingSystem.Dish.DishStatus)

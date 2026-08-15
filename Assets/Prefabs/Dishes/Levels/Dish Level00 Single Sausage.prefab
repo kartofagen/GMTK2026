@@ -267,6 +267,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2393623569526967133, guid: 17f8e777c24837e479f03cd8336f0db6, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2393623569526967133, guid: 17f8e777c24837e479f03cd8336f0db6, type: 3}
       propertyPath: cookingClip
       value: 
       objectReference: {fileID: 8300000, guid: d10dff3cc2f76254ab5e037c16a5d5a1, type: 3}

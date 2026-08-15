@@ -223,7 +223,8 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 84395bba036f4f1469fd7a9e1fdbe0f4, type: 3}
   volume: 0.6
   filterName: 
-  stopAfterIdle: 0.3
+  stopAfterIdle: 2
+  smoothFadeout: 1
 --- !u!82 &7400000000000000002
 AudioSource:
   m_ObjectHideFlags: 0
@@ -413,7 +414,8 @@ PrefabInstance:
       propertyPath: stopAfterIdle
       value: 1
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 2393623569526967133, guid: 17f8e777c24837e479f03cd8336f0db6, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
@@ -522,7 +524,8 @@ PrefabInstance:
       propertyPath: smoothFadeout
       value: 1
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 2393623569526967133, guid: 17f8e777c24837e479f03cd8336f0db6, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
@@ -697,7 +700,8 @@ PrefabInstance:
       propertyPath: stopAfterIdle
       value: 3
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 2393623569526967133, guid: 17f8e777c24837e479f03cd8336f0db6, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
