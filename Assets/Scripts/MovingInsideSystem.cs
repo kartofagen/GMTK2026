@@ -40,7 +40,8 @@ public class MovingInsideSystem : MonoBehaviour
     
     private Sequence _movingOutsideSeq;
     
-    public readonly Subject<Unit> onMovingOutside = new();
+    public readonly Subject<Unit> onDishTouched = new();
+    public readonly Subject<Unit> onDishOutside = new();
     
     private void Awake()
     {
@@ -90,12 +91,16 @@ public class MovingInsideSystem : MonoBehaviour
 
     public void MoveOutside()
     {
-        onMovingOutside.OnNext(Unit.Default);
-
         _dish.parent = dishesServingManager.transform;
         
         _movingOutsideSeq = DOTween.Sequence();
         _movingOutsideSeq.Append(_dish.DOMoveY(_dish.position.y + 0.1f, 0.5f));
+
+        if (_heatingSystem.Dish.DishStatus == DishStatus.Exploded)
+        {
+            _movingOutsideSeq.AppendCallback(() => onDishTouched.OnNext(Unit.Default));
+        }
+        
         _movingOutsideSeq.Append(_dish.DOMove(EntryPoint.position, duration));
         
         switch (_heatingSystem.Dish.DishStatus)
@@ -105,9 +110,11 @@ public class MovingInsideSystem : MonoBehaviour
                 break;
             case DishStatus.Success:
                 _movingOutsideSeq.Append(_dish.DOMove(mouthPoint.position, finishedDuration).SetEase(easeToMouth));
+                _movingOutsideSeq.AppendCallback(() => onDishTouched.OnNext(Unit.Default));
                 break;
             case DishStatus.Overheating:
                 _movingOutsideSeq.Append(_dish.DOMove(mouthPoint.position, finishedDuration).SetEase(easeToMouth));
+                _movingOutsideSeq.AppendCallback(() => onDishTouched.OnNext(Unit.Default));
                 _movingOutsideSeq.Append(_dish.DOMove(hotPoint.position, finishedDuration).SetEase(easeHot));
                 _movingOutsideSeq.Join(_dish.DOLocalRotate(hotPoint.localEulerAngles, finishedDuration).SetEase(Ease.InOutBack));
                 break;
@@ -115,10 +122,10 @@ public class MovingInsideSystem : MonoBehaviour
                 _movingOutsideSeq.Append(_dish.DOMove(veryHotPoint.position, finishedDuration / 2).SetEase(easeVeryHot));
                 break;
         }
+        _movingOutsideSeq.AppendCallback(() => onDishOutside.OnNext(Unit.Default));
         
         _heatingSystem.Dish = null;
         
-        _movingOutsideSeq.SetEase(easeMove).Play().OnComplete(() =>
-            dishesServingManager.RemoveDish(_dish));
+        _movingOutsideSeq.SetEase(easeMove).Play().OnComplete(() => dishesServingManager.RemoveDish(_dish));
     }
 }
