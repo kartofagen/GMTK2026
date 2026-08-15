@@ -37,6 +37,8 @@ public class MicrowaveSound : MonoBehaviour
     private float _lastTimerValue;
     private bool _platePlayed;
     private float _plateDueAt = -1f;
+    
+    public AudioSource EndSource => endSource;
 
     private void Awake()
     {

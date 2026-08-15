@@ -30,7 +30,7 @@ public class MicrowaveButton : MonoBehaviour
         //             _pressTween.PlayBackwards();
         //         });
 
-        if (_actionCallTween != null && _actionCallTween.IsPlaying())
+        if (_actionCallTween != null && _actionCallTween.IsActive() && _actionCallTween.IsPlaying())
         {
             _actionCallTween.Kill();
             Action();

@@ -80,11 +80,12 @@ public class MovingInsideSystem : MonoBehaviour
         _movingInsideSeq = DOTween.Sequence();
         _movingInsideSeq.Append(_dish.DOMoveY(TargetPoint.position.y + 0.2f, 0.5f));
         _movingInsideSeq.Append(_dish.DOMove(TargetPoint.position, duration));
-        _movingInsideSeq.SetEase(easeMove).Play();
-        
-        _dish.parent = transform;
-        _heatingSystem.Dish = _dish.GetComponent<Dish>();
-        _dish.GetComponent<DishMovement>().MovementState = DishMovementState.Inside;
+        _movingInsideSeq.SetEase(easeMove).Play().OnComplete(() =>
+        {
+            _dish.parent = transform;
+            _heatingSystem.Dish = _dish.GetComponent<Dish>();
+            _dish.GetComponent<DishMovement>().MovementState = DishMovementState.Inside;
+        });
         
         door.DoorOpened -= MoveInside;
     }

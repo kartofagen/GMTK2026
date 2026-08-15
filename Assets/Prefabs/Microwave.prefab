@@ -151,6 +151,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TimerVisualizer
   microwave: {fileID: 2652911743600780101}
+  microwaveSound: {fileID: 7100000000000000010}
 --- !u!1 &3270343866051064986
 GameObject:
   m_ObjectHideFlags: 0

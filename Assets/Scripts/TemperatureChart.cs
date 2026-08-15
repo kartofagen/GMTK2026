@@ -11,6 +11,10 @@ public class TemperatureChart : MonoBehaviour
     [SerializeField] private LineChart chart;
     [SerializeField, Tooltip("Заглушка \"Choose a dish\" — показывается, пока каналов нет")]
     private GameObject placeholder;
+    [SerializeField]
+    private GameObject doorPlaceholder;
+    [SerializeField, Tooltip("Дверь микроволновки — пока она открыта, а блюдо внутри, график прячется за DoorPlaceholder")]
+    private DoorRotation door;
     [SerializeField] private float sampleInterval = 0.5f;
     [SerializeField] private int maxPoints = 20; // ширина окна прокрутки (кол-во точек)
 
@@ -31,6 +35,7 @@ public class TemperatureChart : MonoBehaviour
     [Inject] private MicrowaveContext _context;
 
     private IReadOnlyList<ITemperatureChannel> _channels;
+    private IReadOnlyList<ITemperatureChannel> _lastRebuiltChannels;
     private int _sampleIndex;
 
     // Сколько крайних правых слотов оси X остаются без точек. Ось всегда держит maxPoints
@@ -65,10 +70,12 @@ public class TemperatureChart : MonoBehaviour
         chart.RemoveData();
 
         // Пересобираем серии при смене набора активных каналов (сменилось блюдо / тестовый источник).
-        // null / пусто -> показываем заглушку "Choose a dish". Подписка сразу отдаёт текущее
-        // значение (стартом это null), так что начальное состояние выставится само.
-        _context.Channels
-        .Subscribe(OnChannelsChanged)
+        // Дверь примешана тем же потоком: пока блюдо внутри, но дверь открыта, график прячется
+        // за DoorPlaceholder — CombineLatest пересчитывает видимость на любое из двух изменений,
+        // а RebuildSeries вызывается отдельно, только когда реально сменился набор каналов.
+        Observable
+        .CombineLatest(_context.Channels, door.IsOpenedProperty, (channels, isDoorOpen) => (channels, isDoorOpen))
+        .Subscribe(t => OnStateChanged(t.channels, t.isDoorOpen))
         .AddTo(this);
 
         // Единый таймер сэмплирования — все серии тикают синхронно, X-оси совпадают.
@@ -150,21 +157,34 @@ public class TemperatureChart : MonoBehaviour
         textStyle.fontStyle = FontStyle.Bold;
     }
 
-    private void OnChannelsChanged(IReadOnlyList<ITemperatureChannel> channels)
+    private void OnStateChanged(IReadOnlyList<ITemperatureChannel> channels, bool isDoorOpen)
     {
         bool hasChannels = channels != null && channels.Count > 0;
 
+        // Три взаимоисключающих состояния:
+        // - нет блюда -> "Choose a dish";
+        // - блюдо внутри, дверь открыта -> DoorPlaceholder, график спрятан (но не сброшен);
+        // - блюдо внутри, дверь закрыта -> сам график.
         if (placeholder) placeholder.SetActive(!hasChannels);
-        chart.gameObject.SetActive(hasChannels);
+        if (doorPlaceholder) doorPlaceholder.SetActive(hasChannels && isDoorOpen);
+        chart.gameObject.SetActive(hasChannels && !isDoorOpen);
 
         if (!hasChannels)
         {
             _channels = null;
+            _lastRebuiltChannels = null;
             chart.RemoveData();
             return;
         }
 
-        RebuildSeries(channels);
+        // Открытие/закрытие двери переиспользует тот же набор каналов — пересборка нужна
+        // только когда канал реально сменился (новое блюдо), иначе история на графике
+        // сбрасывалась бы каждый раз, когда просто хлопают дверцей.
+        if (!ReferenceEquals(channels, _lastRebuiltChannels))
+        {
+            RebuildSeries(channels);
+            _lastRebuiltChannels = channels;
+        }
     }
 
     private void RebuildSeries(IReadOnlyList<ITemperatureChannel> channels)
