@@ -6,7 +6,7 @@ using UnityEngine;
 public class PopcornAnimation : MonoBehaviour
 {
     [SerializeField] private Mesh[] meshSequence;
-    [SerializeField] private float[] tempSequence;
+    // [SerializeField] private float[] tempSequence;
 
     private MeshFilter _meshFilter;
     private DishComponent _dishComponent;

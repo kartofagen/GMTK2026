@@ -340,11 +340,6 @@ MonoBehaviour:
   - {fileID: 256486796509924301, guid: 881c26022add26b4389ba249954e6d4f, type: 3}
   - {fileID: 564355307252362244, guid: 486721e916fd6a940a21169c1337bacd, type: 3}
   - {fileID: 1022419336559002455, guid: 1606fd919f761724d9f1c2446351013c, type: 3}
-  tempSequence:
-  - 20
-  - 60
-  - 100
-  - 140
 --- !u!114 &1724555842327639144
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -388,9 +383,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: NewAssembly::PopcornCookingSound
   cookingSource: {fileID: 2079307163765860285}
-  cookingClip: {fileID: 8300000, guid: 0fcf0eb9115d45999f8c0c5cd029d0ed, type: 3}
-  volume: 0.6
-  stopAfterIdle: 0.3
+  cookingClip: {fileID: 8300000, guid: 44cb467eee22503499b013a0b7088807, type: 3}
+  volume: 1
+  stopAfterIdle: 2
   smoothFadeout: 0
 --- !u!82 &7300000000000000002
 AudioSource:
@@ -403,7 +398,7 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
-  m_Resource: {fileID: 8300000, guid: 0fcf0eb9115d45999f8c0c5cd029d0ed, type: 3}
+  m_Resource: {fileID: 0}
   m_PlayOnAwake: 0
   m_Volume: 0.6
   m_Pitch: 1
