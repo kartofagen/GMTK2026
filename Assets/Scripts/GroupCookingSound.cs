@@ -19,6 +19,8 @@ public class GroupCookingSound : MonoBehaviour
     private string filterName = "";
     [SerializeField, Tooltip("Seconds without a temperature rise before the sound stops")]
     private float stopAfterIdle = 0.3f;
+    [SerializeField, Tooltip("If true, volume smoothly fades to 0 over the stopAfterIdle window instead of cutting off abruptly")]
+    private bool smoothFadeout = false;
 
     private DishComponent[] _components;
     private float[] _lastTemp;
@@ -86,14 +88,22 @@ public class GroupCookingSound : MonoBehaviour
             _lastRiseTime = Time.time;
         }
 
-        var cooking = active > 0 && Time.time - _lastRiseTime <= stopAfterIdle;
+        var idleTime = Time.time - _lastRiseTime;
+        var cooking = active > 0 && idleTime <= stopAfterIdle;
         var desired = cooking ? active : 0;
 
         if (desired == _playingCount)
         {
-            if (desired > 0 && !cookingSource.isPlaying)
+            if (desired > 0)
             {
-                cookingSource.Play();
+                if (!cookingSource.isPlaying)
+                {
+                    cookingSource.Play();
+                }
+
+                cookingSource.volume = smoothFadeout && stopAfterIdle > 0f
+                    ? volume * (1f - Mathf.Clamp01(idleTime / stopAfterIdle))
+                    : volume;
             }
             return;
         }
@@ -104,11 +114,13 @@ public class GroupCookingSound : MonoBehaviour
         cookingSource.clip = clip;
         if (clip != null)
         {
+            cookingSource.volume = volume;
             cookingSource.Play();
         }
         else
         {
             cookingSource.Stop();
+            cookingSource.volume = volume;
         }
     }
 }

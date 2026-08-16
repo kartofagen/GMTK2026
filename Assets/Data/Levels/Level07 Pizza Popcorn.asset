@@ -60,7 +60,7 @@ MonoBehaviour:
     C: 1
     w: 1
     mu: 0.01
-    tMax: 200
+    tMax: 180
     tOptLow: 170
     tOptHigh: 180
     t0: 20

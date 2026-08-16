@@ -11,8 +11,6 @@ public class DishesServingManager : MonoBehaviour
     [SerializeField] private Ease easeMove = Ease.InOutBack;
     [SerializeField] private Ease easeRotate = Ease.InOutBack;
 
-    public event Action OnDishRemoved;
-
     private MovingInsideSystem _movingInsideSystem;
     private LevelManager _levelManager;
     

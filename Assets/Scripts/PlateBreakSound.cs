@@ -17,9 +17,11 @@ public class PlateBreakSound : MonoBehaviour
 {
     [SerializeField] private AudioSource source;
     [SerializeField, Tooltip("Thrown-away dishes (underheated, exploded)")]
-    private AudioClip[] clips;
+    private AudioClip[] plateBreakClips;
     [SerializeField, Tooltip("Overheated: the ouch when the hot plate is grabbed")]
-    private AudioClip[] overheatClips;
+    private AudioClip[] overheatDropClips;
+    [SerializeField]
+    private AudioClip[] overheatEatClips;
     [SerializeField, Tooltip("Successful dishes - tasty!")]
     private AudioClip[] successClips;
     [SerializeField, Range(0f, 1f)] private float volume = 1f;
@@ -30,6 +32,8 @@ public class PlateBreakSound : MonoBehaviour
     private DishStatus _lastStatus = DishStatus.InProgress;
     
     private Tween _delayTween;
+
+    private bool _hasPlate = false;
 
     private void Awake()
     {
@@ -45,62 +49,48 @@ public class PlateBreakSound : MonoBehaviour
             .Subscribe(status => _lastStatus = status)
             .AddTo(this);
 
-        _moving.onMovingOutside
-            .Subscribe(_ => OnMovingOutside())
+        _moving.onDishOutside
+            .Subscribe(_ => OnDishOutside())
+            .AddTo(this);
+
+        _moving.onDishTouched
+            .Subscribe(_ => OnDishTouched())
+            .AddTo(this);
+        
+        _moving.onDishInside
+            .Subscribe(SetHasPlate)
             .AddTo(this);
     }
-    
-    private void OnMovingOutside()
+
+    private void SetHasPlate(Transform dish)
     {
-        switch (_lastStatus)
-        {
-            case DishStatus.Overheating:
-                _delayTween = DOVirtual.DelayedCall(0.5f + 1f + 1f, () =>
-                {
-                    Play(overheatClips);
-                });
-                break;
-            case DishStatus.Success:
-                _delayTween = DOVirtual.DelayedCall(0.5f + 1f + 1f, () =>
-                {
-                    Play(successClips);
-                });
-                break;
-            case DishStatus.Exploded:
-                _delayTween = DOVirtual.DelayedCall(0.5f + 1f, () =>
-                {
-                    Play(overheatClips);
-                });
-                break;
-        }
+        _hasPlate = dish.GetComponentInChildren<PlateSound>() != null;
+    }
+    
+    private void OnDishOutside()
+    {
+        if (!_hasPlate) return;
         
-        var thrownAway = _lastStatus != DishStatus.Success;
+        if (_lastStatus == DishStatus.Success) return;
 
-        if (!thrownAway) return;
-
-        var delay = 1f;
-        if (_lastStatus == DishStatus.Overheating)
-        {
-            delay = 2f;
-        }
-        else if (_lastStatus == DishStatus.Exploded)
-        {
-            delay = 0.5f;
-        }
-        
-        delay += 1.5f;
-        
-        _delayTween?.Kill();
-        _delayTween = DOVirtual.DelayedCall(delay, () =>
-        {
-            source.pitch = Random.Range(pitchRange.x, pitchRange.y);
-            source.PlayOneShot(clips[Random.Range(0, clips.Length)], volume);
-        });
+        source.pitch = Random.Range(pitchRange.x, pitchRange.y);
+        source.PlayOneShot(plateBreakClips[Random.Range(0, plateBreakClips.Length)], volume);
 
         _lastStatus = DishStatus.InProgress;
     }
+    
+    private void OnDishTouched()
+    {
+        Play(_lastStatus switch
+        {
+            DishStatus.Success => successClips,
+            DishStatus.Overheating => overheatEatClips,
+            DishStatus.Exploded => overheatDropClips,
+            _ => null
+        });
+    }
 
-    private void PlayBreakDelayed() => Play(clips);
+    private void PlayBreakDelayed() => Play(plateBreakClips);
 
     private static bool HasClips(AudioClip[] set) => set != null && set.Length > 0;
 

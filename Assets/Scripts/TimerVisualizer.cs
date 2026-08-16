@@ -9,6 +9,10 @@ public class TimerVisualizer : MonoBehaviour
     private TextMeshProUGUI _timerText;
     [SerializeField] private MicrowaveTimer microwave;
     
+    [SerializeField] private MicrowaveSound microwaveSound;
+
+    private Sequence _flashingLoop;
+    
     private void Awake()
     {
         _timerText = GetComponent<TextMeshProUGUI>();
@@ -21,6 +25,11 @@ public class TimerVisualizer : MonoBehaviour
         microwave
             .onFinished
             .Subscribe(OnFinished)
+            .AddTo(this);
+        
+        microwave
+            .onStarted
+            .Subscribe(OnStarted)
             .AddTo(this);
     }
     
@@ -38,12 +47,22 @@ public class TimerVisualizer : MonoBehaviour
 
     private void Flashing()
     {
-        Sequence loop = DOTween.Sequence();
+        _flashingLoop = DOTween.Sequence();
 
-        loop.AppendInterval(0.5f)
-            .AppendCallback(() => _timerText.enabled = false)
-            .AppendInterval(0.5f)
-            .AppendCallback(() => _timerText.enabled = true)
-            .SetLoops(3);
+        _flashingLoop.AppendInterval(0.5f)
+                     .AppendCallback(() => _timerText.enabled = false)
+                     .AppendInterval(0.5f)
+                     .AppendCallback(() => _timerText.enabled = true)
+                     .SetLoops(3);
+    }
+
+    private void OnStarted(Unit unit)
+    {
+        if (_flashingLoop != null && _flashingLoop.IsActive() && _flashingLoop.IsPlaying())
+        {
+            _flashingLoop.Kill();
+            _timerText.enabled = true;
+            microwaveSound.EndSource.Stop();
+        }
     }
 }

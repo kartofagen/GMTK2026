@@ -34,7 +34,7 @@ public class ResultText : MonoBehaviour
             .AddTo(this);
         
         _movingInsideSystem
-            .onMovingOutside
+            .onDishOutside
             .Subscribe(HideResult)
             .AddTo(this);
         

@@ -13,23 +13,22 @@ public class MicrowaveSound : MonoBehaviour
     [SerializeField] private AudioSource endSource;
     [SerializeField] private AudioSource dishSource;
     [SerializeField] private AudioSource tickSource;
-    [SerializeField] private AudioSource plateSource;
 
     [SerializeField] private AudioClip humClip;
     [SerializeField] private AudioClip endClip;
     [SerializeField] private AudioClip dishClip;
     [SerializeField] private AudioClip tickClip;
-    [SerializeField] private AudioClip plateClip;
 
     [SerializeField, Range(0f, 1f)] private float humVolume = 1f;
     [SerializeField, Range(0f, 1f)] private float endVolume = 1f;
     [SerializeField, Range(0f, 1f)] private float dishVolume = 1f;
     [SerializeField, Range(0f, 1f)] private float tickVolume = 1f;
-    [SerializeField, Range(0f, 1f)] private float plateVolume = 1f;
 
     [SerializeField,
      Tooltip("Delay from the dish entering the cavity to it settling, so the sound lands on the landing")]
     private float plateSettleDelay = 1f;
+    
+    public PlateSound plateSound;
 
     private MicrowaveTimer _timer;
     private MicrowaveState _previous;
@@ -37,6 +36,10 @@ public class MicrowaveSound : MonoBehaviour
     private float _lastTimerValue;
     private bool _platePlayed;
     private float _plateDueAt = -1f;
+    
+    private MovingInsideSystem _moving;
+    
+    public AudioSource EndSource => endSource;
 
     private void Awake()
     {
@@ -48,7 +51,6 @@ public class MicrowaveSound : MonoBehaviour
         Configure(dishSource, dishClip, true, dishVolume);
         Configure(endSource, null, false, endVolume);
         Configure(tickSource, null, false, tickVolume);
-        Configure(plateSource, null, false, plateVolume);
 
         // The countdown is the only thing that lowers the timer; adding time
         // raises it, so comparing against the previous value keeps the tick off
@@ -56,6 +58,12 @@ public class MicrowaveSound : MonoBehaviour
         _timer.onTimerChanged
             .Subscribe(OnTimerChanged)
             .AddTo(this);
+        
+        _moving = GetComponent<MovingInsideSystem>();
+        
+        _moving.onDishInside
+               .Subscribe(SetPlate)
+               .AddTo(this);
     }
 
     private static void Configure(AudioSource source, AudioClip clip, bool loop, float volume)
@@ -134,11 +142,20 @@ public class MicrowaveSound : MonoBehaviour
         }
     }
 
+    private void SetPlate(Transform dish)
+    {
+        plateSound = dish.GetComponentInChildren<PlateSound>();
+    }
+
     private void UpdateDishLayer(MicrowaveState state)
     {
         if (!_platePlayed && _plateDueAt >= 0f && Time.time >= _plateDueAt)
         {
-            PlatePlaced();
+            if (plateSound)
+            {
+                plateSound.PlatePlaced();
+                _platePlayed = true;
+            }
         }
 
         if (dishSource == null || dishClip == null) return;
@@ -155,15 +172,6 @@ public class MicrowaveSound : MonoBehaviour
         {
             dishSource.Stop();
         }
-    }
-
-    private void PlatePlaced()
-    {
-        _platePlayed = true;
-
-        if (plateSource == null || plateClip == null) return;
-
-        plateSource.PlayOneShot(plateClip, plateVolume);
     }
 
     private void StartHum()

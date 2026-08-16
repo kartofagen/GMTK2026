@@ -1,5 +1,6 @@
 using System;
 using DG.Tweening;
+using R3;
 using Unity.Cinemachine;
 using UnityEngine;
 
@@ -13,10 +14,11 @@ public class DoorRotation : MonoBehaviour
     
     [SerializeField] private Collider frontWallCollider;
     
-    private bool _isOpened = false;
+    private readonly ReactiveProperty<bool> _isOpened = new(false);
     private CinemachineImpulseSource _impulseSource;
     
-    public bool IsOpened => _isOpened;
+    public bool IsOpened => _isOpened.Value;
+    public ReadOnlyReactiveProperty<bool> IsOpenedProperty => _isOpened;
 
     public event Action DoorOpened;
 
@@ -32,7 +34,7 @@ public class DoorRotation : MonoBehaviour
         else
             _impulseSource.DefaultVelocity.z = -0.025f;
             
-        if (_isOpened)
+        if (_isOpened.Value)
         {
             _impulseSource.GenerateImpulse();
             transform.DOLocalRotate(new Vector3(0f, 0, 0f), duration).SetEase(easeRotate);
@@ -44,8 +46,8 @@ public class DoorRotation : MonoBehaviour
             DoorOpened?.Invoke();
         }
 
-        _isOpened = !_isOpened;
-        frontWallCollider.enabled = !_isOpened;
+        _isOpened.Value = !_isOpened.Value;
+        frontWallCollider.enabled = !_isOpened.Value;
         
         if (microwave.State is MicrowaveState.Heating or MicrowaveState.Paused)
         {
