@@ -210,16 +210,8 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1140396471}
     - target: {fileID: 7100000000000000010, guid: 121f7e6d61bd9c87a90e3f5844ff2bca, type: 3}
-      propertyPath: dishClip
+      propertyPath: plateSource
       value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 7100000000000000010, guid: 121f7e6d61bd9c87a90e3f5844ff2bca, type: 3}
-      propertyPath: humVolume
-      value: 0.7
-      objectReference: {fileID: 0}
-    - target: {fileID: 7500000000000000001, guid: 121f7e6d61bd9c87a90e3f5844ff2bca, type: 3}
-      propertyPath: m_Enabled
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7500000000000000001, guid: 121f7e6d61bd9c87a90e3f5844ff2bca, type: 3}
       propertyPath: 'clips.Array.data[0]'
@@ -229,14 +221,6 @@ PrefabInstance:
       propertyPath: 'clips.Array.data[1]'
       value: 
       objectReference: {fileID: 8300000, guid: f9b819e48d779ec4799c7b006229210d, type: 3}
-    - target: {fileID: 7500000000000000001, guid: 121f7e6d61bd9c87a90e3f5844ff2bca, type: 3}
-      propertyPath: successClips.Array.size
-      value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: 7500000000000000001, guid: 121f7e6d61bd9c87a90e3f5844ff2bca, type: 3}
-      propertyPath: 'successClips.Array.data[3]'
-      value: 
-      objectReference: {fileID: 8300000, guid: b2a5a41b904546718a60ed8d107042e2, type: 3}
     - target: {fileID: 8298685574709455348, guid: 121f7e6d61bd9c87a90e3f5844ff2bca, type: 3}
       propertyPath: m_Name
       value: Microwave
@@ -1336,7 +1320,7 @@ MonoBehaviour:
     - {fileID: 6696455414488572932, guid: 6f6f508daf820414abfa4b2c186d8e4e, type: 3}
     spawnOffset: {x: 0, y: 0, z: 0}
     spawnRadius: 0
-  levelIndex: 0
+  levelIndex: 3
 --- !u!1 &1260043015 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 4298467791342374658, guid: 864cb1a104aa3a4a0bee3061e867a4a6, type: 3}

@@ -42,6 +42,7 @@ public class MovingInsideSystem : MonoBehaviour
     
     public readonly Subject<Unit> onDishTouched = new();
     public readonly Subject<Unit> onDishOutside = new();
+    public readonly Subject<Transform> onDishInside = new();
     
     private void Awake()
     {
@@ -89,6 +90,8 @@ public class MovingInsideSystem : MonoBehaviour
         _heatingSystem.Dish = _dish.GetComponent<Dish>();
         
         door.DoorOpened -= MoveInside;
+
+        onDishInside.OnNext(_dish.transform);
     }
 
     public void MoveOutside()

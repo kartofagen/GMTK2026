@@ -33,6 +33,8 @@ public class PlateBreakSound : MonoBehaviour
     
     private Tween _delayTween;
 
+    private bool _hasPlate = false;
+
     private void Awake()
     {
         _heating = GetComponent<HeatingSystem>();
@@ -54,10 +56,21 @@ public class PlateBreakSound : MonoBehaviour
         _moving.onDishTouched
             .Subscribe(_ => OnDishTouched())
             .AddTo(this);
+        
+        _moving.onDishInside
+            .Subscribe(SetHasPlate)
+            .AddTo(this);
+    }
+
+    private void SetHasPlate(Transform dish)
+    {
+        _hasPlate = dish.GetComponentInChildren<PlateSound>() != null;
     }
     
     private void OnDishOutside()
     {
+        if (!_hasPlate) return;
+        
         if (_lastStatus == DishStatus.Success) return;
 
         source.pitch = Random.Range(pitchRange.x, pitchRange.y);
