@@ -1617,7 +1617,7 @@ MonoBehaviour:
     - {fileID: 6696455414488572932, guid: 6f6f508daf820414abfa4b2c186d8e4e, type: 3}
     spawnOffset: {x: 0, y: 0, z: 0}
     spawnRadius: 0
-  levelIndex: 3
+  levelIndex: 0
 --- !u!1 &1260043015 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 4298467791342374658, guid: 864cb1a104aa3a4a0bee3061e867a4a6, type: 3}
@@ -3665,7 +3665,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: aca3734e30585effe9b63db73778eb08, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 2.217
+      value: 1.969
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: aca3734e30585effe9b63db73778eb08, type: 3}
       propertyPath: m_LocalPosition.z
