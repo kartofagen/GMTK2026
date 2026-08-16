@@ -42,6 +42,8 @@ public class DishComponent : MonoBehaviour, ITemperatureChannel
     private readonly ReactiveProperty<bool> _exploded = new();
     private LevelComponentConfig _config;
 
+    public readonly Subject<Unit> onReset = new();
+
     // ITemperatureChannel
     public string Name => componentName;
     public ReadOnlyReactiveProperty<float> Temperature => _temperature;
@@ -118,6 +120,7 @@ public class DishComponent : MonoBehaviour, ITemperatureChannel
     {
         _exploded.Value = false;
         SetVisible(true);
+        onReset.OnNext(Unit.Default);
     }
 
     private void SetVisible(bool visible)

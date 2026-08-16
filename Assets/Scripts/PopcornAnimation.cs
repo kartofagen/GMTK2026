@@ -43,6 +43,8 @@ public class PopcornAnimation : MonoBehaviour
                     break;
             }
         }).AddTo(this);
+
+        _dishComponent.onReset.Subscribe(_ => ResetAnimation()).AddTo(this);
     }
 
     private void UpdateMesh()
@@ -51,14 +53,12 @@ public class PopcornAnimation : MonoBehaviour
         _meshFilter.mesh = meshSequence[_curStage];
     }
 
-    private void Start()
+    private void ResetAnimation()
     {
-        var cube = GameObject.CreatePrimitive( PrimitiveType.Cube);
-        var sphere = GameObject.CreatePrimitive( PrimitiveType.Sphere);
-
-        var mf1 = cube.GetComponent<MeshFilter>();
-        var mf2 = sphere.GetComponent<MeshFilter>();
-
-        mf1.mesh = mf2.mesh;
+        _curStage = 0;
+        if (meshSequence.Length > 0)
+        {
+            _meshFilter.mesh = meshSequence[0];
+        }
     }
 }
